@@ -3,9 +3,9 @@
 A Minimalist Game Design Project
 
 ### Standard Procedures
-- There will never (ever) be any pushing to master.
-  - There will only be pull requests from branches.
-- PRs will be subject to peer review before merging with master.
+- No pushing to master (usually).
+  - Only submit pull requests.
+- PRs will be subject to peer review before merging.
 
 ### Suggested GML Code Conventions
 that we should ALL adhere to for the sake of consistency.
@@ -25,7 +25,8 @@ while(true) {
 - All global constants will be defined under 'User-Defined Macros'.
 - Fully capitalize enums.
 - Optional: Explicit identification of calling instance (i.e. ```self.x```).
-- camel_case.
+- Use camel_case.
+
 NOTE: Code from third-party sources (GM Marketplace, GMScripts, etc.) need not be reformatted.
 
 Why aren't we using GM Studio's built-in source control?
