@@ -25,26 +25,18 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Set in o_handler.Create
-color = c_white;
-action_key = vk_shift;
-
-radius = 5;
-num_orb_captured = 0;
-launch_speed = 20;
-direction = choose(1, -1);  // randomly begin with a clockwise or counter-clockwise rotation
-
-orbit = 0;
-orbit_speed = 0;
-orbit_speed_set = 3;
-orbiting = false;
-current_orb = -1;
+            <string>///Setting the movement variables and the alarm to change them
+direction = random(360)
+speed = choose(4,8,12)
+alarm[0] = irandom(90)+60;
+//Creating the grid of the trail effect
+trail_init();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -61,64 +53,16 @@ current_orb = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Movement &amp; Capturing
-
-wall_bounce_circle(radius);
-
-if (orbiting) {
-    current_orb.speed = 0;  // the orb being orbited is stationary
-    // launch
-    if (keyboard_check_pressed(action_key)) {
-        speed = launch_speed;
-        orbiting = false;
-    }
-    // orbit
-    orbit += orbit_speed;
-    x = current_orb.x - cos(degtorad(orbit)) * current_orb.orbit_radius;
-    y = current_orb.y + sin(degtorad(orbit)) * current_orb.orbit_radius;
-    // set direction to orbit tangent
-    direction = orbit - (sign(orbit_speed) * 90);
-}
-else {
-    for (var i = 0; i &lt; instance_number(o_orb); i++) {
-        var orb = instance_find(o_orb, i);
-        // if the player will collide with the orbit in the next step
-        if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
-            // if the collision will be with an opponent-captured orb
-            if (orb.capturer != -1 &amp;&amp; orb.capturer != id) {
-                ricochet_off_orb(orb);
-                break;
-            }
-            // translate onto orbit
-            orbit = point_direction(x, y, orb.x, orb.y);
-            x = orb.x - cos(degtorad(orbit)) * orb.orbit_radius;
-            y = orb.y + sin(degtorad(orbit)) * orb.orbit_radius;
-            // set clockwise or counter-clockwise orbit depending on collision angle
-            orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
-            if (orbit_speed == 0) {
-                orbit_speed = choose(orbit_speed_set, -orbit_speed);
-            }
-            // set orb capture status if not yet captured
-            if (!orb.captured) {
-                orb.captured = true;
-                orb.capturer = self.id;
-                orb.color = self.color;
-                num_orb_captured++;
-            }
-            speed = 0;
-            orbiting = true;
-            current_orb = orb;
-        }
-    }
-    // Reset orb speed
-    if (current_orb != -1) {
-        current_orb.speed = current_orb.initial_speed;
-    }
-}
+            <string>///Changing the movement variables and restarting the alarm
+direction = random(360);
+speed = choose(4,8,12);
+alarm[0] = irandom(90)+60;
 </string>
           </argument>
         </arguments>
       </action>
+    </event>
+    <event eventtype="3" enumb="2">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -135,13 +79,32 @@ else {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Win
-
-if (num_orb_captured &gt; instance_number(o_orb) / instance_number(o_player)) {
-    // Consume the entire screen
-    radius += 20;
-    depth = -99;
-}
+            <string>trail_calculate(16);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Preventing the object to move outside the room
+if (x &lt; 0) || (x &gt; room_width) hspeed = -hspeed;
+if (y &lt; 0) || (y &gt; room_height) vspeed = -vspeed;
 </string>
           </argument>
         </arguments>
@@ -164,10 +127,11 @@ if (num_orb_captured &gt; instance_number(o_orb) / instance_number(o_player)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_circle_precision(64);
-draw_set_colour(color);
-draw_trail(10, radius * 2, color, -1, true, 1);
-draw_circle(x, y, radius, false);
+            <string>///Drawing the trail
+draw_trail_ext(16,color,spr_zigzag,slim,1);
+
+//also drawing a little circle as the body of the object
+draw_circle(x,y,8,0);
 </string>
           </argument>
         </arguments>
@@ -185,5 +149,8 @@ draw_circle(x, y, radius, false);
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
-  <PhysicsShapePoints/>
+  <PhysicsShapePoints>
+    <point>8,13</point>
+    <point>36,36</point>
+  </PhysicsShapePoints>
 </object>
