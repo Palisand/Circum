@@ -10,11 +10,9 @@ for (var dir = 0; dir < 360; dir++) {
     var y_check = y + lengthdir_y(rad, dir);
     
     if (x_check < 0 || x_check > room_width) {
-        //hspeed = -hspeed;
         bounce_x = true;
     }
     if (y_check < 0 || y_check > room_height) {
-        //vspeed = -vspeed;
         bounce_y = true;
     }
 }
