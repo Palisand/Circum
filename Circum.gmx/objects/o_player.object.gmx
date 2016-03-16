@@ -96,7 +96,7 @@ else {
             // set clockwise or counter-clockwise orbit depending on collision angle
             orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
             if (orbit_speed == 0) {
-                orbit_speed = choose(orbit_speed_set, -orbit_speed);
+                orbit_speed = choose(orbit_speed_set, -orbit_speed_set);
             }
             // set orb capture status if not yet captured
             if (!orb.captured) {
