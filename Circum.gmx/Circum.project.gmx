@@ -16,6 +16,7 @@
     <script>scripts\wall_bounce_circle.gml</script>
     <script>scripts\edge_bounce_circle.gml</script>
   </scripts>
+  <shaders name="shaders"/>
   <objects name="objects">
     <object>objects\o_handler</object>
     <object>objects\o_player</object>

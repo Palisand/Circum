@@ -97,7 +97,9 @@ draw_set_alpha(1);
 // Added for visualization (only during development)
 draw_line(x, y, x + lengthdir_x(orbit_radius, direction), y + lengthdir_y(orbit_radius, direction));
 draw_set_colour(c_white);
-draw_line(x, y, room_width/2, room_height/2);
+var dir = point_direction(x, y, room_width/2, room_height/2);
+draw_line(x, y, x + lengthdir_x(orbit_radius, dir), y + lengthdir_y(orbit_radius, dir));
+draw_circle(x, y, orbit_radius, true);
 </string>
           </argument>
         </arguments>
