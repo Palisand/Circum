@@ -56,7 +56,7 @@ speed = initial_speed;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>wall_bounce_circle(orbit_radius);
+            <string>edge_bounce_circle(orbit_radius);
 
 // Fade alpha depending on captured status
 if (captured) {
@@ -93,6 +93,11 @@ draw_circle(x, y, radius, true);  // outline
 draw_set_alpha(fill_alpha);
 draw_circle(x, y, radius, false);  // fill
 draw_set_alpha(1);
+
+// Added for visualization (only during development)
+draw_line(x, y, x + lengthdir_x(orbit_radius, direction), y + lengthdir_y(orbit_radius, direction));
+draw_set_colour(c_white);
+draw_line(x, y, room_width/2, room_height/2);
 </string>
           </argument>
         </arguments>

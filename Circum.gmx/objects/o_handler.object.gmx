@@ -31,6 +31,9 @@ num_orb = 10;
 h_edge_buffer = 240;
 v_edge_buffer = 80;  // this value really ought to be set from orbit_radius
 
+// Screen (Circular)
+screen = surface_create(room_width, room_height);
+
 var orb;
 // Player 1
 orb = instance_create(0, room_height/2, o_orb);
@@ -90,6 +93,46 @@ if (keyboard_check_pressed(ord("R"))) {
 
 if (keyboard_check_pressed(ord("F"))) {
     window_set_fullscreen(!window_get_fullscreen());
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Circlular Screen
+
+surface_set_target(screen);
+draw_clear_alpha(c_black, 1);  // make entire screen black
+draw_set_blend_mode(bm_subtract);
+// DRAW PRIMITIVE INSTEAD FOR GREATER PRECISION! (triangle--)
+draw_set_circle_precision(64);
+draw_circle(room_width/2, room_height/2, room_width/2, false);
+draw_set_alpha(1);
+draw_set_blend_mode(bm_normal);
+surface_reset_target();
+
+if (surface_exists(screen)) {
+    draw_surface(screen, 0, 0);
+}
+else {
+    screen = surface_create(room_width, room_height);
 }
 </string>
           </argument>
