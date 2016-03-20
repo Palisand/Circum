@@ -2,17 +2,17 @@
 
 var x1 = x;
 var y1 = y;
-var r1 = radius;
+var r1 = orbit_radius;
 
 var orb = argument0;
 var x2 = orb.x;
 var y2 = orb.y;
-var r2 = orb.radius;
+var r2 = orb.orbit_radius;
 
 //aabb
 if (x1+r1+r2 > x2 and x1 < x2+r1+r2 and y1+r1+r2 > y2 and y1 < y2+r1+r2) {
     //circle-circle
-    var dist = sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+    var dist = sqrt(sqr(x1-x2)+sqr(y1-y2));
     if (dist < r1+r2) {
     
         //this orb is stationary
@@ -20,7 +20,7 @@ if (x1+r1+r2 > x2 and x1 < x2+r1+r2 and y1+r1+r2 > y2 and y1 < y2+r1+r2) {
         
         //this orb has hit a stationary orb
         else if (orb.speed == 0) {
-            ricochet_off_orb(orb);
+            ricochet_off_orb(orb, true);
             return 0;
         }
     

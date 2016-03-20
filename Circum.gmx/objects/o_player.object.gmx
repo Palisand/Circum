@@ -29,6 +29,8 @@
 color = c_white;
 action_key = vk_shift;
 
+trail_length = 30;  // in the anticipation of a longer trail under a certain condition
+
 radius = 5;
 num_orb_captured = 0;
 launch_speed = 20;
@@ -86,7 +88,7 @@ else {
         if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             // if the collision will be with an opponent-captured orb
             if (orb.capturer != -1 &amp;&amp; orb.capturer != id) {
-                ricochet_off_orb(orb);
+                ricochet_off_orb(orb, false);
                 break;
             }
             // translate onto orbit
@@ -166,7 +168,7 @@ if (num_orb_captured &gt; instance_number(o_orb) / instance_number(o_player)) {
             <kind>1</kind>
             <string>draw_set_circle_precision(64);
 draw_set_colour(color);
-draw_trail(10, radius * 2, color, -1, true, 1);
+draw_trail(trail_length, radius * 2, color, -1, true, 1);
 draw_circle(x, y, radius, false);
 
 draw_text(x, y + 20, num_orb_captured);

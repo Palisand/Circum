@@ -1,8 +1,21 @@
-///ricochet_off_orb(orb)
+///ricochet_off_orb(orb, is_orb)
 
 var orb = argument0;
-var dir = point_direction(orb.x, orb.y, x, y);  // direction from orb center to player
-  
+var is_orb = argument1;
+var dir = point_direction(orb.x, orb.y, x, y);  // direction from orb center to self center
+var dist = point_distance(orb.x, orb.y, x, y);
+
+var rad = radius;
+if (is_orb) {
+    var rad = orbit_radius;
+}
+var diff = sqrt(sqr(orb.x - x) + sqr(orb.y - y)) - (orb.orbit_radius + rad);
+// move out of orb
+if (diff < 0) {
+    x += lengthdir_x(abs(diff), dir);
+    y += lengthdir_y(abs(diff), dir);
+}
+// "bounce" off in appropriate direction
 if (direction < dir) {
     direction -= dir;
 }
@@ -12,4 +25,3 @@ else if (direction > dir) {
 else {
     direction = -direction;
 }
-
