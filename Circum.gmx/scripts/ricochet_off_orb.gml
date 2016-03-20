@@ -12,3 +12,4 @@ else if (direction > dir) {
 else {
     direction = -direction;
 }
+
