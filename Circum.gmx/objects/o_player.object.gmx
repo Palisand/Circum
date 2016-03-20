@@ -63,7 +63,7 @@ current_orb = -1;
             <kind>1</kind>
             <string>/// Movement &amp; Capturing
 
-wall_bounce_circle(radius);
+edge_bounce_circle(radius);
 
 if (orbiting) {
     current_orb.speed = 0;  // the orb being orbited is stationary
@@ -168,6 +168,8 @@ if (num_orb_captured &gt; instance_number(o_orb) / instance_number(o_player)) {
 draw_set_colour(color);
 draw_trail(10, radius * 2, color, -1, true, 1);
 draw_circle(x, y, radius, false);
+
+draw_text(x, y + 20, num_orb_captured);
 </string>
           </argument>
         </arguments>
