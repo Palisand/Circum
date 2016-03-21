@@ -1,5 +1,11 @@
 ///ricochet_off_orb(orb, is_orb)
 
+/***** 
+    ALERT!!!!
+    Messing around in the debug room reveals this script is wrong.
+    Objects reflect in the wrong direction!
+*****/
+
 var orb = argument0;
 var is_orb = argument1;
 var dir = point_direction(orb.x, orb.y, x, y);  // direction from orb center to self center
