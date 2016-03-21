@@ -1,11 +1,5 @@
 ///ricochet_off_orb(orb, is_orb)
 
-/***** 
-    ALERT!!!!
-    Messing around in the debug room reveals this script is wrong.
-    Objects reflect in the wrong direction!
-*****/
-
 var orb = argument0;
 var is_orb = argument1;
 var dir = point_direction(orb.x, orb.y, x, y);  // direction from orb center to self center
@@ -25,12 +19,7 @@ if (diff < 0) {
 /* -------------------------------------------------------------------------------------------- */
 
 // "bounce" off in appropriate direction
-if (direction < dir) {
-    direction -= dir;
-}
-else if (direction > dir) {
-    direction += dir;
-}
-else {
-    direction = -direction;
-}
+var obj_dir = direction - 180;
+var norm_dir = dir - 180;
+var incident_angle = angle_difference(obj_dir, norm_dir);
+direction = obj_dir + sign(norm_dir - 180) * incident_angle * 2;
