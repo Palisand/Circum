@@ -3,8 +3,9 @@
 var orb = argument0;
 var is_orb = argument1;
 var dir = point_direction(orb.x, orb.y, x, y);  // direction from orb center to self center
-var dist = point_distance(orb.x, orb.y, x, y);
 
+/* something like this should be in orb_hit_orb(), which would make the is_orb parameter useless */
+var dist = point_distance(orb.x, orb.y, x, y);
 var rad = radius;
 if (is_orb) {
     var rad = orbit_radius;
@@ -15,6 +16,8 @@ if (diff < 0) {
     x += lengthdir_x(abs(diff), dir);
     y += lengthdir_y(abs(diff), dir);
 }
+/* -------------------------------------------------------------------------------------------- */
+
 // "bounce" off in appropriate direction
 if (direction < dir) {
     direction -= dir;

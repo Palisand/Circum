@@ -28,33 +28,46 @@
             <string>randomize();
 
 num_orb = 11;
-h_edge_buffer = 240;
-v_edge_buffer = 80;  // this value really ought to be set from orbit_radius
+edge_buffer = 512;
+
+var x_center = room_width / 2;
+var y_center = room_height / 2;
 
 // Screen (Circular)
 screen = surface_create(room_width, room_height);
 
 var orb;
 // Player 1
-orb = instance_create(0, room_height/2, o_orb);
+orb = instance_create(0, y_center, o_orb);
 orb.x = orb.orbit_radius;
-with (instance_create(orb.x, room_height/2, o_player)) {
+orb.speed = 0;
+with (instance_create(orb.x, y_center, o_player)) {
     color = c_white;
     action_key = vk_lshift;
 }
 // Player 2
-orb = instance_create(0, room_height/2, o_orb);
+orb = instance_create(0, y_center, o_orb);
 orb.x = room_width - orb.orbit_radius;
-with (instance_create(orb.x, room_height/2, o_player)) {
+orb.speed = 0;
+with (instance_create(orb.x, y_center, o_player)) {
     color = c_black;
     action_key = vk_enter;  // cannot be vk_rshift (only one shift key registered at a time)
 }
 
 // Orbs
-repeat (num_orb) {
+for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
     instance_create(
-        random_range(h_edge_buffer, room_width - h_edge_buffer),
-        random_range(v_edge_buffer, room_height - v_edge_buffer),
+        x_center + lengthdir_x(x_center - edge_buffer, dir),
+        y_center + lengthdir_y(y_center - edge_buffer, dir),
+        o_orb
+    );
+}
+/*
+repeat (num_orb) {
+    var dir = random(360);
+    instance_create(
+        random_range(x_center, x_center + lengthdir_x(x_center - edge_buffer, dir)),
+        random_range(y_center, y_center + lengthdir_y(y_center - edge_buffer, dir)),
         o_orb
     );
 }

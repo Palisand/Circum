@@ -60,7 +60,7 @@ speed = initial_speed;
 edge_bounce_circle(orbit_radius);
 
 //bounce off other orbs
-with o_orb {
+with (o_orb) {
     if (self != other) { orb_hit_orb(other); }
 }
 
