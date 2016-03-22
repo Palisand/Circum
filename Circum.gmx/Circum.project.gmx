@@ -21,9 +21,15 @@
     <object>objects\o_handler</object>
     <object>objects\o_player</object>
     <object>objects\o_orb</object>
+    <objects name="Debug">
+      <object>objects\o_handler_debug</object>
+      <object>objects\o_player_debug</object>
+      <object>objects\o_orb_debug</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
+    <room>rooms\room_debug</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

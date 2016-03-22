@@ -19,12 +19,7 @@ if (diff < 0) {
 /* -------------------------------------------------------------------------------------------- */
 
 // "bounce" off in appropriate direction
-if (direction < dir) {
-    direction -= dir;
-}
-else if (direction > dir) {
-    direction += dir;
-}
-else {
-    direction = -direction;
-}
+var obj_dir = direction - 180;
+var norm_dir = dir - 180;
+var incident_angle = angle_difference(obj_dir, norm_dir);
+direction = obj_dir + sign(norm_dir - 180) * incident_angle * 2;

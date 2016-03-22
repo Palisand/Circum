@@ -25,21 +25,28 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>color = c_dkgray;
-capturer = -1;
-captured = false;
-orbit_radius = 80;
-radius = orbit_radius / 2;
-fill_alpha = 0;
-direction = random(360);
-initial_speed = random_range(1, 3);
-speed = initial_speed;
+            <string>// Set in o_handler.Create
+color = c_white;
+action_key = vk_shift;
+
+trail_length = 30;  // in the anticipation of a longer trail under a certain condition
+
+radius = 5;
+num_orb_captured = 0;
+launch_speed = 20;
+direction = choose(1, -1);  // randomly begin with a clockwise or counter-clockwise rotation
+
+orbit = 0;
+orbit_speed = 0;
+orbit_speed_set = 3;
+orbiting = false;
+current_orb = -1;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="2">
+    <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -56,20 +63,61 @@ speed = initial_speed;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//bounce off the wall
-edge_bounce_circle(orbit_radius);
+            <string>/// Movement &amp; Capturing
 
-//bounce off other orbs
-with (o_orb) {
-    if (self != other) { orb_hit_orb(other); }
-}
+edge_bounce_circle(radius);
 
-// Fade alpha depending on captured status
-if (captured) {
-    fill_alpha = lerp(fill_alpha, 1, 0.1);
+if (orbiting) {
+    current_orb.speed = 0;  // the orb being orbited is stationary
+    // launch
+    if (keyboard_check_pressed(action_key)) {
+        speed = launch_speed;
+        orbiting = false;
+    }
+    // orbit
+    orbit += orbit_speed;
+    x = current_orb.x - cos(degtorad(orbit)) * current_orb.orbit_radius;
+    y = current_orb.y + sin(degtorad(orbit)) * current_orb.orbit_radius;
+    // set direction to orbit tangent
+    direction = orbit - (sign(orbit_speed) * 90);
 }
 else {
-    fill_alpha = lerp(fill_alpha, 0, 0.1);
+    for (var i = 0; i &lt; instance_number(o_orb_debug); i++) {
+        var orb = instance_find(o_orb_debug, i);
+        // if the player will collide with the orbit in the next step
+        if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
+            // if the collision will be with an opponent-captured orb
+            if (orb.capturer != -1 &amp;&amp; orb.capturer != id) {
+                ricochet_off_orb(orb, false);
+                break;
+            }
+            // translate onto orbit
+            orbit = point_direction(x, y, orb.x, orb.y);
+            x = orb.x - cos(degtorad(orbit)) * orb.orbit_radius;
+            y = orb.y + sin(degtorad(orbit)) * orb.orbit_radius;
+            // set clockwise or counter-clockwise orbit depending on collision angle
+            orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
+            if (orbit_speed == 0) {
+                orbit_speed = choose(orbit_speed_set, -orbit_speed_set);
+            }
+            // set orb capture status if not yet captured
+            if (!orb.captured) {
+                orb.captured = true;
+                orb.capturer = self.id;
+                orb.color = self.color;
+                num_orb_captured++;
+            }
+            speed = 0;
+            orbiting = true;
+            current_orb = orb;
+        }
+    }
+    // Reset orb speed
+    if (current_orb != -1) {
+        current_orb.speed = current_orb.initial_speed;
+    }
+    
+    speed = launch_speed;
 }
 </string>
           </argument>
@@ -95,18 +143,10 @@ else {
             <kind>1</kind>
             <string>draw_set_circle_precision(64);
 draw_set_colour(color);
-draw_circle(x, y, radius, true);  // outline
-draw_set_alpha(fill_alpha);
-draw_circle(x, y, radius, false);  // fill
-draw_set_alpha(1);
+draw_trail(trail_length, radius * 2, color, -1, true, 1);
+draw_circle(x, y, radius, false);
 
-// Added for visualization (only during development)
-/*
-draw_line(x, y, x + lengthdir_x(orbit_radius, direction), y + lengthdir_y(orbit_radius, direction));
-draw_set_colour(c_white);
-var dir = point_direction(x, y, room_width/2, room_height/2);
-draw_line(x, y, x + lengthdir_x(orbit_radius, dir), y + lengthdir_y(orbit_radius, dir));
-draw_circle(x, y, orbit_radius, true);
+draw_text(x, y + 20, num_orb_captured);
 </string>
           </argument>
         </arguments>
