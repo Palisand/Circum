@@ -141,7 +141,7 @@ if (mouse_check_button_released(mb_right)) {
 }
 
 // Undo
-if (keyboard_check_pressed(vk_backspace)) {
+if (keyboard_check_pressed(vk_backspace) &amp;&amp; obj_count &gt; 0) {
     with (objects[--obj_count]) {
         instance_destroy();
     }

@@ -101,6 +101,7 @@ draw_circle(x, y, radius, false);  // fill
 draw_set_alpha(1);
 
 // Added for visualization (only during development)
+/*
 draw_line(x, y, x + lengthdir_x(orbit_radius, direction), y + lengthdir_y(orbit_radius, direction));
 draw_set_colour(c_white);
 var dir = point_direction(x, y, room_width/2, room_height/2);
