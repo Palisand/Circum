@@ -42,45 +42,15 @@ player_radius_draw = 0;
 
 objects[0] = 0;
 obj_count = 0;
+
+NUM_ORB_TYPES = 2;
+orb_type = 0;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
     <event eventtype="3" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// End, Restart, Fullscreen
-
-if (keyboard_check_pressed(vk_escape)) {
-    game_end();
-}
-
-if (keyboard_check_pressed(ord("R"))) {
-    game_restart();
-}
-
-if (keyboard_check_pressed(ord("F"))) {
-    window_set_fullscreen(!window_get_fullscreen());
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -129,6 +99,8 @@ if (mouse_check_button_released(mb_left)) {
         initial_speed = speed;
         direction = other.orb_dir_set;
         other.objects[other.obj_count++] = id;
+        orb_type = other.orb_type;
+        if (orb_type == 1) { color = c_blue; }
     }
 }
 if (mouse_check_button_released(mb_right)) {
@@ -145,6 +117,44 @@ if (keyboard_check_pressed(vk_backspace) &amp;&amp; obj_count &gt; 0) {
     with (objects[--obj_count]) {
         instance_destroy();
     }
+}
+
+//cycle orb types
+if (keyboard_check_pressed(vk_space)) {
+    orb_type = (orb_type+1)%NUM_ORB_TYPES;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// End, Restart, Fullscreen
+
+if (keyboard_check_pressed(vk_escape)) {
+    game_end();
+}
+
+if (keyboard_check_pressed(ord("R"))) {
+    game_restart();
+}
+
+if (keyboard_check_pressed(ord("F"))) {
+    window_set_fullscreen(!window_get_fullscreen());
 }
 </string>
           </argument>
