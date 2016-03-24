@@ -88,8 +88,8 @@ else {
         if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             // if the collision will be with an opponent-captured orb
             //or dead orb
-            if (orb.orb_type == 1 ||
-                (orb.orb_type == 0 &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)) {
+            if (orb.orb_type == DEAD_ORB ||
+                (orb.orb_type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)) {
                 ricochet_off_orb(orb, false);
                 break;
             }

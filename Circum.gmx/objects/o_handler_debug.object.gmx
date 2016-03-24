@@ -43,8 +43,7 @@ player_radius_draw = 0;
 objects[0] = 0;
 obj_count = 0;
 
-NUM_ORB_TYPES = 2;
-orb_type = 0;
+orb_type = DEFAULT_ORB;
 </string>
           </argument>
         </arguments>
