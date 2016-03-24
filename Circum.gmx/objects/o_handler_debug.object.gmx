@@ -217,12 +217,21 @@ else {
             <kind>1</kind>
             <string>/// Guides
 
-// FPS
-draw_text(room_width/2, room_height/2 + 30, fps);
-draw_text(room_width/2, room_height/2 + 50, fps_real);
-
 // Objects
-draw_text(room_width/2, room_height/2, obj_count);
+var debug_text = "obj_count: "+string(obj_count)+"#";
+
+// FPS
+debug_text += ("fps: "+string(fps)+"#");
+debug_text += ("fps_real: "+string(fps_real)+"#");
+
+//orb type
+var t = "DEFAULT";
+if (orb_type == DEAD_ORB) { t = "DEAD"; }
+else if (orb_type == VOID_ORB) { t = "VOID"; }
+else if (orb_type == MASTER_ORB) { t = "MASTER"; }
+debug_text += ("orb_type: "+t+"#");
+
+draw_text_transformed(room_width/2, room_height/2, debug_text, 3,3,0);
 
 if (mouse_check_button(mb_left)) {
     draw_set_colour(c_white);
