@@ -99,7 +99,8 @@ if (mouse_check_button_released(mb_left)) {
         direction = other.orb_dir_set;
         other.objects[other.obj_count++] = id;
         orb_type = other.orb_type;
-        if (orb_type == 1) { color = c_blue; }
+        if (orb_type == DEAD_ORB) { color = c_blue; }
+        if (orb_type == VOID_ORB) { color = c_purple; }
     }
 }
 if (mouse_check_button_released(mb_right)) {
@@ -230,6 +231,9 @@ if (orb_type == DEAD_ORB) { t = "DEAD"; }
 else if (orb_type == VOID_ORB) { t = "VOID"; }
 else if (orb_type == MASTER_ORB) { t = "MASTER"; }
 debug_text += ("orb_type: "+t+"#");
+
+//number of players
+debug_text += ("num_players: "+string(instance_number(o_player_debug)));
 
 draw_text_transformed(room_width/2, room_height/2, debug_text, 3,3,0);
 

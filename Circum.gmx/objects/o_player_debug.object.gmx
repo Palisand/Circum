@@ -86,13 +86,23 @@ else {
         var orb = instance_find(o_orb_debug, i);
         // if the player will collide with the orbit in the next step
         if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
-            // if the collision will be with an opponent-captured orb
-            //or dead orb
+            //if the collision will be with a void orb, die
+            if (orb.orb_type == VOID_ORB) {
+                instance_destroy();
+                break;
+            }
+            
+            // if the collision will be with a dead orb an opponent-captured orb
             if (orb.orb_type == DEAD_ORB ||
                 (orb.orb_type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)) {
                 ricochet_off_orb(orb, false);
                 break;
             }
+            
+            if (orb.orb_type == MASTER_ORB) {
+                //???
+            }
+            
             // translate onto orbit
             orbit = point_direction(x, y, orb.x, orb.y);
             x = orb.x - cos(degtorad(orbit)) * orb.orbit_radius;
