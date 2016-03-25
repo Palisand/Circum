@@ -28,6 +28,7 @@
             <string>randomize();
 
 global.tmp_visuals_on = false;
+global.winner = -1;
 
 num_orb = 11;
 edge_buffer = 512;

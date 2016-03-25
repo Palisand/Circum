@@ -69,8 +69,8 @@ edge_bounce_circle(radius);
 
 if (orbiting) {
     current_orb.speed = lerp(current_orb.speed,0,0.1);  // the orb being orbited is stationary
-    // launch
-    if (keyboard_check_pressed(action_key)) {
+    // launch (if there isn't a winner)
+    if (keyboard_check_pressed(action_key) &amp;&amp; global.winner &lt; 0) {
         speed = launch_speed;
         orbiting = false;
     }
@@ -86,11 +86,19 @@ else {
         var orb = instance_find(o_orb, i);
         // if the player will collide with the orbit in the next step
         if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
-            // if the collision will be with an opponent-captured orb
-            if (orb.capturer != -1 &amp;&amp; orb.capturer != id) {
+            //if the collision will be with a void orb, die
+            if (orb.orb_type == VOID_ORB) {
+                instance_destroy();
+                break;
+            }
+            
+            // if the collision will be with an opponent-captured orb OR a dead orb 
+            if ((orb.orb_type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)
+                || orb.orb_type == DEAD_ORB) {
                 ricochet_off_orb(orb, false);
                 break;
             }
+            
             // translate onto orbit
             orbit = point_direction(x, y, orb.x, orb.y);
             x = orb.x - cos(degtorad(orbit)) * orb.orbit_radius;
@@ -110,6 +118,11 @@ else {
             speed = 0;
             orbiting = true;
             current_orb = orb;
+            
+            //you won
+            if (orb.orb_type == MASTER_ORB) {
+                num_orb_captured = instance_number(o_orb_debug);
+            }
         }
     }
     // Reset orb speed
@@ -139,7 +152,15 @@ else {
             <kind>1</kind>
             <string>/// Win
 
-if (num_orb_captured &gt; instance_number(o_orb) / instance_number(o_player)) {
+//if there isn't already a winner and you got enough to win...
+if (global.winner &lt; 0 &amp;&amp;
+    num_orb_captured &gt; instance_number(o_orb) / instance_number(o_player)) {
+    
+    global.winner = self.id;
+    
+}
+
+if (global.winner == self.id &amp;&amp; radius &lt; room_width) {
     // Consume the entire screen
     radius += 20;
     depth = -99;
