@@ -92,17 +92,13 @@ else {
                 break;
             }
             
-            // if the collision will be with a dead orb an opponent-captured orb
-            if (orb.orb_type == DEAD_ORB ||
-                (orb.orb_type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)) {
+            // if the collision will be with an opponent-captured orb OR a dead orb 
+            if ((orb.orb_type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)
+                || orb.orb_type == DEAD_ORB) {
                 ricochet_off_orb(orb, false);
                 break;
             }
-            
-            if (orb.orb_type == MASTER_ORB) {
-                //???
-            }
-            
+
             // translate onto orbit
             orbit = point_direction(x, y, orb.x, orb.y);
             x = orb.x - cos(degtorad(orbit)) * orb.orbit_radius;
@@ -122,6 +118,12 @@ else {
             speed = 0;
             orbiting = true;
             current_orb = orb;
+            
+            //you won
+            if (orb.orb_type == MASTER_ORB) {
+                num_orb_captured = instance_number(o_orb_debug);
+            }
+            
         }
     }
     // Reset orb speed

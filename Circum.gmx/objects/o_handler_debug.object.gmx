@@ -100,7 +100,8 @@ if (mouse_check_button_released(mb_left)) {
         other.objects[other.obj_count++] = id;
         orb_type = other.orb_type;
         if (orb_type == DEAD_ORB) { color = c_blue; }
-        if (orb_type == VOID_ORB) { color = c_purple; }
+        else if (orb_type == VOID_ORB) { color = c_purple; }
+        else if (orb_type == MASTER_ORB) { color = c_yellow; }
     }
 }
 if (mouse_check_button_released(mb_right)) {
@@ -233,9 +234,15 @@ else if (orb_type == MASTER_ORB) { t = "MASTER"; }
 debug_text += ("orb_type: "+t+"#");
 
 //number of players
-debug_text += ("num_players: "+string(instance_number(o_player_debug)));
+debug_text += ("num_players: "+string(instance_number(o_player_debug))+"#");
 
-draw_text_transformed(room_width/2, room_height/2, debug_text, 3,3,0);
+//if there is a player, show the number of orbs captured
+if (instance_number(o_player_debug)) {
+    var p = instance_find(o_player_debug,0);
+    debug_text += ("player0 captured "+string(p.num_orb_captured)+"#");
+}
+
+draw_text_transformed(room_width/2, room_height/2, debug_text, 2,2,0);
 
 if (mouse_check_button(mb_left)) {
     draw_set_colour(c_white);
