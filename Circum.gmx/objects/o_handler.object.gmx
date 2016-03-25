@@ -65,6 +65,15 @@ for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
         o_orb
     );
 }
+
+//for debugging purposes, really
+var dead = instance_find(o_orb,2);
+set_orb_type(dead,DEAD_ORB);
+var void = instance_find(o_orb,3);
+set_orb_type(void,VOID_ORB);
+var master = instance_find(o_orb,4);
+set_orb_type(master,MASTER_ORB);
+
 /*
 repeat (num_orb) {
     var dir = random(360);

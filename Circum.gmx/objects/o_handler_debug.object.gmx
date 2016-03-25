@@ -98,10 +98,7 @@ if (mouse_check_button_released(mb_left)) {
         initial_speed = speed;
         direction = other.orb_dir_set;
         other.objects[other.obj_count++] = id;
-        orb_type = other.orb_type;
-        if (orb_type == DEAD_ORB) { color = c_blue; }
-        else if (orb_type == VOID_ORB) { color = c_purple; }
-        else if (orb_type == MASTER_ORB) { color = c_yellow; }
+        set_orb_type(self,orb_type);
     }
 }
 if (mouse_check_button_released(mb_right)) {

@@ -16,6 +16,7 @@
     <script>scripts\wall_bounce_circle.gml</script>
     <script>scripts\edge_bounce_circle.gml</script>
     <script>scripts\orb_hit_orb.gml</script>
+    <script>scripts\set_orb_type.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_handler</object>
