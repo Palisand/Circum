@@ -236,7 +236,8 @@ debug_text += ("num_players: "+string(instance_number(o_player_debug))+"#");
 //if there is a player, show the number of orbs captured
 if (instance_number(o_player_debug)) {
     var p = instance_find(o_player_debug,0);
-    debug_text += ("player0 captured "+string(p.num_orb_captured)+"#");
+    debug_text += ("p0 captured: "+string(p.num_orb_captured)+"#");
+    debug_text += ("p0 capture streak: "+string(p.capture_streak)+"#");
 }
 
 draw_text_transformed(room_width/2, room_height/2, debug_text, 2,2,0);

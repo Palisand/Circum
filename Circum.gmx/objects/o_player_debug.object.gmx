@@ -41,6 +41,8 @@ orbit_speed = 0;
 orbit_speed_set = 3;
 orbiting = false;
 current_orb = -1;
+
+capture_streak = -1;
 </string>
           </argument>
         </arguments>
@@ -65,7 +67,9 @@ current_orb = -1;
             <kind>1</kind>
             <string>/// Movement &amp; Capturing
 
-edge_bounce_circle(radius);
+if (edge_bounce_circle(radius)) {
+    capture_streak = 0;
+}
 
 if (orbiting) {
     current_orb.speed = lerp(current_orb.speed,0,0.1);  // the orb being orbited is stationary
@@ -96,6 +100,7 @@ else {
             if ((orb.type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)
                 || orb.type == DEAD_ORB) {
                 ricochet_off_orb(orb, false);
+                capture_streak = 0;
                 break;
             }
 
@@ -114,7 +119,10 @@ else {
                 orb.capturer = self.id;
                 orb.color = self.color;
                 num_orb_captured++;
+                capture_streak++;
             }
+            else { capture_streak = 0; }
+            
             speed = 0;
             orbiting = true;
             current_orb = orb;

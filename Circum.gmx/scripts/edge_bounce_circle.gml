@@ -11,8 +11,8 @@ var max_diff = 0;
 for (var deg = 0; deg < 360; deg++) {
     var x_check = x + lengthdir_x(rad, deg);
     var y_check = y + lengthdir_y(rad, deg);
-    var point_dist = point_distance(x_check, y_check, room_width/2, room_height/2);
-    var diff = point_dist - room_width/2;   // the circular screen "radius"
+    var point_dist = point_distance(x_check, y_check, SCREEN_RADIUS, SCREEN_RADIUS);
+    var diff = point_dist - SCREEN_RADIUS;
     if (diff > max_diff) {
         max_diff = diff;
         max_x_check = x_check;
@@ -20,9 +20,11 @@ for (var deg = 0; deg < 360; deg++) {
     }
 }
 
-var point_dir = point_direction(max_x_check, max_y_check, room_width/2, room_height/2);  // TODO: these should be constants
+var point_dir = point_direction(max_x_check, max_y_check, SCREEN_RADIUS, SCREEN_RADIUS);
 
+var ricochet = false;
 if (max_diff > 0) {
+    ricochet = true;
     // move out of edge
     x += lengthdir_x(max_diff, point_dir);
     y += lengthdir_y(max_diff, point_dir);
@@ -32,3 +34,5 @@ if (max_diff > 0) {
     var incident_angle = angle_difference(obj_dir, norm_dir);
     direction = obj_dir + sign(norm_dir - 180) * incident_angle * 2;
 }
+
+return ricochet;

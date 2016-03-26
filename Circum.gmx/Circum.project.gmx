@@ -29,15 +29,16 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
     <room>rooms\room_debug</room>
+    <room>rooms\room0</room>
   </rooms>
-  <constants number="5">
+  <constants number="6">
     <constant name="NUM_ORB_TYPES">4</constant>
     <constant name="DEFAULT_ORB">0</constant>
     <constant name="DEAD_ORB">1</constant>
     <constant name="VOID_ORB">2</constant>
     <constant name="MASTER_ORB">3</constant>
+    <constant name="SCREEN_RADIUS">room_width/2</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
