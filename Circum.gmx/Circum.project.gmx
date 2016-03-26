@@ -16,6 +16,7 @@
     <script>scripts\wall_bounce_circle.gml</script>
     <script>scripts\edge_bounce_circle.gml</script>
     <script>scripts\orb_hit_orb.gml</script>
+    <script>scripts\set_orb_type.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_handler</object>
@@ -31,6 +32,13 @@
     <room>rooms\room0</room>
     <room>rooms\room_debug</room>
   </rooms>
+  <constants number="5">
+    <constant name="NUM_ORB_TYPES">4</constant>
+    <constant name="DEFAULT_ORB">0</constant>
+    <constant name="DEAD_ORB">1</constant>
+    <constant name="VOID_ORB">2</constant>
+    <constant name="MASTER_ORB">3</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>

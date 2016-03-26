@@ -68,7 +68,7 @@ current_orb = -1;
 edge_bounce_circle(radius);
 
 if (orbiting) {
-    current_orb.speed = 0;  // the orb being orbited is stationary
+    current_orb.speed = lerp(current_orb.speed,0,0.1);  // the orb being orbited is stationary
     // launch
     if (keyboard_check_pressed(action_key)) {
         speed = launch_speed;
@@ -86,11 +86,19 @@ else {
         var orb = instance_find(o_orb_debug, i);
         // if the player will collide with the orbit in the next step
         if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
-            // if the collision will be with an opponent-captured orb
-            if (orb.capturer != -1 &amp;&amp; orb.capturer != id) {
+            //if the collision will be with a void orb, die
+            if (orb.type == VOID_ORB) {
+                instance_destroy();
+                break;
+            }
+            
+            // if the collision will be with an opponent-captured orb OR a dead orb 
+            if ((orb.type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)
+                || orb.type == DEAD_ORB) {
                 ricochet_off_orb(orb, false);
                 break;
             }
+
             // translate onto orbit
             orbit = point_direction(x, y, orb.x, orb.y);
             x = orb.x - cos(degtorad(orbit)) * orb.orbit_radius;
@@ -110,11 +118,17 @@ else {
             speed = 0;
             orbiting = true;
             current_orb = orb;
+            
+            //you won
+            if (orb.type == MASTER_ORB) {
+                num_orb_captured = instance_number(o_orb_debug);
+            }
+            
         }
     }
     // Reset orb speed
     if (current_orb != -1) {
-        current_orb.speed = current_orb.initial_speed;
+        current_orb.speed = lerp(current_orb.speed,current_orb.initial_speed,0.1);
     }
     
     speed = launch_speed;

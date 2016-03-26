@@ -34,6 +34,8 @@ fill_alpha = 0;
 direction = random(360);
 initial_speed = random_range(3, 7);
 speed = initial_speed;
+
+type = DEFAULT_ORB;
 </string>
           </argument>
         </arguments>
@@ -60,6 +62,7 @@ speed = initial_speed;
 edge_bounce_circle(orbit_radius);
 
 //bounce off other orbs
+
 with (o_orb) {
     if (self.id != other.id) { orb_hit_orb(other); }
 }

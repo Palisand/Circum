@@ -42,45 +42,14 @@ player_radius_draw = 0;
 
 objects[0] = 0;
 obj_count = 0;
+
+orb_type = DEFAULT_ORB;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
     <event eventtype="3" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// End, Restart, Fullscreen
-
-if (keyboard_check_pressed(vk_escape)) {
-    game_end();
-}
-
-if (keyboard_check_pressed(ord("R"))) {
-    game_restart();
-}
-
-if (keyboard_check_pressed(ord("F"))) {
-    window_set_fullscreen(!window_get_fullscreen());
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -129,6 +98,7 @@ if (mouse_check_button_released(mb_left)) {
         initial_speed = speed;
         direction = other.orb_dir_set;
         other.objects[other.obj_count++] = id;
+        set_orb_type(self,other.orb_type);
     }
 }
 if (mouse_check_button_released(mb_right)) {
@@ -145,6 +115,44 @@ if (keyboard_check_pressed(vk_backspace) &amp;&amp; obj_count &gt; 0) {
     with (objects[--obj_count]) {
         instance_destroy();
     }
+}
+
+//cycle orb types
+if (keyboard_check_pressed(vk_space)) {
+    orb_type = (orb_type+1)%NUM_ORB_TYPES;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// End, Restart, Fullscreen
+
+if (keyboard_check_pressed(vk_escape)) {
+    game_end();
+}
+
+if (keyboard_check_pressed(ord("R"))) {
+    game_restart();
+}
+
+if (keyboard_check_pressed(ord("F"))) {
+    window_set_fullscreen(!window_get_fullscreen());
 }
 </string>
           </argument>
@@ -208,12 +216,30 @@ else {
             <kind>1</kind>
             <string>/// Guides
 
-// FPS
-draw_text(room_width/2, room_height/2 + 30, fps);
-draw_text(room_width/2, room_height/2 + 50, fps_real);
-
 // Objects
-draw_text(room_width/2, room_height/2, obj_count);
+var debug_text = "obj_count: "+string(obj_count)+"#";
+
+// FPS
+debug_text += ("fps: "+string(fps)+"#");
+debug_text += ("fps_real: "+string(fps_real)+"#");
+
+//orb type
+var t = "DEFAULT";
+if (orb_type == DEAD_ORB) { t = "DEAD"; }
+else if (orb_type == VOID_ORB) { t = "VOID"; }
+else if (orb_type == MASTER_ORB) { t = "MASTER"; }
+debug_text += ("orb_type: "+t+"#");
+
+//number of players
+debug_text += ("num_players: "+string(instance_number(o_player_debug))+"#");
+
+//if there is a player, show the number of orbs captured
+if (instance_number(o_player_debug)) {
+    var p = instance_find(o_player_debug,0);
+    debug_text += ("player0 captured "+string(p.num_orb_captured)+"#");
+}
+
+draw_text_transformed(room_width/2, room_height/2, debug_text, 2,2,0);
 
 if (mouse_check_button(mb_left)) {
     draw_set_colour(c_white);
