@@ -58,22 +58,9 @@ type = DEFAULT_ORB;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//bounce off the wall
-edge_bounce_circle(orbit_radius);
+            <string>/// Movement
 
-//bounce off other orbs
-
-with (o_orb) {
-    if (self.id != other.id) { orb_hit_orb(other); }
-}
-
-// Fade alpha depending on captured status
-if (captured) {
-    fill_alpha = lerp(fill_alpha, 1, 0.1);
-}
-else {
-    fill_alpha = lerp(fill_alpha, 0, 0.1);
-}
+orb_movement(o_orb);
 </string>
           </argument>
         </arguments>

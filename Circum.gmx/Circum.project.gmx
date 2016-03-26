@@ -17,6 +17,8 @@
     <script>scripts\edge_bounce_circle.gml</script>
     <script>scripts\orb_hit_orb.gml</script>
     <script>scripts\set_orb_type.gml</script>
+    <script>scripts\player_movement.gml</script>
+    <script>scripts\orb_movement.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_handler</object>
@@ -27,17 +29,22 @@
       <object>objects\o_player_debug</object>
       <object>objects\o_orb_debug</object>
     </objects>
+    <object>objects\o_globals</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
     <room>rooms\room_debug</room>
   </rooms>
-  <constants number="5">
+  <constants number="9">
     <constant name="NUM_ORB_TYPES">4</constant>
     <constant name="DEFAULT_ORB">0</constant>
     <constant name="DEAD_ORB">1</constant>
     <constant name="VOID_ORB">2</constant>
     <constant name="MASTER_ORB">3</constant>
+    <constant name="SCREEN_RADIUS">room_width/2</constant>
+    <constant name="STREAK_TIMEOUT">5000000</constant>
+    <constant name="POSSESSION">0</constant>
+    <constant name="DOMINATION">1</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
