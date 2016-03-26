@@ -45,16 +45,24 @@ orb = instance_create(0, y_center, o_orb);
 orb.x = orb.orbit_radius;
 orb.speed = 0;
 with (instance_create(orb.x, y_center, o_player)) {
+    pid = 0;
     color = c_white;
     action_key = vk_lshift;
+    //array to hold time that ith player got a streak bonus
+    global.streak_time[pid] = -STREAK_TIMEOUT-1;
+    //most recent streak bonus
+    global.streak_type[pid] = POSSESSION;
 }
 // Player 2
 orb = instance_create(0, y_center, o_orb);
 orb.x = room_width - orb.orbit_radius;
 orb.speed = 0;
 with (instance_create(orb.x, y_center, o_player)) {
+    pid = 1;
     color = c_black;
     action_key = vk_enter;  // cannot be vk_rshift (only one shift key registered at a time)
+    global.streak_time[pid] = -STREAK_TIMEOUT-1;
+    global.streak_type[pid] = POSSESSION;
 }
 
 // Orbs

@@ -17,6 +17,8 @@
     <script>scripts\edge_bounce_circle.gml</script>
     <script>scripts\orb_hit_orb.gml</script>
     <script>scripts\set_orb_type.gml</script>
+    <script>scripts\player_movement.gml</script>
+    <script>scripts\orb_movement.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_handler</object>
@@ -29,8 +31,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room_debug</room>
     <room>rooms\room0</room>
+    <room>rooms\room_debug</room>
   </rooms>
   <constants number="9">
     <constant name="NUM_ORB_TYPES">4</constant>

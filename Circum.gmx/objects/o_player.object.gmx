@@ -110,78 +110,7 @@ if (global.winner == self.id &amp;&amp; radius &lt; room_width) {
             <kind>1</kind>
             <string>/// Movement &amp; Capturing
 
-if (edge_bounce_circle(radius)) {
-    capture_streak = 0;
-}
-
-if (orbiting) {
-    current_orb.speed = lerp(current_orb.speed,0,0.1);  // the orb being orbited is stationary
-    // launch (if there isn't a winner)
-    if (keyboard_check_pressed(action_key) &amp;&amp; global.winner &lt; 0) {
-        speed = launch_speed;
-        orbiting = false;
-    }
-    // orbit
-    orbit += orbit_speed;
-    x = current_orb.x - cos(degtorad(orbit)) * current_orb.orbit_radius;
-    y = current_orb.y + sin(degtorad(orbit)) * current_orb.orbit_radius;
-    // set direction to orbit tangent
-    direction = orbit - (sign(orbit_speed) * 90);
-}
-else {
-    for (var i = 0; i &lt; instance_number(o_orb); i++) {
-        var orb = instance_find(o_orb, i);
-        // if the player will collide with the orbit in the next step
-        if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
-            //if the collision will be with a void orb, die
-            if (orb.type == VOID_ORB) {
-                instance_destroy();
-                break;
-            }
-            
-            // if the collision will be with an opponent-captured orb OR a dead orb 
-            if ((orb.type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)
-                || orb.type == DEAD_ORB) {
-                ricochet_off_orb(orb, false);
-                capture_streak = 0;
-                break;
-            }
-            
-            // translate onto orbit
-            orbit = point_direction(x, y, orb.x, orb.y);
-            x = orb.x - cos(degtorad(orbit)) * orb.orbit_radius;
-            y = orb.y + sin(degtorad(orbit)) * orb.orbit_radius;
-            // set clockwise or counter-clockwise orbit depending on collision angle
-            orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
-            if (orbit_speed == 0) {
-                orbit_speed = choose(orbit_speed_set, -orbit_speed_set);
-            }
-            // set orb capture status if not yet captured
-            if (!orb.captured) {
-                orb.captured = true;
-                orb.capturer = self.id;
-                orb.color = self.color;
-                num_orb_captured++;
-                capture_streak++;
-            }
-            else { capture_streak = 0; }
-            
-            speed = 0;
-            orbiting = true;
-            current_orb = orb;
-                        
-            //you won
-            if (orb.type == MASTER_ORB) {
-                num_orb_captured = instance_number(o_orb);
-            }
-        }
-    }
-    
-    // Reset orb speed
-    if (current_orb != -1) {
-        current_orb.speed = lerp(current_orb.speed,current_orb.initial_speed,0.1);
-    }
-}
+player_movement(o_player,o_orb);
 </string>
           </argument>
         </arguments>
