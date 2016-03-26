@@ -280,6 +280,9 @@ if (instance_number(o_player_debug)) {
     debug_text += ("p0 captured: "+string(p.num_orb_captured)+"#");
     debug_text += ("p0 capture streak: "+string(p.capture_streak)+"#");
     debug_text += ("p0 streak time: "+string(global.streak_time[0])+"#");
+    t = "POSSESSION";
+    if (global.streak_type[0] == DOMINATION) { t = "DOMINATION"; }
+    debug_text += ("p0 streak type: "+t+"#");
 }
 
 draw_text_transformed(room_width/2, room_height/2, debug_text, 2,2,0);

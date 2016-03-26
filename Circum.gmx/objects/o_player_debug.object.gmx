@@ -108,10 +108,13 @@ else {
                 break;
             }
             
-            // if the collision will be with an opponent-captured orb OR a dead orb
-            //or opponent capture_streak count is high
+            // if the collision will be with an opponent-captured orb
             if ((orb.type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)
-                || orb.type == DEAD_ORB || ricochet_captured || ricochet_free) {
+                //OR a dead orb
+                || orb.type == DEAD_ORB
+                //OR opponent has a streak reward
+                || (orb.capturer == id &amp;&amp; ricochet_captured)
+                || (!orb.captured &amp;&amp; ricochet_free)) {
                 ricochet_off_orb(orb, false);
                 capture_streak = 0;
                 break;

@@ -13,3 +13,7 @@
 \+ **Scroll Wheel Down**: Set player color to Black
 
 **Backspace**: Undo (remove last created instance; might crash...)
+
+**Tab**: Set time of player0's last streak to now
+
+**Left-control**: Toggle between POSSESSION and DOMINATION
