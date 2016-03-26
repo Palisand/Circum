@@ -25,7 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Screen (Circular)
+            <string>//init global variables
+instance_create(0,0,o_globals);
+
+// Screen (Circular)
 screen = surface_create(room_width, room_height);
 
 x_start = 0;
@@ -108,11 +111,6 @@ if (mouse_check_button_released(mb_right)) {
         //handy identification number (that isn't huge)
         pid = instance_number(o_player_debug)-1;
         if (pid == 1) { action_key = vk_enter; }
-        
-        //array to hold time that ith player got a streak bonus
-        global.streak_time[pid] = -STREAK_TIMEOUT-1;
-        //most recent streak bonus
-        global.streak_type[pid] = POSSESSION;
                 
         direction = other.player_dir_set;
         color = other.player_color_set;

@@ -27,14 +27,14 @@
             <kind>1</kind>
             <string>randomize();
 
-global.tmp_visuals_on = false;
-global.winner = -1;
+//initialize globals
+instance_create(0,0,o_globals);
 
 num_orb = 11;
 edge_buffer = 512;
 
-var x_center = room_width / 2;
-var y_center = room_height / 2;
+var x_center = SCREEN_RADIUS;
+var y_center = SCREEN_RADIUS;
 
 // Screen (Circular)
 screen = surface_create(room_width, room_height);
@@ -48,11 +48,8 @@ with (instance_create(orb.x, y_center, o_player)) {
     pid = 0;
     color = c_white;
     action_key = vk_lshift;
-    //array to hold time that ith player got a streak bonus
-    global.streak_time[pid] = -STREAK_TIMEOUT-1;
-    //most recent streak bonus
-    global.streak_type[pid] = POSSESSION;
 }
+
 // Player 2
 orb = instance_create(0, y_center, o_orb);
 orb.x = room_width - orb.orbit_radius;
@@ -61,8 +58,6 @@ with (instance_create(orb.x, y_center, o_player)) {
     pid = 1;
     color = c_black;
     action_key = vk_enter;  // cannot be vk_rshift (only one shift key registered at a time)
-    global.streak_time[pid] = -STREAK_TIMEOUT-1;
-    global.streak_type[pid] = POSSESSION;
 }
 
 // Orbs

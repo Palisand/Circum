@@ -29,6 +29,7 @@
       <object>objects\o_player_debug</object>
       <object>objects\o_orb_debug</object>
     </objects>
+    <object>objects\o_globals</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
