@@ -33,7 +33,7 @@ radius = orbit_radius / 2;
 fill_alpha = 0;
 
 initial_speed = 0;
-orb_type = DEFAULT_ORB;
+type = DEFAULT_ORB;
 </string>
           </argument>
         </arguments>

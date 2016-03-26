@@ -87,14 +87,14 @@ else {
         // if the player will collide with the orbit in the next step
         if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             //if the collision will be with a void orb, die
-            if (orb.orb_type == VOID_ORB) {
+            if (orb.type == VOID_ORB) {
                 instance_destroy();
                 break;
             }
             
             // if the collision will be with an opponent-captured orb OR a dead orb 
-            if ((orb.orb_type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)
-                || orb.orb_type == DEAD_ORB) {
+            if ((orb.type == DEFAULT_ORB &amp;&amp; orb.capturer != -1 &amp;&amp; orb.capturer != id)
+                || orb.type == DEAD_ORB) {
                 ricochet_off_orb(orb, false);
                 break;
             }
@@ -120,7 +120,7 @@ else {
             current_orb = orb;
             
             //you won
-            if (orb.orb_type == MASTER_ORB) {
+            if (orb.type == MASTER_ORB) {
                 num_orb_captured = instance_number(o_orb_debug);
             }
             
