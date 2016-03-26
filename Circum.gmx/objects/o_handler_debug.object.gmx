@@ -44,6 +44,7 @@ objects[0] = 0;
 obj_count = 0;
 
 orb_type = DEFAULT_ORB;
+
 </string>
           </argument>
         </arguments>
@@ -104,11 +105,41 @@ if (mouse_check_button_released(mb_left)) {
 if (mouse_check_button_released(mb_right)) {
     start_coords_set = false;
     with (instance_create(x_start, y_start, o_player_debug)) {
+        //handy identification number (that isn't huge)
+        pid = instance_number(o_player_debug)-1;
+        if (pid == 1) { action_key = vk_enter; }
+        
+        //array to hold time that ith player got a streak bonus
+        global.streak_time[pid] = -STREAK_TIMEOUT-1;
+        //most recent streak bonus
+        global.streak_type[pid] = POSSESSION;
+                
         direction = other.player_dir_set;
         color = other.player_color_set;
         other.objects[other.obj_count++] = id;
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Control input
 
 // Undo
 if (keyboard_check_pressed(vk_backspace) &amp;&amp; obj_count &gt; 0) {
@@ -120,6 +151,16 @@ if (keyboard_check_pressed(vk_backspace) &amp;&amp; obj_count &gt; 0) {
 //cycle orb types
 if (keyboard_check_pressed(vk_space)) {
     orb_type = (orb_type+1)%NUM_ORB_TYPES;
+}
+
+//set streak time to now
+if (instance_number(o_player_debug)) {
+    if (keyboard_check_pressed(vk_tab)) {
+        global.streak_time[0] = get_timer();
+    }
+    if (keyboard_check_pressed(vk_lcontrol)) {
+        global.streak_type[0] = 1-global.streak_type[0];
+    }
 }
 </string>
           </argument>
@@ -238,6 +279,7 @@ if (instance_number(o_player_debug)) {
     var p = instance_find(o_player_debug,0);
     debug_text += ("p0 captured: "+string(p.num_orb_captured)+"#");
     debug_text += ("p0 capture streak: "+string(p.capture_streak)+"#");
+    debug_text += ("p0 streak time: "+string(global.streak_time[0])+"#");
 }
 
 draw_text_transformed(room_width/2, room_height/2, debug_text, 2,2,0);
