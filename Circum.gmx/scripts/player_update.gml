@@ -22,6 +22,9 @@ col_orb_set = false;
 if (col_edge) {
     col_edge = false;
     
+    // Remove capture streak
+    capture_streak = 0;
+    
     // Ricochet Streak Update
     // Increment the Ricochet Streak counter if the streak has already started
     if (ricochet_streak > 0) {
@@ -152,6 +155,13 @@ else {
                 orbit_speed = choose(orbit_speed_set, -orbit_speed_set);
             }
             
+            // we bumped into one of our own, streak statuses reset
+            if (orb.captured && orb.capturer == id) {
+                possession_streak_used = false;
+                capture_streak = 0;
+                ricochet_streak = 0;
+            }
+            
             // set orb capture status if not yet captured
             if (orb.type == DEFAULT_ORB && !orb.captured) {
                 orb.captured = true;
@@ -191,13 +201,6 @@ else {
                     possession_streak_used = false;  // reset possession streak flag
                     capture_streak = 0; // reset capture streak counter
                 }
-            }
-            
-            // we bumped into one of our own, streak statuses reset
-            if (orb.captured && orb.capturer == id) {
-                possession_streak_used = false;
-                capture_streak = 0;
-                ricochet_streak = 0;
             }
             
             // we're orbiting now

@@ -43,8 +43,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room_debug</room>
     <room>rooms\room0</room>
+    <room>rooms\room_debug</room>
   </rooms>
   <constants number="12">
     <constant name="NUM_ORB_TYPES">4</constant>
