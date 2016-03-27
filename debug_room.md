@@ -2,18 +2,18 @@
 
 **Left-Click**: Create Orb
 
-\+ **Shift**: Create orb with speed set to 0
+\+ **Tab**: Create orb with speed set to 0
 
 \+ **Space**: Cycle between orb types
 
 **Right-Click**: Create Player
 
-\+ **Scroll Wheel Up**: Set player color to White
+\+ **Scroll Wheel Up** OR **Scroll Wheel Down**: Cycle through player colors
 
-\+ **Scroll Wheel Down**: Set player color to Black
+\+ **Tab**
+
+\+ \+ **Scroll Wheel Up**: Increment player capture streak
+
+\+ \+ **Scroll Wheel Down**: Decrement player capture streak
 
 **Backspace**: Undo (remove last created instance; might crash...)
-
-**Tab**: Set time of player0's last streak to now
-
-**Left-control**: Toggle between POSSESSION and DOMINATION

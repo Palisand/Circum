@@ -25,19 +25,61 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>color = c_dkgray;
-capturer = -1;
-captured = false;
-orbit_radius = 80;
-radius = orbit_radius / 2;
-fill_alpha = 0;
+            <string>/// Logic
 
-initial_speed = 0;
 type = DEFAULT_ORB;
 
-// for posession and dominstion
-guarded = false;
+capturer = -1;
+captured = false;
+
+// for capture streaks
 guarder = -1;
+guarded = false;
+
+orbit_radius = 80;
+radius = orbit_radius / 2;
+
+direction = random(360);
+initial_speed = random_range(3, 7);
+speed = initial_speed;
+
+// collision
+col_orb = false;
+col_edge = false;
+col_player = false;
+col_orb_coords[0] = 0; // x
+col_orb_coords[1] = 0; // y
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw &amp; FX
+
+color = c_dkgray;
+fill_alpha = 0;
+fill_alpha_rate = 0.04;
+orbit_radius_alpha = 0;
+orbit_radius_alpha_max = 0.5;
+orbit_radius_alpha_rate = 0.1;
+
+p_emitter = part_emitter_create(global.p_system);
+p_type = part_type_create();
 </string>
           </argument>
         </arguments>
@@ -86,9 +128,9 @@ guarder = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Movement
+            <string>/// Update
 
-orb_movement(o_orb_debug);
+orb_update(o_orb_debug);
 
 </string>
           </argument>
@@ -112,36 +154,8 @@ orb_movement(o_orb_debug);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_circle_precision(64);
-draw_set_colour(color);
-draw_circle(x, y, radius, true);  // outline
-draw_set_alpha(fill_alpha);
-draw_circle(x, y, radius, false);  // fill
-draw_set_alpha(1);
-
-// Visuals
-
-draw_line(x, y, x + lengthdir_x(orbit_radius, direction), y + lengthdir_y(orbit_radius, direction));
-draw_set_colour(c_white);
-var dir = point_direction(x, y, room_width/2, room_height/2);
-draw_line(x, y, x + lengthdir_x(orbit_radius, dir), y + lengthdir_y(orbit_radius, dir));
-draw_circle(x, y, orbit_radius, true);
-
-// Guard alarm
-draw_text_transformed(x, y + orbit_radius, alarm[0], 2, 2, 0);
-
-// Orb type
-switch (type) {
-    case DEAD_ORB: 
-        draw_text(x, y, "DEAD");
-        break;
-    case VOID_ORB:
-        draw_text(x, y, "VOID");
-        break;
-    case MASTER_ORB:
-        draw_text(x, y, "MASTER");
-        break;
-}
+            <string>orb_visuals();
+orb_debug_visuals();
 </string>
           </argument>
         </arguments>

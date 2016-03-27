@@ -25,10 +25,39 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>randomize();
+            <string>/// Pre-Spawn Initialization
 
-// initialize globals
+window_set_cursor(cr_none);  // not changed in global game settings because of debug room
+
+// init global vars
 instance_create(0, 0, o_globals);
+
+p_emitter = part_emitter_create(global.p_system);
+p_type = part_type_create();
+
+drawn_to_surface = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Player and Orb Spawns
+randomize();
 
 num_orb = 11;
 edge_buffer = 512;
@@ -45,7 +74,7 @@ orb = instance_create(0, y_center, o_orb);
 orb.x = orb.orbit_radius;
 orb.speed = 0;
 with (instance_create(orb.x, y_center, o_player)) {
-    color = c_white;
+    color = c_fuchsia;  // c_yellow
     action_key = vk_lshift;
 }
 
@@ -54,7 +83,7 @@ orb = instance_create(0, y_center, o_orb);
 orb.x = room_width - orb.orbit_radius;
 orb.speed = 0;
 with (instance_create(orb.x, y_center, o_player)) {
-    color = c_black;
+    color = c_aqua;  // c_lime
     action_key = vk_enter;  // cannot be vk_rshift (only one shift key registered at a time)
 }
 
@@ -68,7 +97,7 @@ for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
 }
 
 //for debugging purposes, really
-/*
+
 var dead = instance_find(o_orb,2);
 set_orb_type(dead,DEAD_ORB);
 var void = instance_find(o_orb,3);
@@ -170,15 +199,18 @@ if (keyboard_check_pressed(ord("V"))) {
             <kind>1</kind>
             <string>/// Circlular Screen
 
-surface_set_target(screen);
-draw_clear_alpha(c_black, 1);  // make entire screen black
-draw_set_blend_mode(bm_subtract);
-// DRAW PRIMITIVE INSTEAD FOR GREATER PRECISION! (triangle--)
-draw_set_circle_precision(64);
-draw_circle(room_width/2, room_height/2, room_width/2, false);
-draw_set_alpha(1);
-draw_set_blend_mode(bm_normal);
-surface_reset_target();
+if (!drawn_to_surface) {  // this only needs to happen once
+    drawn_to_surface = true;
+    surface_set_target(screen);
+    draw_clear_alpha(c_black, 1);  // make entire screen black
+    draw_set_blend_mode(bm_subtract);
+    // DRAW WITH PRIMITIVES OR VERTEX BUFFERS FOR GREATER PRECISION?!
+    draw_set_circle_precision(64);
+    draw_circle(room_width/2, room_height/2, room_width/2, false);
+    draw_set_alpha(1);
+    draw_set_blend_mode(bm_normal);
+    surface_reset_target();
+}
 
 if (surface_exists(screen)) {
     draw_surface(screen, 0, 0);
@@ -186,6 +218,41 @@ if (surface_exists(screen)) {
 else {
     screen = surface_create(room_width, room_height);
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Ambient Background Particles
+
+part_system_depth(global.p_system, -98);
+part_type_shape(p_type, pt_shape_flare);
+part_type_blend(p_type, true);
+part_type_alpha2(p_type, 1, 0);
+part_type_colour1(p_type, c_white); // maybe can change color depending on which player is winning
+part_type_direction(p_type, 0, 360, 0, 0); // completely random direction
+part_type_speed(p_type, 0, 4, 0, 0);
+part_type_size(p_type, 0.2, 0.2, 0, 0);
+part_type_life(p_type, 1, 120);
+part_type_orientation(p_type, 0, 360, 0, 0, false);
+part_type_scale(p_type, 1, 1);
+part_emitter_region(global.p_system, p_emitter, 0, room_width, 0, room_height, ps_shape_ellipse, ps_distr_linear);
+part_emitter_burst(global.p_system, p_emitter, p_type, random(5));
 </string>
           </argument>
         </arguments>

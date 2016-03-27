@@ -42,10 +42,13 @@ orbit_speed_set = 3;
 orbiting = false;
 current_orb = -1;
 
+//Offset by one because we will capture the initial orb
+//(that orb should not be counted)
 capture_streak = -1;
 possession_streak_used = false;
 
 col_edge = false;
+col_orb_set = false;
 </string>
           </argument>
         </arguments>
@@ -68,9 +71,9 @@ col_edge = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Movement &amp; Capturing
+            <string>/// Update
 
-player_movement(o_player_debug,o_orb_debug);
+player_update(o_player_debug, o_orb_debug);
 </string>
           </argument>
         </arguments>

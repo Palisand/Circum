@@ -31,17 +31,8 @@ global.tmp_visuals_on = false;
 //who won
 global.winner = -1;
 
-/*
-//make enough space for the maximum no. of players
-for(var i = 0; i &lt; 4; i++) {
-
-    //array to hold time that ith player got a streak bonus
-    global.streak_time[i] = -STREAK_TIMEOUT-1;
-    
-    //most recent streak bonus
-    global.streak_type[i] = POSSESSION;
-
-}
+//global particle system (the only one that should be used)
+global.p_system = part_system_create();
 </string>
           </argument>
         </arguments>

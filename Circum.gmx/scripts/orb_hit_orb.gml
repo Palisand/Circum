@@ -13,8 +13,22 @@ var r2 = orb.orbit_radius;
 if (x1+r1+r2 > x2 and x1 < x2+r1+r2 and y1+r1+r2 > y2 and y1 < y2+r1+r2) {
     //circle-circle
     var dist = sqrt(sqr(x1-x2)+sqr(y1-y2));
-    if (dist < r1+r2) {
+    var diff = (r1 + r2) - dist;
+    if (diff > 0) {  // dist < r1+r2
     
+        // move out of orb
+        var dir = point_direction(orb.x, orb.y, x, y);
+        x += lengthdir_x(diff, dir);
+        y += lengthdir_y(diff, dir);
+        
+        // set orb collision statuses and coordinates
+        col_orb = true;
+        orb.col_orb = true;
+        col_orb_coords[0] = ((x1 * r2) + (x2 * r1)) / (r1 + r2);
+        col_orb_coords[1] = ((y1 * r2) + (y2 * r1)) / (r1 + r2);
+        other.col_orb_coords[0] = col_orb_coords[0];
+        other.col_orb_coords[1] = col_orb_coords[1];
+
         //this orb is stationary
         if (speed == 0) { return 0; }
         

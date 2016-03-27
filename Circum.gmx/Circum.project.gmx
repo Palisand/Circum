@@ -7,34 +7,43 @@
     <extension index="0">extensions\Draw Trail</extension>
   </NewExtensions>
   <sounds name="sound"/>
-  <sprites name="sprites"/>
+  <sprites name="sprites">
+    <sprite>sprites\s_ring</sprite>
+  </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\draw_trail.gml</script>
     <script>scripts\ricochet_off_orb.gml</script>
     <script>scripts\wall_bounce_circle.gml</script>
     <script>scripts\edge_bounce_circle.gml</script>
     <script>scripts\orb_hit_orb.gml</script>
     <script>scripts\set_orb_type.gml</script>
-    <script>scripts\player_movement.gml</script>
-    <script>scripts\orb_movement.gml</script>
+    <script>scripts\player_update.gml</script>
+    <script>scripts\orb_update.gml</script>
+    <scripts name="FX">
+      <script>scripts\draw_trail.gml</script>
+      <script>scripts\collision_hit_burst.gml</script>
+    </scripts>
+    <scripts name="Visuals">
+      <script>scripts\orb_visuals.gml</script>
+      <script>scripts\orb_debug_visuals.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
     <object>objects\o_handler</object>
+    <object>objects\o_globals</object>
     <object>objects\o_player</object>
     <object>objects\o_orb</object>
+    <object>objects\o_payload</object>
     <objects name="Debug">
       <object>objects\o_handler_debug</object>
       <object>objects\o_player_debug</object>
       <object>objects\o_orb_debug</object>
     </objects>
-    <object>objects\o_globals</object>
-    <object>objects\o_payload</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
     <room>rooms\room_debug</room>
+    <room>rooms\room0</room>
   </rooms>
   <constants number="9">
     <constant name="NUM_ORB_TYPES">4</constant>
