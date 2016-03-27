@@ -29,6 +29,12 @@ if (col_edge) {
     if (ricochet_streak > 0) {
         ricochet_streak++;
     }
+    
+    // Moving to the center
+    // Player can face the center if they are using the action key on the edge
+    if (keyboard_check(action_key)) {
+        direction = point_direction (x, y, room_width / 2, room_height / 2); // Set direction to center of room
+    }
 }
 
 //if we are orbiting an orb
