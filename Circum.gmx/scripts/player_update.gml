@@ -8,13 +8,13 @@ edge_bounce_circle(radius);
 
 // Ricochet Streak Update
 // Check if our streak is high enough for a streak reward / power-up
-if (ricochet_streak == 3) {
+if (ricochet_streak == RELEASE) {
     // Reward the player with the x3 Reward
-    ricochet_reward = 3;
+    ricochet_reward = RELEASE;
 }
-else if (ricochet_streak == 6) {
+else if (ricochet_streak == THEFT) {
     // Reward the player with the x6 Reward
-    ricochet_reward = 6;
+    ricochet_reward = THEFT;
 }
 
 // reset orb collision set flag (otherwise landing on a free or owned orb won't result in a radius reveal)
@@ -84,23 +84,20 @@ else {
             // The following is a check to see if we are hitting an enemy-owned orb, if so...
             // Start the streak counter if it hasn't been started already, otherwise, increase the counter
             if (orb.type == DEFAULT_ORB && orb.capturer != -1 && orb.capturer != id) { 
-                if (ricochet_streak == 0) {
-                    ricochet_streak = 1;
-                }
-                else {
-                    ricochet_streak += 1;
-                }
                 
+                ricochet_streak += 1;   // This will increment streak or start one if needed
+                                
                 // Ricochet "Theft" Effect (x6) - Release and capture orb
                 // Player will release the enemy orb at this point and it will be captured later in the function
                 // The orb must be an opponent captured orb and we must have the x6 Ricochet reward
-                if (ricochet_reward == 6) {
+                if (ricochet_reward == THEFT) {
                     // Reset the orb
                     orb.captured = false;   // The orb is no longer considered "captured"
                     orb.capturer = -1;      // The default capturer condition is -1
                 
-                    // Since we just gave out the x6 reward, we will reset ricochet_reward to 0
-                    ricochet_reward = 0;
+                    // Since we just gave out the x6 reward, we will reset streak and reward
+                    ricochet_reward = NONE;
+                    ricochet_streak = 0;
                 }
             }
             
@@ -116,13 +113,13 @@ else {
                 // Ricochet "Release" Effect (x3) - Orb capture status is unset
                 // Player will still ricochet off of the enemy orb...
                 // Except as it "leaves" orbit, the orb is reset to uncaptured
-                if (orb.type == DEFAULT_ORB && orb.capturer != -1 && orb.capturer != id && ricochet_reward == 3) {
+                if (orb.type == DEFAULT_ORB && orb.capturer != -1 && orb.capturer != id && ricochet_reward == RELEASE) {
                     // Reset the orb
                     orb.captured = false;   // The orb is no longer considered "captured"
                     orb.capturer = -1;      // The default capturer condition is -1
                 
                     // Since we just gave out the x3 reward, we will reset ricochet_reward to 0
-                    ricochet_reward = 0;
+                    ricochet_reward = NONE;
                 }
                                 
                 ricochet_off_orb(orb, false);
