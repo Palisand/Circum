@@ -84,10 +84,14 @@ else {
             // Ricochet Streak Update
             // The following is a check to see if we are hitting an enemy-owned orb, if so...
             // Start the streak counter if it hasn't been started already, otherwise, increase the counter
+            if (orb.type == DEAD_ORB) {
+                ricochet_streak++;
+            }
+            
             if (orb.type == DEFAULT_ORB && orb.captured && orb.capturer != id) {
                 
                 ricochet_streak++;   // This will increment streak or start one if needed
-                                
+                
                 // Ricochet "Theft" Effect - Release and capture orb
                 // Player will release the enemy orb at this point and it will be captured later in the function
                 // The orb must be an opponent captured orb and we must have the Ricochet reward
