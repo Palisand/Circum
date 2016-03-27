@@ -68,9 +68,9 @@ col_edge = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Movement &amp; Capturing
+            <string>/// Update
 
-player_movement(o_player_debug,o_orb_debug);
+player_update(o_player_debug, o_orb_debug);
 </string>
           </argument>
         </arguments>

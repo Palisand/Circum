@@ -1,5 +1,4 @@
-/// player_movement(player_type, orb_type);
-// will work for both debug and regular players
+/// player_update(player_type, orb_type);
 
 var player_obj = argument0;
 var orb_obj = argument1;
@@ -14,19 +13,6 @@ if (col_edge) {
         capture_streak++;
     }
 }
-
-//check if other players' streaks affect you
-/*
-var ricochet_captured = false;
-var ricochet_free = false;
-for(var i = 0; i < instance_number(player_obj); i++){
-    if (i == pid) { continue; }
-    if (global.streak_time[i] + STREAK_TIMEOUT > get_timer()) {
-        ricochet_captured = true;
-        ricochet_free = ricochet_free or (global.streak_type[i] == DOMINATION);
-    }
-}
-*/
 
 //if we are orbiting an orb
 if (orbiting) {
@@ -56,11 +42,19 @@ else {
         // if the player will collide with the orbit in the next step
         if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
 
+            // set orb collision status if not yet set
+            if (!col_orb_set) {
+                col_orb_set = true;
+                orb.col_player = true;
+            }
+             
             // if the collision will be with a void orb, die
             if (orb.type == VOID_ORB) {
                 instance_destroy();
                 break;
             }
+            
+            var to_orb_dir = point_direction(x, y, orb.x, orb.y);
             
             // if the collision will be with an opponent-captured orb
             if ((orb.type == DEFAULT_ORB && orb.captured && orb.capturer != id)
@@ -68,16 +62,17 @@ else {
                 || orb.type == DEAD_ORB
                 // OR an opponent-guarded orb (as a result of a capture streak)
                 || orb.guarded && orb.guarder != id) {
-                    //OR opponent has a streak reward
-                    //|| (orb.capturer == id && ricochet_captured)
-                    //|| (!orb.captured && ricochet_free)) {
                 ricochet_off_orb(orb, false);
+                collision_hit_burst(
+                    x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
+                    orb.color, 300, 60, orb.p_emitter, orb.p_type
+                );
                 capture_streak = 0;
                 break;
             }
             
             // translate onto orbit
-            orbit = point_direction(x, y, orb.x, orb.y);
+            orbit = to_orb_dir;
             x = orb.x - cos(degtorad(orbit)) * orb.orbit_radius;
             y = orb.y + sin(degtorad(orbit)) * orb.orbit_radius;
             // set clockwise or counter-clockwise orbit depending on collision angle
@@ -108,9 +103,6 @@ else {
                             }
                         }
                     }
-                    //global.streak_time[pid] = get_timer();
-                    //global.streak_type[pid] = POSSESSION;
-                    //if (capture_streak == 5) { global.streak_type[pid] = DOMINATION; }
                 }
                 if (capture_streak >= DOMINATION) {
                     // launch payloads to opponent-captured orbs and free orbs (including master)

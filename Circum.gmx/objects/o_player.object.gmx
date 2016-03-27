@@ -48,6 +48,7 @@ capture_streak = -1;
 possession_streak_used = false;
 
 col_edge = false;
+col_orb_set = false;
 </string>
           </argument>
         </arguments>
@@ -88,8 +89,8 @@ if (global.winner &lt; 0) {
 
 // If you won, consume the entire screen
 if (global.winner == self.id &amp;&amp; radius &lt; room_width) {
-    radius += 20;
-    depth = -99;
+    radius += 40;
+    depth = -999;
 }
 </string>
           </argument>
@@ -111,9 +112,9 @@ if (global.winner == self.id &amp;&amp; radius &lt; room_width) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Movement &amp; Capturing
+            <string>/// Update
 
-player_movement(o_player, o_orb);
+player_update(o_player, o_orb);
 </string>
           </argument>
         </arguments>

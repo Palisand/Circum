@@ -25,21 +25,61 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>color = c_dkgray;
+            <string>/// Logic
+
+type = DEFAULT_ORB;
+
 capturer = -1;
 captured = false;
+
+// for capture streaks
+guarder = -1;
+guarded = false;
+
 orbit_radius = 80;
 radius = orbit_radius / 2;
-fill_alpha = 0;
+
 direction = random(360);
 initial_speed = random_range(3, 7);
 speed = initial_speed;
 
-type = DEFAULT_ORB;
+// collision
+col_orb = false;
+col_edge = false;
+col_player = false;
+col_orb_coords[0] = 0; // x
+col_orb_coords[1] = 0; // y
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Draw &amp; FX
 
-// for posession and dominstion
-guarded = false;
-guarder = -1;
+color = c_dkgray;
+fill_alpha = 0;
+fill_alpha_rate = 0.04;
+orbit_radius_alpha = 0;
+orbit_radius_alpha_max = 0.5;
+orbit_radius_alpha_rate = 0.1;
+
+p_emitter = part_emitter_create(global.p_system);
+p_type = part_type_create();
 </string>
           </argument>
         </arguments>
@@ -88,9 +128,9 @@ guarder = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Movement
+            <string>/// Update
 
-orb_movement(o_orb);
+orb_update(o_orb);
 </string>
           </argument>
         </arguments>
@@ -113,11 +153,16 @@ orb_movement(o_orb);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_circle_precision(64);
-draw_set_colour(color);
-draw_circle(x, y, radius, true);  // outline
-draw_set_alpha(fill_alpha);
-draw_circle(x, y, radius, false);  // fill
+            <string>// Orb
+var scale = radius * 2/sprite_get_width(s_ring);
+draw_sprite_ext(s_ring, 0, x, y, scale, scale, 0, c_white, 1 - fill_alpha);
+draw_sprite_ext(s_ring, 0, x, y, scale, scale, 0, color, fill_alpha); 
+
+// Orbit
+draw_set_alpha(orbit_radius_alpha);
+draw_set_blend_mode(bm_add);
+draw_circle_colour(x, y, orbit_radius, c_black, color, false);
+draw_set_blend_mode(bm_normal);
 draw_set_alpha(1);
 
 // Debug Visuals
@@ -130,10 +175,10 @@ if (global.tmp_visuals_on) {
 
     // Guard alarm
     draw_text_transformed(x, y + orbit_radius, alarm[0], 2, 2, 0);
-    
+
     // Orb type
     switch (type) {
-        case DEAD_ORB: 
+        case DEAD_ORB:
             draw_text(x, y, "DEAD");
             break;
         case VOID_ORB:

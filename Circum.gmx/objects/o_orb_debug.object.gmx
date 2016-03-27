@@ -86,9 +86,9 @@ guarder = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Movement
+            <string>/// Update
 
-orb_movement(o_orb_debug);
+orb_update(o_orb_debug);
 
 </string>
           </argument>
