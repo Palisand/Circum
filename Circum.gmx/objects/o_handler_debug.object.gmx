@@ -121,7 +121,7 @@ if (mouse_check_button(mb_right)) {
         if (mouse_wheel_up()) {
             player_ricochet_streak++;
         }
-        if (mouse_wheel_down() &amp;&amp; player_capture_streak &gt; 0) {
+        if (mouse_wheel_down() &amp;&amp; player_ricochet_streak &gt; 0) {
             player_ricochet_streak--;
         }
     }
@@ -333,6 +333,7 @@ debug_text += ("capture streak set: " + string(player_capture_streak) + "#");
 // player ricochet streak
 debug_text += ("ricochet streak set: " + string(player_ricochet_streak) + "#");
 
+draw_set_colour(c_white);
 draw_text_transformed(SCREEN_RADIUS, SCREEN_RADIUS, debug_text, 2,2,0);
 </string>
           </argument>

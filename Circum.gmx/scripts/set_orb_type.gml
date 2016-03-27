@@ -6,12 +6,12 @@ var orb_type = argument1;
 orb.type = orb_type;
 switch(orb.type){
     case DEAD_ORB:
-        orb.color = c_dkgray;  // will look like a dying star?
+        orb.color = c_dkgray;
         break;
     case VOID_ORB:
-        orb.color = c_red;  // will look like a black hole
+        orb.color = c_red;
         break;
     case MASTER_ORB:
-        orb.color = c_orange;  // will be white but with a glowing core
+        orb.color = c_orange;
         break;
 }

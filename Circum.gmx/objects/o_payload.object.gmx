@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-99</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -87,8 +87,8 @@ else {
           <argument>
             <kind>1</kind>
             <string>draw_set_colour(sender.color);
-draw_circle(x, y, 2, false);
-draw_trail(10, 4, sender.color, -1, true, 1);
+draw_circle(x, y, 3, false);
+draw_trail(10, 6, sender.color, -1, true, 1);
 </string>
           </argument>
         </arguments>

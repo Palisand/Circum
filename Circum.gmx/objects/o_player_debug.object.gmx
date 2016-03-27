@@ -105,7 +105,7 @@ draw_set_colour(color);
 draw_trail(trail_length, radius * 2, color, -1, true, 1);
 draw_circle(x, y, radius, false);
 
-draw_text(x, y + 20, num_orb_captured);
+player_debug_visuals();
 </string>
           </argument>
         </arguments>
