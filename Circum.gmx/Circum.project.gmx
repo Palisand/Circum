@@ -24,7 +24,10 @@
       <script>scripts\draw_trail.gml</script>
       <script>scripts\collision_hit_burst.gml</script>
     </scripts>
-    <script>scripts\orb_collision_handler.gml</script>
+    <scripts name="Visuals">
+      <script>scripts\orb_visuals.gml</script>
+      <script>scripts\orb_debug_visuals.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
     <object>objects\o_handler</object>
@@ -39,8 +42,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
     <room>rooms\room_debug</room>
+    <room>rooms\room0</room>
   </rooms>
   <constants number="9">
     <constant name="NUM_ORB_TYPES">4</constant>

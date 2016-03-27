@@ -4,7 +4,10 @@ var player_obj = argument0;
 var orb_obj = argument1;
 
 // screen edge collision
-edge_bounce_circle(radius)
+edge_bounce_circle(radius);
+
+// reset orb collision set flag (otherwise landing on a free or owned orb won't result in a radius reveal)
+col_orb_set = false;
 
 // increment capture streak on edge collision only if the streak has already been started
 if (col_edge) {

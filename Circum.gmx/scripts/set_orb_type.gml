@@ -9,7 +9,7 @@ switch(orb.type){
         orb.color = c_dkgray;  // will look like a dying star?
         break;
     case VOID_ORB:
-        orb.color = c_purple;  // will look like a black hole
+        orb.color = c_red;  // will look like a black hole
         break;
     case MASTER_ORB:
         orb.color = c_orange;  // will be white but with a glowing core

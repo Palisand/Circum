@@ -27,6 +27,8 @@
             <kind>1</kind>
             <string>/// Pre-Spawn Initialization
 
+window_set_cursor(cr_none);  // not changed in global game settings because of debug room
+
 // init global vars
 instance_create(0, 0, o_globals);
 
@@ -95,7 +97,7 @@ for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
 }
 
 //for debugging purposes, really
-/*
+
 var dead = instance_find(o_orb,2);
 set_orb_type(dead,DEAD_ORB);
 var void = instance_find(o_orb,3);

@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//init global variables
+            <string>window_set_cursor(cr_cross);
+
+//init global variables
 instance_create(0, 0, o_globals);
 
 // Screen (Circular)
@@ -43,7 +45,13 @@ orbit_radius_draw = 0;
 orb_type = DEFAULT_ORB;
 
 // Player specific
-player_color_set = c_white;
+player_colors[0] = c_fuchsia;
+player_colors[1] = c_aqua;
+player_colors[2] = c_yellow;
+player_colors[3] = c_lime;
+player_colors_len = 4;
+player_colors_index = 0;
+player_color_set = player_colors[player_colors_index];
 player_dir_set = 0;
 player_radius_draw = 0;
 player_capture_streak = 0;
@@ -110,12 +118,23 @@ if (mouse_check_button(mb_right)) {
     else {
         // Use Mouse Wheel to set color (for identification purposes only)
         if (mouse_wheel_up()) {
-            player_color_set = c_white;
+            if (player_colors_index &lt; player_colors_len - 1) {
+                player_colors_index++;
+            }
+            else {
+                player_colors_index = 0;
+            }
         }
         if (mouse_wheel_down()) {
-            player_color_set = c_black;
+            if (player_colors_index &gt; 0) {
+                player_colors_index--;
+            }
+            else {
+                player_colors_index = player_colors_len - 1;
+            }
         }
     }
+    player_color_set = player_colors[player_colors_index];
 }
 // Create Orb
 if (mouse_check_button_released(mb_left)) {
@@ -135,9 +154,6 @@ if (mouse_check_button_released(mb_left)) {
 if (mouse_check_button_released(mb_right)) {
     start_coords_set = false;
     with (instance_create(x_start, y_start, o_player_debug)) {
-        //handy identification number (that isn't huge)
-        //pid = instance_number(o_player_debug)-1;
-        //if (pid == 1) { action_key = vk_enter; }
         capture_streak = other.player_capture_streak;
         direction = other.player_dir_set;
         color = other.player_color_set;
@@ -171,23 +187,6 @@ if (mouse_check_button_released(mb_right)) {
 if (keyboard_check_pressed(vk_backspace) &amp;&amp; obj_count &gt; 0) {
     with (objects[--obj_count]) {
         instance_destroy();
-    }
-}
-
-//cycle orb types
-/*
-if (keyboard_check_pressed(vk_space)) {
-    orb_type = (orb_type+1)%NUM_ORB_TYPES;
-}
-
-//set streak time to now
-/*
-if (instance_number(o_player_debug)) {
-    if (keyboard_check_pressed(vk_tab)) {
-        global.streak_time[0] = get_timer();
-    }
-    if (keyboard_check_pressed(vk_lcontrol)) {
-        global.streak_type[0] = 1-global.streak_type[0];
     }
 }
 </string>

@@ -60,6 +60,8 @@ else {
     target.guarded = true;
     target.guarder = sender;
     target.alarm[0] = STREAK_TIMEOUT;
+    // temporary effect, should be different
+    collision_hit_burst(x, y, 0, 360, sender.color, 300, 30, target.p_emitter, target.p_type);
     instance_destroy();
 }
 </string>
@@ -86,7 +88,7 @@ else {
             <kind>1</kind>
             <string>draw_set_colour(sender.color);
 draw_circle(x, y, 2, false);
-draw_trail(5, 4, sender.color, -1, true, 1);
+draw_trail(10, 4, sender.color, -1, true, 1);
 </string>
           </argument>
         </arguments>
