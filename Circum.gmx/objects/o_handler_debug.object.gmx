@@ -55,6 +55,7 @@ player_color_set = player_colors[player_colors_index];
 player_dir_set = 0;
 player_radius_draw = 0;
 player_capture_streak = 0;
+player_ricochet_streak = 0;
 
 // Object array and counter
 objects[0] = 0;
@@ -106,13 +107,22 @@ if (mouse_check_button(mb_left)) {
 // Prepare Player
 if (mouse_check_button(mb_right)) {
     player_dir_set = point_direction(x_start, y_start, mouse_x, mouse_y);
-    if (keyboard_check(vk_tab)) {
+    if (keyboard_check(vk_control)) {
         // Use Mouse Wheel to set capture streak counter
         if (mouse_wheel_up()) {
             player_capture_streak++;
         }
         if (mouse_wheel_down() &amp;&amp; player_capture_streak &gt; 0) {
             player_capture_streak--;
+        }
+    }
+    else if (keyboard_check(vk_tab)) {
+        // Use Mouse Wheel to set ricochet streak counter
+        if (mouse_wheel_up()) {
+            player_ricochet_streak++;
+        }
+        if (mouse_wheel_down() &amp;&amp; player_capture_streak &gt; 0) {
+            player_ricochet_streak--;
         }
     }
     else {
@@ -155,11 +165,13 @@ if (mouse_check_button_released(mb_right)) {
     start_coords_set = false;
     with (instance_create(x_start, y_start, o_player_debug)) {
         capture_streak = other.player_capture_streak;
+        ricochet_streak = other.player_ricochet_streak;
         direction = other.player_dir_set;
         color = other.player_color_set;
         other.objects[other.obj_count++] = id;
     }
     player_capture_streak = 0;
+    player_ricochet_streak = 0;
 }
 </string>
           </argument>
@@ -318,18 +330,8 @@ debug_text += ("orb type set: " + type + "#");
 // player capture streak
 debug_text += ("capture streak set: " + string(player_capture_streak) + "#");
 
-//if there is a player, show the number of orbs captured
-/*
-if (instance_number(o_player_debug)) {
-    var p = instance_find(o_player_debug,0);
-    debug_text += ("p0 captured: "+string(p.num_orb_captured)+"#");
-    debug_text += ("p0 capture streak: "+string(p.capture_streak)+"#");
-    debug_text += ("p0 streak time: "+string(global.streak_time[0])+"#");
-    t = "POSSESSION";
-    if (global.streak_type[0] == DOMINATION) { t = "DOMINATION"; }
-    debug_text += ("p0 streak type: "+t+"#");
-}
-*/
+// player ricochet streak
+debug_text += ("ricochet streak set: " + string(player_ricochet_streak) + "#");
 
 draw_text_transformed(SCREEN_RADIUS, SCREEN_RADIUS, debug_text, 2,2,0);
 </string>
