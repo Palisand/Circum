@@ -45,7 +45,7 @@
     <room>rooms\room_debug</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="9">
+  <constants number="12">
     <constant name="NUM_ORB_TYPES">4</constant>
     <constant name="DEFAULT_ORB">0</constant>
     <constant name="DEAD_ORB">1</constant>
@@ -55,6 +55,9 @@
     <constant name="STREAK_TIMEOUT">300</constant>
     <constant name="POSSESSION">3</constant>
     <constant name="DOMINATION">5</constant>
+    <constant name="RELEASE">3</constant>
+    <constant name="THEFT">6</constant>
+    <constant name="NONE">0</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

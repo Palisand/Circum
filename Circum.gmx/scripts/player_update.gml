@@ -6,14 +6,34 @@ var orb_obj = argument1;
 // screen edge collision
 edge_bounce_circle(radius);
 
+// Ricochet Streak Update
+// Check if our streak is high enough for a streak reward / power-up
+if (ricochet_streak == RELEASE) {
+    // Reward the player with the x3 Reward
+    ricochet_reward = RELEASE;
+}
+else if (ricochet_streak == THEFT) {
+    // Reward the player with the x6 Reward
+    ricochet_reward = THEFT;
+}
+
 // reset orb collision set flag (otherwise landing on a free or owned orb won't result in a radius reveal)
 col_orb_set = false;
 
-// increment capture streak on edge collision only if the streak has already been started
+// increment ricochet streak on edge collision only if the streak has already been started
 if (col_edge) {
     col_edge = false;
-    if (capture_streak > 0) {
-        capture_streak++;
+    
+    // Ricochet Streak Update
+    // Increment the Ricochet Streak counter if the streak has already started
+    if (ricochet_streak > 0) {
+        ricochet_streak++;
+    }
+    
+    // Moving to the center
+    // Player can face the center if they are using the action key on the edge
+    if (keyboard_check(action_key)) {
+        direction = point_direction (x, y, room_width / 2, room_height / 2); // Set direction to center of room
     }
 }
 
@@ -28,6 +48,15 @@ if (orbiting) {
         speed = launch_speed;
         orbiting = false;
     }
+    
+    // Ricochet "Contested" Orb Edge Case
+    // If the orb we are orbiting no longer belongs to us, we will be launched off
+    // This COULD be integrated into the if-statement above; just wanted to make sure everyone is aware of this case
+    if (current_orb.capturer != id) {
+        speed = launch_speed;
+        orbiting = false;
+    }
+    
     // orbit
     orbit += orbit_speed;
     x = current_orb.x - cos(degtorad(orbit)) * current_orb.orbit_radius;
@@ -57,6 +86,27 @@ else {
                 break;
             }
             
+            // Ricochet Streak Update
+            // The following is a check to see if we are hitting an enemy-owned orb, if so...
+            // Start the streak counter if it hasn't been started already, otherwise, increase the counter
+            if (orb.type == DEFAULT_ORB && orb.capturer != -1 && orb.capturer != id) { 
+                
+                ricochet_streak += 1;   // This will increment streak or start one if needed
+                                
+                // Ricochet "Theft" Effect (x6) - Release and capture orb
+                // Player will release the enemy orb at this point and it will be captured later in the function
+                // The orb must be an opponent captured orb and we must have the x6 Ricochet reward
+                if (ricochet_reward == THEFT) {
+                    // Reset the orb
+                    orb.captured = false;   // The orb is no longer considered "captured"
+                    orb.capturer = -1;      // The default capturer condition is -1
+                
+                    // Since we just gave out the x6 reward, we will reset streak and reward
+                    ricochet_reward = NONE;
+                    ricochet_streak = 0;
+                }
+            }
+            
             var to_orb_dir = point_direction(x, y, orb.x, orb.y);
             
             // if the collision will be with an opponent-captured orb
@@ -65,6 +115,19 @@ else {
                 || orb.type == DEAD_ORB
                 // OR an opponent-guarded orb (as a result of a capture streak)
                 || orb.guarded && orb.guarder != id) {
+                
+                // Ricochet "Release" Effect (x3) - Orb capture status is unset
+                // Player will still ricochet off of the enemy orb...
+                // Except as it "leaves" orbit, the orb is reset to uncaptured
+                if (orb.type == DEFAULT_ORB && orb.capturer != -1 && orb.capturer != id && ricochet_reward == RELEASE) {
+                    // Reset the orb
+                    orb.captured = false;   // The orb is no longer considered "captured"
+                    orb.capturer = -1;      // The default capturer condition is -1
+                
+                    // Since we just gave out the x3 reward, we will reset ricochet_reward to 0
+                    ricochet_reward = NONE;
+                }
+                                
                 ricochet_off_orb(orb, false);
                 collision_hit_burst(
                     x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
@@ -128,6 +191,7 @@ else {
             else {
                 possession_streak_used = false;
                 capture_streak = 0;
+                ricochet_streak = 0;
             }
             
             // we're orbiting now
