@@ -30,6 +30,7 @@
       <object>objects\o_orb_debug</object>
     </objects>
     <object>objects\o_globals</object>
+    <object>objects\o_payload</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
@@ -42,9 +43,9 @@
     <constant name="VOID_ORB">2</constant>
     <constant name="MASTER_ORB">3</constant>
     <constant name="SCREEN_RADIUS">room_width/2</constant>
-    <constant name="STREAK_TIMEOUT">5000000</constant>
-    <constant name="POSSESSION">0</constant>
-    <constant name="DOMINATION">1</constant>
+    <constant name="STREAK_TIMEOUT">300</constant>
+    <constant name="POSSESSION">3</constant>
+    <constant name="DOMINATION">5</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

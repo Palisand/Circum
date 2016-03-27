@@ -1,15 +1,22 @@
-/// Movement & Capturing
-//will work for both debug and regular players
-//(specifiy which by the arguments)
+/// player_movement(player_type, orb_type);
+// will work for both debug and regular players
+
 var player_obj = argument0;
 var orb_obj = argument1;
 
-//check against the circle
-if (edge_bounce_circle(radius)) {
-    capture_streak = 0;
+// screen edge collision
+edge_bounce_circle(radius)
+
+// increment capture streak on edge collision only if the streak has already been started
+if (col_edge) {
+    col_edge = false;
+    if (capture_streak > 0) {
+        capture_streak++;
+    }
 }
 
 //check if other players' streaks affect you
+/*
 var ricochet_captured = false;
 var ricochet_free = false;
 for(var i = 0; i < instance_number(player_obj); i++){
@@ -19,14 +26,16 @@ for(var i = 0; i < instance_number(player_obj); i++){
         ricochet_free = ricochet_free or (global.streak_type[i] == DOMINATION);
     }
 }
+*/
 
 //if we are orbiting an orb
 if (orbiting) {
-    current_orb.speed = lerp(current_orb.speed,0,0.1);  // the orb being orbited is stationary
-    // launch (if there isn't a winner)
-    if (keyboard_check_pressed(action_key) &&
-        (player_obj == o_player_debug || (player_obj == o_player && global.winner < 0))
-        ) {
+    // the orb being orbited is stationary
+    current_orb.speed = lerp(current_orb.speed,0,0.1);
+    // launch on action if there isn't a winner or if the orb is guarded
+    if ((keyboard_check_pressed(action_key)
+        && (player_obj == o_player_debug || (player_obj == o_player && global.winner < 0)))
+        || (current_orb.guarded && current_orb.guarder != id)) {
         speed = launch_speed;
         orbiting = false;
     }
@@ -37,30 +46,31 @@ if (orbiting) {
     // set direction to orbit tangent
     direction = orbit - (sign(orbit_speed) * 90);
 }
-
 //we're flying around the room
 else {
 
-    //we have to check against all other orbs
+    //check against all other orbs
     for (var i = 0; i < instance_number(orb_obj); i++) {
         var orb = instance_find(orb_obj, i);
 
         // if the player will collide with the orbit in the next step
         if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
 
-            //if the collision will be with a void orb, die
+            // if the collision will be with a void orb, die
             if (orb.type == VOID_ORB) {
                 instance_destroy();
                 break;
             }
             
             // if the collision will be with an opponent-captured orb
-            if ((orb.type == DEFAULT_ORB && orb.capturer != -1 && orb.capturer != id)
-                //OR a dead orb
+            if ((orb.type == DEFAULT_ORB && orb.captured && orb.capturer != id)
+                // OR a dead orb
                 || orb.type == DEAD_ORB
-                //OR opponent has a streak reward
-                || (orb.capturer == id && ricochet_captured)
-                || (!orb.captured && ricochet_free)) {
+                // OR an opponent-guarded orb (as a result of a capture streak)
+                || orb.guarded && orb.guarder != id) {
+                    //OR opponent has a streak reward
+                    //|| (orb.capturer == id && ricochet_captured)
+                    //|| (!orb.captured && ricochet_free)) {
                 ricochet_off_orb(orb, false);
                 capture_streak = 0;
                 break;
@@ -85,22 +95,52 @@ else {
                 
                 //Handle capture streaks
                 capture_streak++;
-                if (capture_streak == 3 || capture_streak == 5) {
-                    global.streak_time[pid] = get_timer();
-                    global.streak_type[pid] = POSSESSION;
-                    if (capture_streak == 5) { global.streak_type[pid] = DOMINATION; }
+                if (capture_streak >= POSSESSION  && capture_streak < DOMINATION && !possession_streak_used) {
+                    possession_streak_used = true;
+                    // launch payloads to opponent-captured orbs
+                    with (orb_obj) {
+                        var orb_id = id;
+                        var sender_id = other.id;
+                        if (type == DEFAULT_ORB && captured && capturer != other.id) {
+                            with (instance_create(other.x, other.y, o_payload)) {
+                                sender = sender_id;
+                                target = orb_id;
+                            }
+                        }
+                    }
+                    //global.streak_time[pid] = get_timer();
+                    //global.streak_type[pid] = POSSESSION;
+                    //if (capture_streak == 5) { global.streak_type[pid] = DOMINATION; }
+                }
+                if (capture_streak >= DOMINATION) {
+                    // launch payloads to opponent-captured orbs and free orbs (including master)
+                    with (orb_obj) {
+                        var orb_id = id;
+                        var sender_id = other.id;
+                        if ((type == DEFAULT_ORB || type == MASTER_ORB) 
+                            && (!captured || (captured && capturer != other.id))) {
+                            with (instance_create(other.x, other.y, o_payload)) {
+                                sender = sender_id;
+                                target = orb_id;
+                            }
+                        }
+                    }
+                    possession_streak_used = false;  // reset possession streak flag
+                    capture_streak = 0; // reset capture streak counter
                 }
             }
+            // we bumped into one of our own, capture streak status reset
+            else {
+                possession_streak_used = false;
+                capture_streak = 0;
+            }
             
-            //we bumped into one of our own, so it's not captured
-            else { capture_streak = 0; }
-            
-            //we're orbiting now
+            // we're orbiting now
             speed = 0;
             orbiting = true;
             current_orb = orb;
                         
-            //you won
+            // you won
             if (orb.type == MASTER_ORB) {
                 num_orb_captured = instance_number(orb_obj);
             }

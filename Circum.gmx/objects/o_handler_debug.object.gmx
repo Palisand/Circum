@@ -26,28 +26,31 @@
           <argument>
             <kind>1</kind>
             <string>//init global variables
-instance_create(0,0,o_globals);
+instance_create(0, 0, o_globals);
 
 // Screen (Circular)
 screen = surface_create(room_width, room_height);
 
+// Creation Coordinates
 x_start = 0;
 y_start = 0;
 start_coords_set = false;
 
+// Orb specific
 orb_speed_set = 0;
 orb_dir_set = 0;
 orbit_radius_draw = 0;
+orb_type = DEFAULT_ORB;
 
+// Player specific
 player_color_set = c_white;
 player_dir_set = 0;
 player_radius_draw = 0;
+player_capture_streak = 0;
 
+// Object array and counter
 objects[0] = 0;
 obj_count = 0;
-
-orb_type = DEFAULT_ORB;
-
 </string>
           </argument>
         </arguments>
@@ -72,6 +75,7 @@ orb_type = DEFAULT_ORB;
             <kind>1</kind>
             <string>/// Create Objects
 
+// Set start coordinates
 if (mouse_check_button(mb_left) || mouse_check_button(mb_right)) {
     if (!start_coords_set) {
         x_start = mouse_x;
@@ -79,22 +83,44 @@ if (mouse_check_button(mb_left) || mouse_check_button(mb_right)) {
         start_coords_set = true;
     }
 }
+// Prepare Orb
 if (mouse_check_button(mb_left)) {
     orb_speed_set = point_distance(x_start, y_start, mouse_x, mouse_y) / 100;
     orb_dir_set = point_direction(x_start, y_start, mouse_x, mouse_y);
+    // Use Mouse Wheel to set type
+    if (mouse_wheel_up()) {
+        orb_type = (orb_type + 1) % NUM_ORB_TYPES;
+    }
+    if (mouse_wheel_down() &amp;&amp; orb_type &gt; 0) {
+        orb_type = (orb_type - 1) % NUM_ORB_TYPES;
+    }
 }
+// Prepare Player
 if (mouse_check_button(mb_right)) {
     player_dir_set = point_direction(x_start, y_start, mouse_x, mouse_y);
-    if (mouse_wheel_up()) {
-        player_color_set = c_white;
+    if (keyboard_check(vk_tab)) {
+        // Use Mouse Wheel to set capture streak counter
+        if (mouse_wheel_up()) {
+            player_capture_streak++;
+        }
+        if (mouse_wheel_down() &amp;&amp; player_capture_streak &gt; 0) {
+            player_capture_streak--;
+        }
     }
-    if (mouse_wheel_down()) {
-        player_color_set = c_black;
+    else {
+        // Use Mouse Wheel to set color (for identification purposes only)
+        if (mouse_wheel_up()) {
+            player_color_set = c_white;
+        }
+        if (mouse_wheel_down()) {
+            player_color_set = c_black;
+        }
     }
 }
+// Create Orb
 if (mouse_check_button_released(mb_left)) {
     start_coords_set = false;
-    if (keyboard_check(vk_shift)) {
+    if (keyboard_check(vk_tab)) {  // Shift: orb speed set to 0
         orb_speed_set = 0;
     }
     with (instance_create(x_start, y_start, o_orb_debug)) {
@@ -102,20 +128,22 @@ if (mouse_check_button_released(mb_left)) {
         initial_speed = speed;
         direction = other.orb_dir_set;
         other.objects[other.obj_count++] = id;
-        set_orb_type(self,other.orb_type);
+        set_orb_type(self, other.orb_type);
     }
 }
+// Create Player
 if (mouse_check_button_released(mb_right)) {
     start_coords_set = false;
     with (instance_create(x_start, y_start, o_player_debug)) {
         //handy identification number (that isn't huge)
-        pid = instance_number(o_player_debug)-1;
-        if (pid == 1) { action_key = vk_enter; }
-                
+        //pid = instance_number(o_player_debug)-1;
+        //if (pid == 1) { action_key = vk_enter; }
+        capture_streak = other.player_capture_streak;
         direction = other.player_dir_set;
         color = other.player_color_set;
         other.objects[other.obj_count++] = id;
     }
+    player_capture_streak = 0;
 }
 </string>
           </argument>
@@ -137,7 +165,7 @@ if (mouse_check_button_released(mb_right)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Control input
+            <string>/// Control Input
 
 // Undo
 if (keyboard_check_pressed(vk_backspace) &amp;&amp; obj_count &gt; 0) {
@@ -147,11 +175,13 @@ if (keyboard_check_pressed(vk_backspace) &amp;&amp; obj_count &gt; 0) {
 }
 
 //cycle orb types
+/*
 if (keyboard_check_pressed(vk_space)) {
     orb_type = (orb_type+1)%NUM_ORB_TYPES;
 }
 
 //set streak time to now
+/*
 if (instance_number(o_player_debug)) {
     if (keyboard_check_pressed(vk_tab)) {
         global.streak_time[0] = get_timer();
@@ -253,26 +283,44 @@ else {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Guides
+            <string>/// Debug Text
 
 // Objects
-var debug_text = "obj_count: "+string(obj_count)+"#";
+var debug_text = "obj count: " + string(obj_count) + "#";
 
 // FPS
-debug_text += ("fps: "+string(fps)+"#");
-debug_text += ("fps_real: "+string(fps_real)+"#");
+debug_text += ("fps: " + string(fps) + "#");
+debug_text += ("fps real: " + string(fps_real) + "#");
 
-//orb type
-var t = "DEFAULT";
-if (orb_type == DEAD_ORB) { t = "DEAD"; }
-else if (orb_type == VOID_ORB) { t = "VOID"; }
-else if (orb_type == MASTER_ORB) { t = "MASTER"; }
-debug_text += ("orb_type: "+t+"#");
+// number of players
+debug_text += ("player count: " + string(instance_number(o_player_debug)) + "#");
 
-//number of players
-debug_text += ("num_players: "+string(instance_number(o_player_debug))+"#");
+// number of orbs
+debug_text += ("orb count: " + string(instance_number(o_orb_debug)) + "#");
+
+debug_text += "#";
+// orb type
+var type;
+switch (orb_type) {
+    case DEFAULT_ORB:
+        type = "DEFAULT";
+        break;
+    case DEAD_ORB:
+        type = "DEAD";
+        break;
+    case VOID_ORB:
+        type = "VOID";
+        break;
+    case MASTER_ORB:
+        type = "MASTER";
+}
+debug_text += ("orb type set: " + type + "#");
+
+// player capture streak
+debug_text += ("capture streak set: " + string(player_capture_streak) + "#");
 
 //if there is a player, show the number of orbs captured
+/*
 if (instance_number(o_player_debug)) {
     var p = instance_find(o_player_debug,0);
     debug_text += ("p0 captured: "+string(p.num_orb_captured)+"#");
@@ -282,14 +330,36 @@ if (instance_number(o_player_debug)) {
     if (global.streak_type[0] == DOMINATION) { t = "DOMINATION"; }
     debug_text += ("p0 streak type: "+t+"#");
 }
+*/
 
-draw_text_transformed(room_width/2, room_height/2, debug_text, 2,2,0);
+draw_text_transformed(SCREEN_RADIUS, SCREEN_RADIUS, debug_text, 2,2,0);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Creation Guides
 
 if (mouse_check_button(mb_left)) {
     draw_set_colour(c_white);
     orbit_radius_draw = lerp(orbit_radius_draw, 80, 0.1);
     draw_circle(x_start, y_start, orbit_radius_draw, true);
-    if (!keyboard_check(vk_shift)) {
+    if (!keyboard_check(vk_tab)) {
         draw_arrow(x_start, y_start, mouse_x, mouse_y, 20);
     }
 } 

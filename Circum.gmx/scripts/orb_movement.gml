@@ -1,4 +1,5 @@
-/// Generic script for both debug and regular orbs
+/// orb_movement(orb_type)
+// Generic script for both debug and regular orbs
 
 var orb_obj = argument0;
 

@@ -25,27 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Set in o_handler.Create
-color = c_white;
-action_key = vk_shift;
-
-trail_length = 30;  // in the anticipation of a longer trail under a certain condition
-
-radius = 5;
-num_orb_captured = 0;
-launch_speed = 20;
-direction = choose(1, -1);  // randomly begin with a clockwise or counter-clockwise rotation
-
-orbit = 0;
-orbit_speed = 0;
-orbit_speed_set = 3;
-orbiting = false;
-current_orb = -1;
-
-capture_streak = -1;
-possession_streak_used = false;
-
-col_edge = false;
+            <string>sender = -1;
+target = -1;
+move_speed = 20;
 </string>
           </argument>
         </arguments>
@@ -68,9 +50,18 @@ col_edge = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Movement &amp; Capturing
+            <string>/// Seek Target Orb
 
-player_movement(o_player_debug,o_orb_debug);
+if (distance_to_point(target.x, target.y) &gt; target.radius) {
+    move_towards_point(target.x, target.y, move_speed);
+}
+else {
+    // because guarder is set, old guarder's streak bonus is removed
+    target.guarded = true;
+    target.guarder = sender;
+    target.alarm[0] = STREAK_TIMEOUT;
+    instance_destroy();
+}
 </string>
           </argument>
         </arguments>
@@ -93,12 +84,9 @@ player_movement(o_player_debug,o_orb_debug);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_circle_precision(64);
-draw_set_colour(color);
-draw_trail(trail_length, radius * 2, color, -1, true, 1);
-draw_circle(x, y, radius, false);
-
-draw_text(x, y + 20, num_orb_captured);
+            <string>draw_set_colour(sender.color);
+draw_circle(x, y, 2, false);
+draw_trail(5, 4, sender.color, -1, true, 1);
 </string>
           </argument>
         </arguments>

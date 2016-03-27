@@ -31,6 +31,7 @@ global.tmp_visuals_on = false;
 //who won
 global.winner = -1;
 
+/*
 //make enough space for the maximum no. of players
 for(var i = 0; i &lt; 4; i++) {
 
