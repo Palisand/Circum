@@ -82,8 +82,16 @@ else {
             switch (orb.type) {
                 case VOID_ORB:
                     // for every orb the player once owned, reset it
-                    with (o_orb) {
-                        if (capturer == other.id) { captured = false; capturer = -1; }
+                    with (orb_obj) {
+                        if (capturer == other.id) {
+                            captured = false;
+                            capturer = -1;
+                            color = c_gray;
+                        }
+                        if (guarder == other.id) {
+                            guarded = false;
+                            guarder = -1;
+                        }
                     }
                     
                     instance_destroy();  // player dies
