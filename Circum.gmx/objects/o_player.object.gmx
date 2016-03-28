@@ -75,6 +75,29 @@ ricochet_reward = 0;    // Records the ricochet reward (for the current version 
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>/// Update
+
+player_update_clean(o_player, o_orb);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>/// Win
 
 //if there isn't already a winner, check if something changed
@@ -96,29 +119,6 @@ if (global.winner == self.id &amp;&amp; radius &lt; room_width) {
     radius += 40;
     depth = -999;
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Update
-
-player_update(o_player, o_orb);
 </string>
           </argument>
         </arguments>
@@ -145,6 +145,14 @@ player_update(o_player, o_orb);
 draw_set_colour(color);
 draw_trail(trail_length, radius * 2, color, -1, true, 1);
 draw_circle(x, y, radius, false);
+
+draw_set_halign(fa_center);
+if (ricochet_reward == THEFT) {
+    draw_text_transformed(x, y - 40, "THEFT", 2, 2, 0);
+}
+if (ricochet_reward == RELEASE) {
+    draw_text_transformed(x, y - 40, "RELEASE", 2, 2, 0);
+}
 
 if (global.tmp_visuals_on) {
     player_debug_visuals();

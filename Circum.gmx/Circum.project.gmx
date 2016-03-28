@@ -18,7 +18,6 @@
     <script>scripts\edge_bounce_circle.gml</script>
     <script>scripts\orb_hit_orb.gml</script>
     <script>scripts\set_orb_type.gml</script>
-    <script>scripts\player_update.gml</script>
     <script>scripts\orb_update.gml</script>
     <scripts name="FX">
       <script>scripts\draw_trail.gml</script>
@@ -29,6 +28,10 @@
       <script>scripts\orb_debug_visuals.gml</script>
       <script>scripts\player_debug_visuals.gml</script>
     </scripts>
+    <script>scripts\player_update.gml</script>
+    <script>scripts\player_update_clean.gml</script>
+    <script>scripts\set_to_orbit.gml</script>
+    <script>scripts\capture_orb.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_handler</object>
@@ -56,8 +59,8 @@
     <constant name="STREAK_TIMEOUT">300</constant>
     <constant name="POSSESSION">3</constant>
     <constant name="DOMINATION">5</constant>
-    <constant name="RELEASE">2</constant>
-    <constant name="THEFT">4</constant>
+    <constant name="RELEASE">3</constant>
+    <constant name="THEFT">6</constant>
     <constant name="NONE">0</constant>
   </constants>
   <help>

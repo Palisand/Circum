@@ -77,7 +77,7 @@ ricochet_reward = 0;    // Records the ricochet reward (for the current version 
             <kind>1</kind>
             <string>/// Update
 
-player_update(o_player_debug, o_orb_debug);
+player_update_clean(o_player_debug, o_orb_debug);
 </string>
           </argument>
         </arguments>
