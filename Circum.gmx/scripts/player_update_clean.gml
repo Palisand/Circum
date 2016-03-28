@@ -81,13 +81,20 @@ else {
             
             switch (orb.type) {
                 case VOID_ORB:
-                    // TODO: for every orb the player once owned, reset it
+                    // for every orb the player once owned, reset it
+                    with (o_orb) {
+                        if (capturer == other.id) { captured = false; capturer = -1; }
+                    }
+                    
                     instance_destroy();  // player dies
                     break;
                 case MASTER_ORB:
+                    // player wins iff the master orb is unguarded
                     if (!orb.guarded || orb.guarder == id) {
-                        num_orb_captured = instance_number(orb_obj);  // player wins
+                        //set to max
+                        num_orb_captured = instance_number(orb_obj);  
                     }
+                    
                     break;
                 case DEAD_ORB:
                     ricochet_streak++;
