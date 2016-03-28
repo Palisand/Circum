@@ -30,7 +30,7 @@ color = c_white;
 action_key = vk_shift;
 
 trail_length = 30;          // in the anticipation of a longer trail under a certain condition
-
+draw_radius = 5;
 radius = 5;
 num_orb_captured = 0;
 launch_speed = 20;
@@ -75,9 +75,27 @@ ricochet_reward = 0;    // Records the ricochet reward (for the current version 
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Update
+            <string>/// Win
 
-player_update_clean(o_player, o_orb);
+//if there isn't already a winner, check if something changed
+if (global.winner &lt; 0) {
+
+    //you got enough to win (normal way or master orb captured)
+    if (num_orb_captured &gt; instance_number(o_orb) / instance_number(o_player)) {
+        global.winner = self.id;
+    }
+    
+    //you are the only player left standing (everyone else hit void orbs)
+    if (instance_number(o_player) == 1) {
+        global.winner = self.id;
+    }
+}
+
+// If you won, consume the entire screen
+if (global.winner == self.id &amp;&amp; draw_radius &lt; room_width) {
+    draw_radius += 40;
+    depth = -999;
+}
 </string>
           </argument>
         </arguments>
@@ -98,27 +116,9 @@ player_update_clean(o_player, o_orb);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Win
+            <string>/// Update
 
-//if there isn't already a winner, check if something changed
-if (global.winner &lt; 0) {
-
-    //you got enough to win (normal way or master orb captured)
-    if (num_orb_captured &gt; instance_number(o_orb) / instance_number(o_player)) {
-        global.winner = self.id;
-    }
-    
-    //you are the only player left standing (everyone else hit void orbs)
-    if (instance_number(o_player) == 1) {
-        global.winner = self.id;
-    }
-}
-
-// If you won, consume the entire screen
-if (global.winner == self.id &amp;&amp; radius &lt; room_width) {
-    radius += 40;
-    depth = -999;
-}
+player_update_clean(o_player, o_orb);
 </string>
           </argument>
         </arguments>
@@ -144,7 +144,7 @@ if (global.winner == self.id &amp;&amp; radius &lt; room_width) {
             <string>draw_set_circle_precision(64);
 draw_set_colour(color);
 draw_trail(trail_length, radius * 2, color, -1, true, 1);
-draw_circle(x, y, radius, false);
+draw_circle(x, y, draw_radius, false);
 
 draw_set_halign(fa_center);
 if (ricochet_reward == THEFT) {
