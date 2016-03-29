@@ -140,8 +140,6 @@ else {
                         if (ricochet_reward == THEFT || ricochet_reward == RELEASE) {
                             // Decrement opponent player capture count
                             orb.capturer.num_orb_captured--; // MUST OCCUR BEFORE THEFT CHECK BELOW!
-                            // Reset ricochet_reward
-                            ricochet_reward = NONE;
                             // Slow-Mo!!!
                             room_speed = 20;
                         }
@@ -150,6 +148,8 @@ else {
                             // Reset streak (since highest reward used)
                             ricochet_streak = 0;
                             capture_orb(orb, orb_obj);
+                            // Reset ricochet_reward
+                            ricochet_reward = NONE;
                         }
                         else if (ricochet_reward == RELEASE) {
                             // Visuals
@@ -161,6 +161,8 @@ else {
                             orb.capturer = -1; // default
                             // Reset orb color
                             orb.color = c_white;
+                            // Reset ricochet_reward
+                            ricochet_reward = NONE;
                         }
                     }
                     // if OWNED orb
