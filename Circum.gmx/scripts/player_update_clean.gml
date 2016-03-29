@@ -136,6 +136,16 @@ else {
                             capture_streak = 0;  // reset capture streak
                         }
                         
+                        // Common to ALL ricochet rewards
+                        if (ricochet_reward == THEFT || ricochet_reward == RELEASE) {
+                            // Decrement opponent player capture count
+                            orb.capturer.num_orb_captured--; // MUST OCCUR BEFORE THEFT CHECK BELOW!
+                            // Reset ricochet_reward
+                            ricochet_reward = NONE;
+                            // Slow-Mo!!!
+                            room_speed = 20;
+                        }
+                        
                         if (ricochet_reward == THEFT) {
                             // Reset streak (since highest reward used)
                             ricochet_streak = 0;
@@ -151,16 +161,6 @@ else {
                             orb.capturer = -1; // default
                             // Reset orb color
                             orb.color = c_white;
-                        }
-                        
-                        // Common to ALL ricochet rewards
-                        if (ricochet_reward == THEFT || ricochet_reward == RELEASE) {
-                            // Decrement opponent player capture count
-                            orb.capturer.num_orb_captured--;
-                            // Reset ricochet_reward
-                            ricochet_reward = NONE;
-                            // Slow-Mo!!!
-                            room_speed = 20;
                         }
                     }
                     // if OWNED orb
