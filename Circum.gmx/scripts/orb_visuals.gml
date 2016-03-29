@@ -24,10 +24,13 @@ switch(type) {
 // Orbit
 var orbit_radius_color;
 if (guarded) {
-    orbit_radius_alpha = orbit_radius_alpha_max / 2;
     orbit_radius_color = guarder.color;
+    orbit_radius_alpha = orbit_radius_alpha_max / 3;
     draw_set_colour(orbit_radius_color);
     draw_circle(x, y, orbit_radius, true);
+    draw_set_alpha(guard_impact_alpha);
+    draw_circle(x, y, orbit_radius, false);
+    draw_set_alpha(1);
 }
 else {
     orbit_radius_color = color;

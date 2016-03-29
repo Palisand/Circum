@@ -42,7 +42,7 @@ if (col_edge) {
 
 if (col_player) {
     col_player = false;
-    // particle stream from player to center if not yet captured (WIP)
+    // TODO: change this to be the void swallow effect
     /*
     if (!captured) {
         var dir = point_direction(capturer.x, capturer.y, x, y);
@@ -61,4 +61,14 @@ if (col_player) {
         part_emitter_burst(global.p_system, p_emitter, p_type, 100);
     }*/
     // TODO: shockwave
+}
+
+// Guarded
+if (guarded) {
+    if (guard_impact_alpha > 0) {
+        guard_impact_alpha -= 0.1;
+    }
+}
+else {
+    guard_impact_alpha = 1;
 }

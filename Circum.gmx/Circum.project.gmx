@@ -44,10 +44,11 @@
       <object>objects\o_player_debug</object>
       <object>objects\o_orb_debug</object>
     </objects>
+    <object>objects\o_release_effect</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
     <room>rooms\room_debug</room>
+    <room>rooms\room0</room>
   </rooms>
   <constants number="12">
     <constant name="NUM_ORB_TYPES">4</constant>
