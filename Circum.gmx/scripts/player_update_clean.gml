@@ -86,7 +86,7 @@ else {
                         if (capturer == other.id) {
                             captured = false;
                             capturer = -1;
-                            color = c_gray;
+                            color = c_white;
                         }
                         if (guarder == other.id) {
                             guarded = false;
@@ -137,19 +137,26 @@ else {
                         }
                         
                         if (ricochet_reward == THEFT) {
-                            // Decrement opponent player capture count
-                            orb.capturer.num_orb_captured--;
-                            // Reset streak and reward (since highest reward used)
-                            ricochet_reward = NONE;
+                            // Reset streak (since highest reward used)
                             ricochet_streak = 0;
                             capture_orb(orb, orb_obj);
                         }
                         else if (ricochet_reward == RELEASE) {
-                            // Decrement opponent player capture count
-                            orb.capturer.num_orb_captured--;
+                            // Visuals
+                            with (instance_create(orb.x, orb.y, o_release_effect)) {
+                                color = orb.color;
+                            }
                             // Reset orb capture status 
                             orb.captured = false;
                             orb.capturer = -1; // default
+                            // Reset orb color
+                            orb.color = c_white;
+                        }
+                        
+                        // Common to ALL ricochet rewards
+                        if (ricochet_reward == THEFT || ricochet_reward == RELEASE) {
+                            // Decrement opponent player capture count
+                            orb.capturer.num_orb_captured--;
                             // Reset ricochet_reward
                             ricochet_reward = NONE;
                         }

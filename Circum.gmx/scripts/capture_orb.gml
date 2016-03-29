@@ -40,3 +40,8 @@ if (capture_streak >= DOMINATION) {
     possession_streak_used = false;  // reset possession streak flag
     capture_streak = 0; // reset capture streak
 }
+
+// Visuals
+with (instance_create(orb.x, orb.y, o_release_effect)) {
+    color = other.color;
+}
