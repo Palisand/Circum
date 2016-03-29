@@ -159,6 +159,8 @@ else {
                             orb.capturer.num_orb_captured--;
                             // Reset ricochet_reward
                             ricochet_reward = NONE;
+                            // Slow-Mo!!!
+                            room_speed = 20;
                         }
                     }
                     // if OWNED orb
