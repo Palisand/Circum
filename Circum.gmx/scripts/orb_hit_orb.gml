@@ -59,5 +59,9 @@ if (x1+r1+r2 > x2 and x1 < x2+r1+r2 and y1+r1+r2 > y2 and y1 < y2+r1+r2) {
         y += vspeed;
         orb.x += orb.hspeed;
         orb.y += orb.vspeed;
+        
+        // Play ricochet sound
+        var s_engine = audio_play_sound(snd_orb_hit_orb, 1, 0);
+        audio_sound_pitch(s_engine, 0.15 * global.scale[irandom(7)]);
     }
 }

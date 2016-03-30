@@ -6,7 +6,11 @@
   <NewExtensions>
     <extension index="0">extensions\Draw Trail</extension>
   </NewExtensions>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sound>sound\snd_ricochet</sound>
+    <sound>sound\snd_capture</sound>
+    <sound>sound\snd_orb_hit_orb</sound>
+  </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_ring</sprite>
   </sprites>
@@ -47,8 +51,8 @@
     <object>objects\o_release_effect</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room_debug</room>
     <room>rooms\room0</room>
+    <room>rooms\room_debug</room>
   </rooms>
   <constants number="12">
     <constant name="NUM_ORB_TYPES">4</constant>
