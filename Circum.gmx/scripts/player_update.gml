@@ -142,6 +142,7 @@ else {
                     orb.color, 300, 60, orb.p_emitter, orb.p_type
                 );
                 capture_streak = 0;
+                
                 break;
             }
             

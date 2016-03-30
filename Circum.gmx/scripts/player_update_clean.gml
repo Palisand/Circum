@@ -16,6 +16,17 @@ if (col_edge) {
     // Increment the Ricochet Streak counter if the streak has already started
     if (ricochet_streak > 0) {
         ricochet_streak++;
+        
+        // Play ricochet sound
+        var s_engine = audio_play_sound(snd_ricochet, 0, 0);
+        // Modify the ricochet sound to reflect the value of ricochet_streak
+        if (ricochet_streak < 8) {
+            audio_sound_pitch(s_engine, scale[ricochet_streak]);
+        }
+        else {
+            // If ricochet_streak is > 8, return to the bottom of the scale
+            audio_sound_pitch(s_engine, scale[ricochet_streak % 8]);
+        }
     }
     
     // Moving to the center
@@ -120,10 +131,32 @@ else {
                         );
                         capture_streak = 0;  // reset capture streak
                         ricochet_streak++;
+                        
+                        // Play ricochet sound
+                        var s_engine = audio_play_sound(snd_ricochet, 0, 0);
+                        // Modify the ricochet sound to reflect the value of ricochet_streak
+                        if (ricochet_streak < 8) {
+                            audio_sound_pitch(s_engine, scale[ricochet_streak]);
+                        }
+                        else {
+                            // If ricochet_streak is > 8, return to the bottom of the scale
+                            audio_sound_pitch(s_engine, scale[ricochet_streak % 8]);
+                        }
                     }
                     // if OPPONENT-CAPTURED orb
                     else if (orb.captured && orb.capturer != id) {
                         ricochet_streak++;
+                        
+                        // Play ricochet sound
+                        var s_engine = audio_play_sound(snd_ricochet, 0, 0);
+                        // Modify the ricochet sound to reflect the value of ricochet_streak
+                        if (ricochet_streak < 8) {
+                            audio_sound_pitch(s_engine, scale[ricochet_streak]);
+                        }
+                        else {
+                            // If ricochet_streak is > 8, return to the bottom of the scale
+                            audio_sound_pitch(s_engine, scale[ricochet_streak % 8]);
+                        }
                         
                         // the only time a player will not bounce off an opponent's orb
                         // is when the player is stealing
@@ -172,12 +205,34 @@ else {
                         possession_streak_used = false;
                         capture_streak = 0;
                         ricochet_streak = 0;
+                        
+                        // Play capture sound
+                        var s_engine = audio_play_sound(snd_capture, 0, 0);
+                        // Modify the capture sound to reflect the value of capture_streak
+                        if (capture_streak < 8) {
+                            audio_sound_pitch(s_engine, scale_capture[capture_streak]);
+                        }
+                        else {
+                            // If capture_streak is > 8, return to the bottom of the scale
+                            audio_sound_pitch(s_engine, scale_capture[capture_streak % 8]);
+                        }
                     } 
                     // if FREE orb
                     else if (!orb.captured) {
                         set_to_orbit(orb, to_orb_dir);
                         ricochet_streak = 0; // reset ricochet streak
                         capture_orb(orb, orb_obj);
+                        
+                        // Play capture sound
+                        var s_engine = audio_play_sound(snd_capture, 0, 0);
+                        // Modify the capture sound to reflect the value of capture_streak
+                        if (capture_streak < 8) {
+                            audio_sound_pitch(s_engine, scale_capture[capture_streak]);
+                        }
+                        else {
+                            // If capture_streak is > 8, return to the bottom of the scale
+                            audio_sound_pitch(s_engine, scale_capture[capture_streak % 8]);
+                        }
                     }
                     break;   
             }
