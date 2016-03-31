@@ -9,9 +9,9 @@ edge_bounce_circle(radius);
 if (col_edge) {
     col_edge = false;
     
-    // reverse orbit speed if tethered
     if (tethered) {
-        orbit_speed = -orbit_speed;
+        orbit_speed = -orbit_speed;  // reverse orbit speed
+        ricochet_streak = 0;
     }
     
     // Remove capture streak
