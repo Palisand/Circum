@@ -40,7 +40,10 @@ orbit = 0;
 orbit_speed = 0;
 orbit_speed_set = 3;
 orbiting = false;
+tethered = false;
 current_orb = -1;
+nearest_orb = -1;
+dist_to_nearest = room_width * 2;  // pseudo MAX_INT
 
 // Offset by one because we will capture the initial orb
 // (that orb should not be counted)
@@ -163,6 +166,14 @@ player_update_clean(o_player, o_orb);
 draw_set_colour(color);
 draw_trail(trail_length, radius * 2, color, -1, true, 1);
 draw_circle(x, y, draw_radius, false);
+
+if (nearest_orb != -1) {
+    var width = 1;
+    if (tethered) {
+        width = 4;
+    }   
+    draw_line_width_colour(x, y, nearest_orb.x, nearest_orb.y, width, color, nearest_orb.color);
+}
 
 draw_set_halign(fa_center);
 if (ricochet_reward == THEFT) {

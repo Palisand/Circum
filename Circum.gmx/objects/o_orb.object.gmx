@@ -71,7 +71,7 @@ col_orb_coords[1] = 0; // y
             <kind>1</kind>
             <string>/// Draw &amp; FX
 
-color = c_dkgray;
+color = c_white;
 fill_alpha = 0;
 fill_alpha_rate = 0.04;
 orbit_radius_alpha = 0;

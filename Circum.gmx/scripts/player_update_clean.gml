@@ -9,6 +9,11 @@ edge_bounce_circle(radius);
 if (col_edge) {
     col_edge = false;
     
+    // reverse orbit speed if tethered
+    if (tethered) {
+        orbit_speed = -orbit_speed;
+    }
+    
     // Remove capture streak
     capture_streak = 0;
     
@@ -48,8 +53,28 @@ else if (ricochet_streak == THEFT) {
 // reset orb collision set flag (otherwise landing on a free or owned orb won't result in a radius reveal)
 col_orb_set = false;
 
+if (tethered) {
+    // the orb being tethered is stationary
+    current_orb.speed = lerp(current_orb.speed, 0, 0.1);
+    
+    // Tether Orbit
+    orbit += orbit_speed;
+    x = current_orb.x - cos(degtorad(orbit)) * dist_to_nearest;
+    y = current_orb.y + sin(degtorad(orbit)) * dist_to_nearest;
+    // set direction to orbit tangent
+    direction = orbit - (sign(orbit_speed) * 90);
+    
+    // Launch on key-release
+    if (keyboard_check_released(action_key)) {
+        speed = launch_speed;
+        tethered = false;
+        current_orb.speed = current_orb.initial_speed;
+    }
+    
+    // TODO: check against all other orbs... oh man
+}
 //if we are orbiting an orb
-if (orbiting) {
+else if (orbiting) {
     // the orb being orbited is stationary
     current_orb.speed = lerp(current_orb.speed, 0, 0.1);
     
@@ -77,7 +102,30 @@ if (orbiting) {
 else {
     speed = launch_speed;
     
-    //check against all other orbs
+    // update nearest FREE or OWNED orbs
+    if (nearest_orb != -1) {
+        dist_to_nearest = point_distance(x, y, nearest_orb.x, nearest_orb.y);
+    }
+    
+    with (orb_obj) {
+        if (!captured || capturer.id == other.id) {
+            dist_to_orb = point_distance(x, y, other.x, other.y);
+            if (dist_to_orb < other.dist_to_nearest) {
+                other.dist_to_nearest = dist_to_orb;
+                other.nearest_orb = id;
+            }
+        }
+    }
+    
+    // tether
+    if (keyboard_check_pressed(action_key) && nearest_orb != -1) {
+        current_orb = nearest_orb;
+        tethered = true;
+        orbit = point_direction(x, y, nearest_orb.x, nearest_orb.y);
+        orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
+    }
+    
+    // check against all other orbs
     for (var i = 0; i < instance_number(orb_obj); i++) {
         var orb = instance_find(orb_obj, i);
 
@@ -103,8 +151,7 @@ else {
                             guarded = false;
                             guarder = -1;
                         }
-                    }
-                    
+                    }            
                     instance_destroy();  // player dies
                     break;
                 case MASTER_ORB:
@@ -113,7 +160,6 @@ else {
                         //set to max
                         num_orb_captured = instance_number(orb_obj);  
                     }
-                    
                     break;
                 case DEAD_ORB:
                     ricochet_streak++;
