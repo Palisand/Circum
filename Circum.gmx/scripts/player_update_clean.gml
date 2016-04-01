@@ -22,25 +22,18 @@ if (col_edge) {
     if (ricochet_streak > 0) {
         play_ricochet(++ricochet_streak, scale);
     }
-    
-    // Moving to the center
-    // Player can face the center if they are using the action key on the edge
-    //Isn't this defunct now that we have tethering?
-    /*
-    if (keyboard_check(action_key)) {
-        direction = point_direction (x, y, room_width/2, room_height/2); // Set direction to center of room
-    }
-    */
 }
 
 // Ricochet Streak Update
 // Check if our streak is high enough for a streak reward / power-up
+/*
 if (ricochet_streak == RELEASE) {
     ricochet_reward = RELEASE;
 }
 else if (ricochet_streak == THEFT) {
     ricochet_reward = THEFT;
 }
+*/
 
 // reset orb collision set flag (otherwise landing on a free or owned orb won't result in a radius reveal)
 col_orb_set = false;

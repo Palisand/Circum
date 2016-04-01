@@ -1,6 +1,7 @@
+///player_orbit(player_obj, orb_obj)
+
 //Called when orbiting
 //Maintains orbit
-//player_orbit(player_obj, orb_obj)
 
 var player_obj = argument0;
 var orb_obj = argument1;

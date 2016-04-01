@@ -38,7 +38,7 @@ direction = choose(1, -1);  // randomly begin with a clockwise or counter-clockw
 
 orbit = 0;
 orbit_speed = 0;
-orbit_speed_set = 3;
+orbit_speed_set = 4;
 orbiting = false;
 tethered = false;
 current_orb = -1;
@@ -167,12 +167,20 @@ draw_set_colour(color);
 draw_trail(trail_length, radius * 2, color, -1, true, 1);
 draw_circle(x, y, draw_radius, false);
 
-if (nearest_orb != -1) {
-    var width = 1;
+if (nearest_orb != -1 &amp;&amp; (!nearest_orb.guarded || nearest_orb.guarder == id)) {
+    var alpha = 0.3;
     if (tethered) {
-        width = 4;
-    }   
-    draw_line_width_colour(x, y, nearest_orb.x, nearest_orb.y, width, color, nearest_orb.color);
+        alpha = 1;
+    }
+    var dir = point_direction(x, y, nearest_orb.x, nearest_orb.y);
+    draw_set_alpha(alpha);
+    draw_line_width_colour(
+        x, y,
+        nearest_orb.x - lengthdir_x(nearest_orb.radius, dir),
+        nearest_orb.y - lengthdir_y(nearest_orb.radius, dir),
+        3, color, nearest_orb.color
+    );
+    draw_set_alpha(1);
 }
 
 draw_set_halign(fa_center);

@@ -53,40 +53,27 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             capture_streak = 0;  // reset capture streak
             play_ricochet(++ricochet_streak, scale);
         }
-            
         // if OPPONENT-CAPTURED orb
         else if (orb.captured && orb.capturer != id) {
             play_ricochet(++ricochet_streak, scale);
             
-            // the only time a player will not bounce off an opponent's orb
-            // is when the player is stealing
-            if (ricochet_reward != THEFT) {
-                ricochet_off_orb(orb, false);
-                collision_hit_burst(
-                    x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
-                    orb.color, 300, 60, orb.p_emitter, orb.p_type
-                );
-                capture_streak = 0;  // reset capture streak
-            }
-                        
-            // Common to ALL ricochet rewards
-            if ((tethered && global.hammer)
-                || ricochet_reward == THEFT || ricochet_reward == RELEASE) {
+            ricochet_off_orb(orb, false);
+            collision_hit_burst(
+                x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
+                orb.color, 300, 60, orb.p_emitter, orb.p_type
+            );
+            capture_streak = 0;  // reset capture streak
+            
+            // if player is tethered to an owned orb, it can Release opponent orbs
+                     
+            if ((tethered && current_orb.capturer == id && global.hammer)) { // (ricochet_reward == THEFT || ricochet_reward == RELEASE) {
                 // Decrement opponent player capture count
-                orb.capturer.num_orb_captured--; // MUST OCCUR BEFORE THEFT CHECK BELOW!
+                orb.capturer.num_orb_captured--;
                 // Slow-Mo!!!
                 room_speed = 20;
-            }
-                        
-            if (ricochet_reward == THEFT) {
-            // Reset streak (since highest reward used)
-                ricochet_streak = 0;
-                set_to_orbit(orb, to_orb_dir);
-                capture_orb(orb, orb_obj);
-                // Reset ricochet_reward
-                ricochet_reward = NONE;
-            }
-            else if ((global.hammer && tethered) || ricochet_reward == RELEASE) {
+                
+                /* previously only if (ricochet_reward == RELEASE) { ... */
+                
                 // Visuals
                 with (instance_create(orb.x, orb.y, o_release_effect)) {
                     color = orb.color;
@@ -96,9 +83,18 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
                 orb.capturer = -1; // default
                 // Reset orb color
                 orb.color = c_white;
+            }
+            
+            /* No Theft       
+            if (ricochet_reward == THEFT) {
+                // Reset streak (since highest reward used)
+                ricochet_streak = 0;
+                set_to_orbit(orb, to_orb_dir);
+                capture_orb(orb, orb_obj);
                 // Reset ricochet_reward
                 ricochet_reward = NONE;
             }
+            */
         }
         // if OWNED orb
         else if (orb.captured && orb.capturer == id) {

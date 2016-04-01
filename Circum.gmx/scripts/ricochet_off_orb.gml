@@ -20,7 +20,7 @@ if (!is_orb) {
 //if the player is thethered, switch orbit direction
 if (!is_orb && tethered) { orbit_speed *= -1; }
 
-//otherwise, "bounce" off in appropriate direction
+//otherwise, "bounce" off in appropriate direction (affects impact orb as well)
 else {
     var obj_dir = (direction + 180) % 360;
     var norm_dir = dir - 180;
