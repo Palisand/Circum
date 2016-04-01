@@ -13,4 +13,22 @@ if (orbit_speed == 0) {
 // start orbiting
 speed = 0;
 orbiting = true;
+tethered = false;
 current_orb = orb;
+nearest_orb = orb.id;
+
+// reset ricochet streak
+ricochet_streak = 0;
+                        
+// Play capture sound
+var s_engine = audio_play_sound(snd_capture, 0, 0);
+// Modify the capture sound to reflect the value of capture_streak
+if (capture_streak > -1) {
+    if (capture_streak < 8) {
+        audio_sound_pitch(s_engine, scale_capture[capture_streak]);
+    }
+    else {
+        // If capture_streak is > 8, return to the bottom of the scale
+        audio_sound_pitch(s_engine, scale_capture[capture_streak % 8]);
+    }
+}

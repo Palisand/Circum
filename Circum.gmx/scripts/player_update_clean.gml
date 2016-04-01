@@ -71,10 +71,10 @@ if (tethered) {
         current_orb.speed = current_orb.initial_speed;
     }
     
-    // TODO: check against all other orbs... oh man
 }
+
 //if we are orbiting an orb
-else if (orbiting) {
+if (orbiting) {
     // the orb being orbited is stationary
     current_orb.speed = lerp(current_orb.speed, 0, 0.1);
     
@@ -98,27 +98,29 @@ else if (orbiting) {
         current_orb.direction = point_direction(x, y, current_orb.x, current_orb.y);
     }
 }
-//we're flying around the room
+//we're flying around the room or tethered
 else {
     speed = launch_speed;
     
     // update nearest FREE or OWNED orbs
-    if (nearest_orb != -1) {
-        dist_to_nearest = point_distance(x, y, nearest_orb.x, nearest_orb.y);
-    }
-    
-    with (orb_obj) {
-        if (!captured || capturer.id == other.id) {
-            dist_to_orb = point_distance(x, y, other.x, other.y);
-            if (dist_to_orb < other.dist_to_nearest) {
-                other.dist_to_nearest = dist_to_orb;
-                other.nearest_orb = id;
+    if (! tethered) {
+        if (nearest_orb != -1) {
+            dist_to_nearest = point_distance(x, y, nearest_orb.x, nearest_orb.y);
+        }
+        
+        with (orb_obj) {
+            if (!captured || capturer.id == other.id) {
+                dist_to_orb = point_distance(x, y, other.x, other.y);
+                if (dist_to_orb < other.dist_to_nearest) {
+                    other.dist_to_nearest = dist_to_orb;
+                    other.nearest_orb = id;
+                }
             }
         }
     }
     
-    // tether
-    if (keyboard_check_pressed(action_key) && nearest_orb != -1) {
+    // tether (if not already tethered)
+    if (!tethered && keyboard_check_pressed(action_key) && nearest_orb != -1) {
         current_orb = nearest_orb;
         tethered = true;
         orbit = point_direction(x, y, nearest_orb.x, nearest_orb.y);
@@ -250,35 +252,11 @@ else {
                         // reset all streaks
                         possession_streak_used = false;
                         capture_streak = 0;
-                        ricochet_streak = 0;
-                        
-                        // Play capture sound
-                        var s_engine = audio_play_sound(snd_capture, 0, 0);
-                        // Modify the capture sound to reflect the value of capture_streak
-                        if (capture_streak < 8) {
-                            audio_sound_pitch(s_engine, scale_capture[capture_streak]);
-                        }
-                        else {
-                            // If capture_streak is > 8, return to the bottom of the scale
-                            audio_sound_pitch(s_engine, scale_capture[capture_streak % 8]);
-                        }
                     } 
                     // if FREE orb
                     else if (!orb.captured) {
                         set_to_orbit(orb, to_orb_dir);
-                        ricochet_streak = 0; // reset ricochet streak
                         capture_orb(orb, orb_obj);
-                        
-                        // Play capture sound
-                        var s_engine = audio_play_sound(snd_capture, 0, 0);
-                        // Modify the capture sound to reflect the value of capture_streak
-                        if (capture_streak < 8) {
-                            audio_sound_pitch(s_engine, scale_capture[capture_streak]);
-                        }
-                        else {
-                            // If capture_streak is > 8, return to the bottom of the scale
-                            audio_sound_pitch(s_engine, scale_capture[capture_streak % 8]);
-                        }
                     }
                     break;   
             }
