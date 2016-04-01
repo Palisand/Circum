@@ -102,8 +102,8 @@ if (orbiting) {
 else {
     speed = launch_speed;
     
-    // update nearest FREE or OWNED orbs
     if (! tethered) {
+        // update nearest FREE or OWNED orbs
         if (nearest_orb != -1) {
             dist_to_nearest = point_distance(x, y, nearest_orb.x, nearest_orb.y);
         }
@@ -117,14 +117,14 @@ else {
                 }
             }
         }
-    }
-    
-    // tether (if not already tethered)
-    if (!tethered && keyboard_check_pressed(action_key) && nearest_orb != -1) {
-        current_orb = nearest_orb;
-        tethered = true;
-        orbit = point_direction(x, y, nearest_orb.x, nearest_orb.y);
-        orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
+        
+        // tether (if not already tethered)
+        if (keyboard_check_pressed(action_key) && nearest_orb != -1) {
+            current_orb = nearest_orb;
+            tethered = true;
+            orbit = point_direction(x, y, nearest_orb.x, nearest_orb.y);
+            orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
+        }
     }
     
     // check against all other orbs
@@ -218,7 +218,7 @@ else {
                         }
                         
                         // Common to ALL ricochet rewards
-                        if (ricochet_reward == THEFT || ricochet_reward == RELEASE) {
+                        if (global.hammer || ricochet_reward == THEFT || ricochet_reward == RELEASE) {
                             // Decrement opponent player capture count
                             orb.capturer.num_orb_captured--; // MUST OCCUR BEFORE THEFT CHECK BELOW!
                             // Slow-Mo!!!
@@ -232,7 +232,7 @@ else {
                             // Reset ricochet_reward
                             ricochet_reward = NONE;
                         }
-                        else if (ricochet_reward == RELEASE) {
+                        else if (global.hammer || ricochet_reward == RELEASE) {
                             // Visuals
                             with (instance_create(orb.x, orb.y, o_release_effect)) {
                                 color = orb.color;

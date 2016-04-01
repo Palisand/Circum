@@ -14,10 +14,14 @@ if (!is_orb) {
         x += lengthdir_x(abs(diff), dir);
         y += lengthdir_y(abs(diff), dir);
     }
+    
 }
 
-// "bounce" off in appropriate direction
-var obj_dir = direction - 180;
-var norm_dir = dir - 180;
-var incident_angle = angle_difference(obj_dir, norm_dir);
-direction = obj_dir + sign(norm_dir - 180) * incident_angle * 2;
+if (!is_orb && tethered) { orbit_speed *= -1; }
+else {
+    // "bounce" off in appropriate direction
+    var obj_dir = direction - 180;
+    var norm_dir = dir - 180;
+    var incident_angle = angle_difference(obj_dir, norm_dir);
+    direction = obj_dir + sign(norm_dir - 180) * incident_angle * 2;
+}
