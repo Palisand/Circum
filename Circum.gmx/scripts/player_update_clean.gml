@@ -36,9 +36,12 @@ if (col_edge) {
     
     // Moving to the center
     // Player can face the center if they are using the action key on the edge
+    //Isn't this defunct now that we have tethering?
+    /*
     if (keyboard_check(action_key)) {
         direction = point_direction (x, y, room_width/2, room_height/2); // Set direction to center of room
     }
+    */
 }
 
 // Ricochet Streak Update
@@ -55,7 +58,7 @@ col_orb_set = false;
 
 if (tethered) {
     // the orb being tethered is stationary
-    current_orb.speed = lerp(current_orb.speed, 0, 0.1);
+    current_orb.halt = true;
     
     // Tether Orbit
     orbit += orbit_speed;
@@ -66,17 +69,16 @@ if (tethered) {
     
     // Launch on key-release
     if (keyboard_check_released(action_key)) {
+        current_orb.halt = false;
         speed = launch_speed;
         tethered = false;
-        current_orb.speed = current_orb.initial_speed;
     }
-    
 }
 
 //if we are orbiting an orb
 if (orbiting) {
     // the orb being orbited is stationary
-    current_orb.speed = lerp(current_orb.speed, 0, 0.1);
+    current_orb.halt = true;
     
     // Orbit
     orbit += orbit_speed;
@@ -94,7 +96,7 @@ if (orbiting) {
         speed = launch_speed;
         orbiting = false;
         // reset orb speed and set direction
-        current_orb.speed = current_orb.initial_speed;
+        current_orb.halt = false;
         current_orb.direction = point_direction(x, y, current_orb.x, current_orb.y);
     }
 }
@@ -121,6 +123,7 @@ else {
         // tether (if not already tethered)
         if (keyboard_check_pressed(action_key) && nearest_orb != -1) {
             current_orb = nearest_orb;
+            current_orb.halt = true;
             tethered = true;
             orbit = point_direction(x, y, nearest_orb.x, nearest_orb.y);
             orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
@@ -218,7 +221,8 @@ else {
                         }
                         
                         // Common to ALL ricochet rewards
-                        if (global.hammer || ricochet_reward == THEFT || ricochet_reward == RELEASE) {
+                        if ((tethered && global.hammer)
+                            || ricochet_reward == THEFT || ricochet_reward == RELEASE) {
                             // Decrement opponent player capture count
                             orb.capturer.num_orb_captured--; // MUST OCCUR BEFORE THEFT CHECK BELOW!
                             // Slow-Mo!!!
@@ -228,11 +232,12 @@ else {
                         if (ricochet_reward == THEFT) {
                             // Reset streak (since highest reward used)
                             ricochet_streak = 0;
+                            set_to_orbit(orb, to_orb_dir);
                             capture_orb(orb, orb_obj);
                             // Reset ricochet_reward
                             ricochet_reward = NONE;
                         }
-                        else if (global.hammer || ricochet_reward == RELEASE) {
+                        else if ((global.hammer && tethered) || ricochet_reward == RELEASE) {
                             // Visuals
                             with (instance_create(orb.x, orb.y, o_release_effect)) {
                                 color = orb.color;

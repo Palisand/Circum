@@ -2,6 +2,17 @@
 
 var orb_obj = argument0;
 
+if (halt) {
+    speed = lerp(speed, 0, 0.1);
+    if (speed < 1) { speed = 0; }
+}
+else {
+    speed = lerp(initial_speed,speed,0.1);
+    if (speed + 1 > initial_speed) {
+        speed = initial_speed;
+    }
+}
+
 // bounce off the screen's edge
 var col_edge_coords = edge_bounce_circle(orbit_radius);
 

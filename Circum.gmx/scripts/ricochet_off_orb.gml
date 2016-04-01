@@ -20,8 +20,8 @@ if (!is_orb) {
 if (!is_orb && tethered) { orbit_speed *= -1; }
 else {
     // "bounce" off in appropriate direction
-    var obj_dir = direction - 180;
+    var obj_dir = (direction + 180) % 360;
     var norm_dir = dir - 180;
     var incident_angle = angle_difference(obj_dir, norm_dir);
-    direction = obj_dir + sign(norm_dir - 180) * incident_angle * 2;
+    direction = obj_dir + sign((norm_dir + 180)%360) * incident_angle * 2;
 }
