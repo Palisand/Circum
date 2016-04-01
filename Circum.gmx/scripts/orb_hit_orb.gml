@@ -1,5 +1,8 @@
 //orb_hit_orb(orb)
 
+//this orb is stationary, so it cannot have hit anything
+if (halt) { return 0; }
+
 var x1 = x;
 var y1 = y;
 var r1 = orbit_radius;
@@ -28,14 +31,9 @@ if (x1+r1+r2 > x2 and x1 < x2+r1+r2 and y1+r1+r2 > y2 and y1 < y2+r1+r2) {
         col_orb_coords[1] = ((y1 * r2) + (y2 * r1)) / (r1 + r2);
         other.col_orb_coords[0] = col_orb_coords[0];
         other.col_orb_coords[1] = col_orb_coords[1];
-
-        //this orb is stationary
-        if (speed == 0) { return 0; }
         
         //this orb has hit a stationary orb
-        else if (orb.speed == 0) {
-            ricochet_off_orb(orb, true);
-        }
+        if (orb.halt) { ricochet_off_orb(orb, true); }
         
         //both orbs are moving
         else {
