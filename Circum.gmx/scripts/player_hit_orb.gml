@@ -39,8 +39,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
         ricochet_streak++;
         capture_streak = 0;
         ricochet_off_orb(orb, false);
-        break;
-        
+        break;    
     case DEFAULT_ORB:
         var to_orb_dir = point_direction(x, y, orb.x, orb.y);
         // if OPPONENT-GUARDED orb
@@ -78,6 +77,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
                 with (instance_create(orb.x, orb.y, o_release_effect)) {
                     color = orb.color;
                 }
+                instance_create(x, y, o_shockwave);
                 // Reset orb capture status 
                 orb.captured = false;
                 orb.capturer = -1; // default
