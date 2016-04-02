@@ -89,11 +89,14 @@ with (instance_create(orb.x, y_center, o_player)) {
 
 // Orbs
 for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
-    instance_create(
+    with (instance_create(
         x_center + lengthdir_x(x_center - edge_buffer, dir),
         y_center + lengthdir_y(y_center - edge_buffer, dir),
         o_orb
-    );
+    )) {
+        orbit = dir;
+        fixed = true;
+    }
 }
 
 //for debugging purposes, really

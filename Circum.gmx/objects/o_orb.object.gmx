@@ -26,7 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>/// Logic
-
+fixed = false;
+orbit = 0;
 type = DEFAULT_ORB;
 
 capturer = -1;
@@ -40,7 +41,7 @@ orbit_radius = 80;
 radius = orbit_radius / 2;
 
 direction = random(360);
-initial_speed = random_range(3, 7);
+initial_speed = 0;//andom_range(3, 7);
 speed = initial_speed;
 halt = false;
 
@@ -133,6 +134,33 @@ guarder = -1;
             <string>/// Update
 
 orb_update(o_orb);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Fake orbit
+
+if (fixed) {
+    orbit += 0.5;
+    x = room_width/2 - cos(degtorad(orbit)) * room_width/4;
+    y = room_height/2 + sin(degtorad(orbit)) * room_width/4;
+}
 </string>
           </argument>
         </arguments>
