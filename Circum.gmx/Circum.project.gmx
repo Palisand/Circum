@@ -61,7 +61,8 @@
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
   </shaders>
   <objects name="objects">
-    <object>objects\o_handler</object>
+    <object>objects\o_multi_handler</object>
+    <object>objects\o_single_handler</object>
     <object>objects\o_globals</object>
     <object>objects\o_player</object>
     <object>objects\o_orb</object>
@@ -77,8 +78,9 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
-    <room>rooms\room_debug</room>
+    <room>rooms\single_player</room>
+    <room>rooms\two_player</room>
+    <room>rooms\debug_room</room>
   </rooms>
   <constants number="12">
     <constant name="NUM_ORB_TYPES">4</constant>
