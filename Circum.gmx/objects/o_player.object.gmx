@@ -25,55 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Set in o_handler.Create
-color = c_white;
-action_key = vk_shift;
-
-trail_length = 30;          // in the anticipation of a longer trail under a certain condition
-draw_radius = 5;
-radius = 5;
-num_orb_captured = 0;
-launch_speed = 20;
-direction = choose(1, -1);  // randomly begin with a clockwise or counter-clockwise rotation
-
-orbit = 0;
-orbit_speed = 0;
-orbit_speed_set = 4;
-orbiting = false;
-tethered = false;
-current_orb = -1;
-nearest_orb = -1;
-dist_to_nearest = room_width * 2;  // pseudo MAX_INT
-
-// Offset by one because we will capture the initial orb
-// (that orb should not be counted)
-capture_streak = -1;
-possession_streak_used = false;
-
-col_edge = false;
-col_orb_set = false;
-
-// Ricochet Streak Variables
-ricochet_streak = 0;    // Counter for the current ricochet streak
-ricochet_reward = 0;    // Records the ricochet reward (for the current version either 3 or 6)
-
-scale[0] = 2/3;
-scale[1] = 3/4;
-scale[2] = 5/6;
-scale[3] = 8/9;
-scale[4] = 1/1;
-scale[5] = 9/8;
-scale[6] = 5/4;
-scale[7] = 4/3;
-
-scale_capture[0] = 4/3;
-scale_capture[1] = 3/2;
-scale_capture[2] = 5/3;
-scale_capture[3] = 7/4;
-scale_capture[4] = 2/1;
-scale_capture[5] = 17/8;
-scale_capture[6] = 9/4;
-scale_capture[7] = 7/3;
+            <string>player_create();
 </string>
           </argument>
         </arguments>
@@ -162,34 +114,7 @@ player_update_clean(o_player, o_orb);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_circle_precision(64);
-draw_set_colour(color);
-draw_trail(trail_length, radius * 2, color, -1, true, 1);
-draw_circle(x, y, draw_radius, false);
-
-if (nearest_orb != -1 &amp;&amp; (!nearest_orb.guarded || nearest_orb.guarder == id)) {
-    var alpha = 0.3;
-    if (tethered) {
-        alpha = 1;
-    }
-    var dir = point_direction(x, y, nearest_orb.x, nearest_orb.y);
-    draw_set_alpha(alpha);
-    draw_line_width_colour(
-        x, y,
-        nearest_orb.x - lengthdir_x(nearest_orb.radius, dir),
-        nearest_orb.y - lengthdir_y(nearest_orb.radius, dir),
-        3, color, nearest_orb.color
-    );
-    draw_set_alpha(1);
-}
-
-draw_set_halign(fa_center);
-if (ricochet_reward == THEFT) {
-    draw_text_transformed(x, y - 40, "THEFT", 2, 2, 0);
-}
-if (ricochet_reward == RELEASE) {
-    draw_text_transformed(x, y - 40, "RELEASE", 2, 2, 0);
-}
+            <string>player_visuals();
 
 if (global.tmp_visuals_on) {
     player_debug_visuals();

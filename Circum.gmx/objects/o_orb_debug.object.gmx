@@ -25,63 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Logic
-
-type = DEFAULT_ORB;
-
-capturer = -1;
-captured = false;
-
-// for capture streaks
-guarder = -1;
-guarded = false;
-
-orbit_radius = 80;
-radius = orbit_radius / 2;
-
-direction = random(360);
-initial_speed = random_range(3, 7);
-speed = initial_speed;
-halt = false;
-
-// collision
-col_orb = false;
-col_edge = false;
-col_player = false;
-col_orb_coords[0] = 0; // x
-col_orb_coords[1] = 0; // y
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Draw &amp; FX
-
-color = c_dkgray;
-fill_alpha = 0;
-fill_alpha_rate = 0.04;
-orbit_radius_alpha = 0;
-orbit_radius_alpha_max = 0.5;
-orbit_radius_alpha_rate = 0.1;
-guard_impact_alpha = 0;
-
-p_emitter = part_emitter_create(global.p_system);
-p_type = part_type_create();
+            <string>orb_create();
 </string>
           </argument>
         </arguments>
@@ -114,6 +58,34 @@ guarder = -1;
       </action>
     </event>
     <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Fixed Orbit
+
+if (fixed) {
+    initial_speed = 0;
+    fixed_orbit += fixed_orbit_speed;
+    x = room_width/2 - cos(degtorad(fixed_orbit)) * fixed_orbit_radius;
+    y = room_height/2 + sin(degtorad(fixed_orbit)) * fixed_orbit_radius;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>

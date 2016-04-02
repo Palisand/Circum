@@ -25,56 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Set in o_handler.Create
-color = c_white;
-action_key = vk_shift;
-
-trail_length = 30;          // in the anticipation of a longer trail under a certain condition
-
-radius = 5;
-num_orb_captured = 0;
-launch_speed = 20;
-direction = choose(1, -1);  // randomly begin with a clockwise or counter-clockwise rotation
-
-orbit = 0;
-orbit_speed = 0;
-orbit_speed_set = 3;
-orbiting = false;
-current_orb = -1;
-
-nearest_orb = -1;
-tethered = false;
-dist_to_nearest = room_width * 2;
-
-// Offset by one because we will capture the initial orb
-// (that orb should not be counted)
-capture_streak = -1;
-possession_streak_used = false;
-
-col_edge = false;
-col_orb_set = false;
-
-// Ricochet Streak Variables
-ricochet_streak = 0;    // Counter for the current ricochet streak
-ricochet_reward = 0;    // Records the ricochet reward (for the current version either 3 or 6)
-
-scale[0] = 2/3;
-scale[1] = 3/4;
-scale[2] = 5/6;
-scale[3] = 8/9;
-scale[4] = 1/1;
-scale[5] = 9/8;
-scale[6] = 5/4;
-scale[7] = 4/3;
-
-scale_capture[0] = 4/3;
-scale_capture[1] = 3/2;
-scale_capture[2] = 5/3;
-scale_capture[3] = 7/4;
-scale_capture[4] = 2/1;
-scale_capture[5] = 17/8;
-scale_capture[6] = 9/4;
-scale_capture[7] = 7/3;
+            <string>player_create();
 </string>
           </argument>
         </arguments>
@@ -122,10 +73,7 @@ player_update_clean(o_player_debug, o_orb_debug);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_circle_precision(64);
-draw_set_colour(color);
-draw_trail(trail_length, radius * 2, color, -1, true, 1);
-draw_circle(x, y, radius, false);
+            <string>player_visuals();
 
 player_debug_visuals();
 </string>

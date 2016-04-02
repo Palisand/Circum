@@ -18,7 +18,6 @@
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\set_orb_type.gml</script>
     <scripts name="FX">
       <script>scripts\draw_trail.gml</script>
       <script>scripts\collision_hit_burst.gml</script>
@@ -28,6 +27,7 @@
     <scripts name="Visuals">
       <script>scripts\orb_visuals.gml</script>
       <script>scripts\orb_debug_visuals.gml</script>
+      <script>scripts\player_visuals.gml</script>
       <script>scripts\player_debug_visuals.gml</script>
     </scripts>
     <scripts name="Generic_Collision">
@@ -51,6 +51,11 @@
         <script>scripts\capture_orb.gml</script>
       </scripts>
     </scripts>
+    <scripts name="Creation">
+      <script>scripts\player_create.gml</script>
+      <script>scripts\orb_create.gml</script>
+      <script>scripts\set_orb_type.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
@@ -66,8 +71,10 @@
       <object>objects\o_player_debug</object>
       <object>objects\o_orb_debug</object>
     </objects>
-    <object>objects\o_release_effect</object>
-    <object>objects\o_shockwave</object>
+    <objects name="FX">
+      <object>objects\o_shockwave</object>
+      <object>objects\o_release_effect</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
