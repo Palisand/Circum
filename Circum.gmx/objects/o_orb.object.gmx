@@ -26,12 +26,17 @@
           <argument>
             <kind>1</kind>
             <string>/// Logic
-fixed = false;
-orbit = 0;
+
 type = DEFAULT_ORB;
 
 capturer = -1;
 captured = false;
+
+// fixed
+fixed = false;
+fixed_orbit = 0;
+fixed_orbit_speed = 0;
+fixed_orbit_radius = 0;
 
 // for capture streaks
 guarder = -1;
@@ -41,7 +46,7 @@ orbit_radius = 80;
 radius = orbit_radius / 2;
 
 direction = random(360);
-initial_speed = 0;//andom_range(3, 7);
+initial_speed = random_range(3, 7);
 speed = initial_speed;
 halt = false;
 
@@ -131,9 +136,14 @@ guarder = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Update
+            <string>/// Fixed Orbit
 
-orb_update(o_orb);
+if (fixed) {
+    initial_speed = 0;
+    fixed_orbit += fixed_orbit_speed;
+    x = room_width/2 - cos(degtorad(fixed_orbit)) * fixed_orbit_radius;
+    y = room_height/2 + sin(degtorad(fixed_orbit)) * fixed_orbit_radius;
+}
 </string>
           </argument>
         </arguments>
@@ -154,13 +164,9 @@ orb_update(o_orb);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Fake orbit
+            <string>/// Update
 
-if (fixed) {
-    orbit += 0.5;
-    x = room_width/2 - cos(degtorad(orbit)) * room_width/4;
-    y = room_height/2 + sin(degtorad(orbit)) * room_width/4;
-}
+orb_update(o_orb);
 </string>
           </argument>
         </arguments>

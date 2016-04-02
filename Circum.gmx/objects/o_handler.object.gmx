@@ -89,15 +89,29 @@ with (instance_create(orb.x, y_center, o_player)) {
 
 // Orbs
 for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
-    with (instance_create(
-        x_center + lengthdir_x(x_center - edge_buffer, dir),
-        y_center + lengthdir_y(y_center - edge_buffer, dir),
-        o_orb
-    )) {
-        orbit = dir;
+    with (instance_create(0, 0, o_orb)) {
+        fixed_orbit = dir;
+        fixed_orbit_speed = 0.5;
+        fixed_orbit_radius = room_width/3;
         fixed = true;
     }
 }
+for (var dir = 0; dir &lt; 360; dir += 360/(num_orb - 5)) {
+    with (instance_create(0, 0, o_orb)) {
+        fixed_orbit = dir;
+        fixed_orbit_speed = -0.5;
+        fixed_orbit_radius = room_width/6;
+        fixed = true;
+    }
+}
+
+/*
+instance_create(
+    x_center + lengthdir_x(x_center - edge_buffer, dir),
+    y_center + lengthdir_y(y_center - edge_buffer, dir),
+    o_orb
+)
+*/
 
 //for debugging purposes, really
 /*
