@@ -78,8 +78,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\single_player</room>
     <room>rooms\two_player</room>
+    <room>rooms\single_player</room>
     <room>rooms\debug_room</room>
   </rooms>
   <constants number="12">

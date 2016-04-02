@@ -76,6 +76,8 @@ orb.speed = 0;
 with (instance_create(orb.x, y_center, o_player)) {
     color = c_fuchsia;  // c_yellow
     action_key = vk_lshift;
+    num_to_win = ceil(other.num_orb / 2) + 1;
+    single = false;
 }
 
 // Player 2
@@ -85,10 +87,13 @@ orb.speed = 0;
 with (instance_create(orb.x, y_center, o_player)) {
     color = c_aqua;  // c_lime
     action_key = vk_enter;  // cannot be vk_rshift (only one shift key registered at a time)
+    num_to_win = ceil(other.num_orb / 2) + 1;
+    single = false;
 }
 
 // Orbs
-for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
+//outer
+for (var dir = 0; dir &lt; 360; dir += 360/floor(num_orb/2)) {
     with (instance_create(0, 0, o_orb)) {
         fixed_orbit = dir;
         fixed_orbit_speed = 0.5;
@@ -96,7 +101,8 @@ for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
         fixed = true;
     }
 }
-for (var dir = 0; dir &lt; 360; dir += 360/(num_orb - 5)) {
+//inner
+for (var dir = 0; dir &lt; 360; dir += 360/ceil(num_orb / 2)) {
     with (instance_create(0, 0, o_orb)) {
         fixed_orbit = dir;
         fixed_orbit_speed = -0.5;

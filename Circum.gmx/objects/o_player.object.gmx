@@ -53,15 +53,11 @@
 //if there isn't already a winner, check if something changed
 if (global.winner &lt; 0) {
 
-    //you got enough to win (normal way or master orb captured)
-    if (num_orb_captured &gt; instance_number(o_orb) / instance_number(o_player)) {
+    //you got enough to win
+    if (num_orb_captured &gt;= num_to_win) {
         global.winner = self.id;
     }
     
-    //you are the only player left standing (everyone else hit void orbs)
-    if (instance_number(o_player) == 1) {
-        global.winner = self.id;
-    }
 }
 
 // If you won, consume the entire screen

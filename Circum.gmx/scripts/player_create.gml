@@ -4,6 +4,9 @@
 color = c_white;
 action_key = vk_shift;
 
+num_to_win = -1;
+single = true;
+
 trail_length = 30;
 draw_radius = 5;
 radius = 5;

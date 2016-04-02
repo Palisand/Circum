@@ -59,7 +59,23 @@ drawn_to_surface = false;
             <string>/// Player and Orb Spawns
 randomize();
 
-num_orb = 11;
+//available for capture
+num_free = 5;
+//already claimed (not counting the orb you start on)
+num_owned = 1;
+//claimed by opponent (must be liberated by hammer)
+num_opponent = 3;
+//ricochet
+num_dead = 3;
+//dangerous
+num_void = 1;
+
+//how many orbs circle the starting orb
+num_orb = num_free + num_owned + num_opponent + num_dead + num_void;
+
+//the orb you start on plus all the DEFAULT orbs
+num_to_win = 1+num_free + num_owned + num_opponent;
+
 edge_buffer = 512;
 
 var x_center = SCREEN_RADIUS;
@@ -68,40 +84,87 @@ var y_center = SCREEN_RADIUS;
 // Screen (Circular)
 screen = surface_create(room_width, room_height);
 
+//starting orb
 var orb;
-// Player 1
-orb = instance_create(0, y_center, o_orb);
-orb.x = orb.orbit_radius;
+orb = instance_create(x_center, y_center, o_orb);
 orb.speed = 0;
+// Player
+player_color = c_fuchsia;
+player_id = -1;
 with (instance_create(orb.x, y_center, o_player)) {
-    color = c_fuchsia;  // c_yellow
-    action_key = vk_lshift;
+    num_orb_captured = other.num_owned;
+    color = other.player_color;
+    action_key = vk_space;
+    num_to_win = other.num_to_win;
+    other.player_id = self.id;
 }
 
-// Player 2
-orb = instance_create(0, y_center, o_orb);
-orb.x = room_width - orb.orbit_radius;
-orb.speed = 0;
-with (instance_create(orb.x, y_center, o_player)) {
-    color = c_aqua;  // c_lime
-    action_key = vk_enter;  // cannot be vk_rshift (only one shift key registered at a time)
+// hidden opponent
+opponent_color = c_aqua;
+opponent_id = -1;
+with (instance_create(0,0, o_player)) {
+    action_key = vk_escape;
+    num_to_win = other.num_orb+1;
+    visible = false;
+    speed = 0;
+    launch_speed = 0;
+    orbit_speed = 0;
+    other.opponent_id = self.id;
 }
 
-// Orbs
+// Orbs that circle the starting orb
+var rad = room_width/3;
 for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
-    with (instance_create(0, 0, o_orb)) {
-        fixed_orbit = dir;
-        fixed_orbit_speed = 0.5;
-        fixed_orbit_radius = room_width/3;
-        fixed = true;
+    var orb_x = x_center + rad*cos(degtorad(dir));
+    var orb_y = y_center - rad*sin(degtorad(dir));
+    with (instance_create(orb_x, orb_y, o_orb)) {
+        speed = random_range(3,7);
+        direction = random(360);
     }
 }
-for (var dir = 0; dir &lt; 360; dir += 360/(num_orb - 5)) {
-    with (instance_create(0, 0, o_orb)) {
-        fixed_orbit = dir;
-        fixed_orbit_speed = -0.5;
-        fixed_orbit_radius = room_width/6;
-        fixed = true;
+
+//set their capturer or type
+var orb_categories;
+orb_categories[0] = num_free;
+orb_categories[1] = num_owned;
+orb_categories[2] = num_opponent;
+orb_categories[3] = num_dead;
+orb_categories[4] = num_void;
+
+//loop thru orbs that circle the starting orb
+var o_index = 1;
+for(var i = 0; i &lt; 5; i++){
+    for(var j = 0; j &lt; orb_categories[i]; j++){
+        var cur_orb = instance_find(o_orb,o_index);
+        
+        //set parameters based on category
+        switch(i){
+        //free
+        case 0: break;
+        //already captured
+        case 1:
+            with cur_orb {
+                captured = true;
+                capturer = other.player_id;
+                color = other.player_color;
+            }
+            break;
+        //opponent captured
+        case 2:
+            with cur_orb {
+                captured = true;
+                capturer = other.opponent_id;
+                color = other.opponent_color;
+            }
+            break;
+        case 3:
+            set_orb_type(cur_orb,DEAD_ORB);
+            break;
+        case 4:
+            set_orb_type(cur_orb,VOID_ORB);
+            break;
+        }
+        o_index++;
     }
 }
 
@@ -112,15 +175,6 @@ instance_create(
     o_orb
 )
 */
-
-//for debugging purposes, really
-/*
-var dead = instance_find(o_orb, 2);
-set_orb_type(dead,DEAD_ORB);
-var void = instance_find(o_orb,3);
-set_orb_type(void,VOID_ORB);
-var master = instance_find(o_orb,4);
-set_orb_type(master,MASTER_ORB);
 
 /*
 repeat (num_orb) {
