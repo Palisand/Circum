@@ -5,6 +5,7 @@
   </Configs>
   <NewExtensions>
     <extension index="0">extensions\Draw Trail</extension>
+    <extension index="1">extensions\Draw Circle Width</extension>
   </NewExtensions>
   <sounds name="sound">
     <sound>sound\snd_ricochet</sound>
@@ -17,26 +18,43 @@
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\ricochet_off_orb.gml</script>
-    <script>scripts\wall_bounce_circle.gml</script>
-    <script>scripts\edge_bounce_circle.gml</script>
-    <script>scripts\orb_hit_orb.gml</script>
     <script>scripts\set_orb_type.gml</script>
-    <script>scripts\orb_update.gml</script>
     <scripts name="FX">
       <script>scripts\draw_trail.gml</script>
       <script>scripts\collision_hit_burst.gml</script>
+      <script>scripts\play_ricochet.gml</script>
+      <script>scripts\draw_circle_width.gml</script>
     </scripts>
     <scripts name="Visuals">
       <script>scripts\orb_visuals.gml</script>
       <script>scripts\orb_debug_visuals.gml</script>
       <script>scripts\player_debug_visuals.gml</script>
     </scripts>
-    <script>scripts\player_update.gml</script>
-    <script>scripts\player_update_clean.gml</script>
-    <script>scripts\set_to_orbit.gml</script>
-    <script>scripts\capture_orb.gml</script>
+    <scripts name="Generic_Collision">
+      <script>scripts\ricochet_off_orb.gml</script>
+      <script>scripts\edge_bounce_circle.gml</script>
+      <script>scripts\wall_bounce_circle.gml</script>
+    </scripts>
+    <scripts name="Update_Orbs">
+      <script>scripts\orb_hit_orb.gml</script>
+      <script>scripts\orb_update.gml</script>
+    </scripts>
+    <scripts name="Update_Players">
+      <script>scripts\player_update.gml</script>
+      <script>scripts\player_update_clean.gml</script>
+      <script>scripts\player_orbit.gml</script>
+      <script>scripts\player_tethered.gml</script>
+      <script>scripts\player_launched.gml</script>
+      <scripts name="Orb_Interaction">
+        <script>scripts\player_hit_orb.gml</script>
+        <script>scripts\set_to_orbit.gml</script>
+        <script>scripts\capture_orb.gml</script>
+      </scripts>
+    </scripts>
   </scripts>
+  <shaders name="shaders">
+    <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
+  </shaders>
   <objects name="objects">
     <object>objects\o_handler</object>
     <object>objects\o_globals</object>
@@ -49,10 +67,11 @@
       <object>objects\o_orb_debug</object>
     </objects>
     <object>objects\o_release_effect</object>
+    <object>objects\o_shockwave</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room_debug</room>
     <room>rooms\room0</room>
+    <room>rooms\room_debug</room>
   </rooms>
   <constants number="12">
     <constant name="NUM_ORB_TYPES">4</constant>

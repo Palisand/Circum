@@ -27,7 +27,7 @@ if (guarded) {
     orbit_radius_color = guarder.color;
     orbit_radius_alpha = orbit_radius_alpha_max / 3;
     draw_set_colour(orbit_radius_color);
-    draw_circle(x, y, orbit_radius, true);
+    draw_circle_width(x, y, orbit_radius, 2, 64);
     draw_set_alpha(guard_impact_alpha);
     draw_circle(x, y, orbit_radius, false);
     draw_set_alpha(1);

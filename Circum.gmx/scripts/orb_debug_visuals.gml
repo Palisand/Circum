@@ -10,14 +10,17 @@ draw_circle(x, y, orbit_radius, true);
 draw_text_transformed(x, y + orbit_radius, alarm[0], 2, 2, 0);
 
 // Orb type
+var debug_text = "";
 switch (type) {
     case DEAD_ORB:
-        draw_text(x, y, "DEAD");
+        debug_text = "DEAD#";
         break;
     case VOID_ORB:
-        draw_text(x, y, "VOID");
+        debug_text = "VOID#";
         break;
     case MASTER_ORB:
-        draw_text(x, y, "MASTER");
+        debug_text = "MASTER#";
         break;
 }
+debug_text += string(speed);
+draw_text_transformed(x, y, debug_text, 2,2,0);

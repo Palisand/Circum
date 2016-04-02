@@ -42,6 +42,10 @@ orbit_speed_set = 3;
 orbiting = false;
 current_orb = -1;
 
+nearest_orb = -1;
+tethered = false;
+dist_to_nearest = room_width * 2;
+
 // Offset by one because we will capture the initial orb
 // (that orb should not be counted)
 capture_streak = -1;

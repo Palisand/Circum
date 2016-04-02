@@ -25,64 +25,29 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Logic
-fixed = false;
-orbit = 0;
-type = DEFAULT_ORB;
+            <string>///Shader uniform setup
 
-capturer = -1;
-captured = false;
+draw_set_color(c_white);
 
-// for capture streaks
-guarder = -1;
-guarded = false;
+uni_time = shader_get_uniform(shd_shockwave,"time");
+var_time_var = 0;
 
-orbit_radius = 80;
-radius = orbit_radius / 2;
+uni_mouse_pos = shader_get_uniform(shd_shockwave,"mouse_pos");
+var_mouse_pos_x = x; // - view_xview;
+var_mouse_pos_y = y; // - view_yview;
 
-direction = random(360);
-initial_speed = 0;//andom_range(3, 7);
-speed = initial_speed;
-halt = false;
+uni_resolution = shader_get_uniform(shd_shockwave,"resolution");
+var_resolution_x = room_width; //view_wview;
+var_resolution_y = room_height; //view_hview;
 
-// collision
-col_orb = false;
-col_edge = false;
-col_player = false;
-col_orb_coords[0] = 0; // x
-col_orb_coords[1] = 0; // y
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Draw &amp; FX
+uni_shock_amplitude = shader_get_uniform(shd_shockwave,"shock_amplitude");
+var_shock_amplitude = 10;
 
-color = c_white;
-fill_alpha = 0;
-fill_alpha_rate = 0.04;
-orbit_radius_alpha = 0;
-orbit_radius_alpha_max = 0.5;
-orbit_radius_alpha_rate = 0.1;
-guard_impact_alpha = 0;
+uni_shock_refraction = shader_get_uniform(shd_shockwave,"shock_refraction");
+var_shock_refraction = 0.8;
 
-p_emitter = part_emitter_create(global.p_system);
-p_type = part_type_create();
+uni_shock_width = shader_get_uniform(shd_shockwave,"shock_width");
+var_shock_width = 0.015;
 </string>
           </argument>
         </arguments>
@@ -105,16 +70,13 @@ p_type = part_type_create();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// un-guard
-
-guarded = false;
-guarder = -1;
+            <string>instance_destroy();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="2">
+    <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -131,42 +93,27 @@ guarder = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Update
+            <string>/// Main
 
-orb_update(o_orb);
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Fake orbit
-
-if (fixed) {
-    orbit += 0.5;
-    x = room_width/2 - cos(degtorad(orbit)) * room_width/4;
-    y = room_height/2 + sin(degtorad(orbit)) * room_width/4;
+var_time_var += 0.004;
+if (var_shock_width &gt; 0) {
+    var_shock_width -= 0.0005;
 }
+else {
+    instance_destroy();
+}
+
+var_resolution_x = room_width; // view_wview;
+var_resolution_y = room_height; // view_hview;
+var_mouse_pos_x = x; // - view_xview;
+var_mouse_pos_y = y; // - view_yview;
+
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -183,11 +130,24 @@ if (fixed) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>orb_visuals();
-
-if (global.tmp_visuals_on) {
-    orb_debug_visuals();
+            <string>///Fullscreen draw
+shader_set(shd_shockwave);
+shader_set_uniform_f(uni_time, var_time_var);
+shader_set_uniform_f(uni_mouse_pos, var_mouse_pos_x, var_mouse_pos_y);
+shader_set_uniform_f(uni_resolution, var_resolution_x, var_resolution_y);
+shader_set_uniform_f(uni_shock_amplitude, var_shock_amplitude);
+shader_set_uniform_f(uni_shock_refraction, var_shock_refraction );
+shader_set_uniform_f(uni_shock_width, var_shock_width);
+if (window_get_fullscreen()) {
+    // assuming screen w &gt; h
+    var diff = display_get_height() - room_height; // view_hview;
+    // must draw stretched due to shader resolution
+    draw_surface_stretched(application_surface, 0, 0, room_height + diff, room_height + diff);
 }
+else {
+    draw_surface(application_surface, 0, 0);
+}
+shader_reset();
 </string>
           </argument>
         </arguments>
