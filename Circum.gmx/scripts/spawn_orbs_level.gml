@@ -19,9 +19,18 @@ switch (spawning_type) {
     case S_FIXED_PREBUILT:  // Fixed orbit rings; prebuilt setups
         // We can have another switch statement here to pick out the prebuilt setup to use OR we can make a new function for that
         // This level is actually REALLY hard
-        spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(4, VOID_ORB));
-        spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB));
-        spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB, DEFAULT_ORB));
+        var num_prebuilt = 2;
+        switch (irandom(num_prebuilt)) {
+            case 0:
+                spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(4, VOID_ORB));
+                spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB));
+                spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB, DEFAULT_ORB));
+                break;
+            case 1:  // The Cage
+                spawn_orbs(true, room_width/7, 0, 0, get_orb_pattern(8, DEAD_ORB));
+                spawn_orbs(true, room_width/5, 0, 22.5, get_orb_pattern(8, DEAD_ORB));
+                spawn_orbs(false, room_width/4, 0, 0, get_orb_pattern(5, DEFAULT_ORB, CAPTURED_ORB));
+        }
         break;
     case S_FIXED_RANDOM:    // Fixed orbit rings; random setup
         var orbit_lanes = 1 + irandom(S_MAX_LANES); // Find out how many lanes we are going to have; default [1,3]
