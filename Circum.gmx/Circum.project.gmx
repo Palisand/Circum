@@ -31,7 +31,6 @@
       <script>scripts\player_debug_visuals.gml</script>
     </scripts>
     <scripts name="Generic_Collision">
-      <script>scripts\ricochet_off_orb.gml</script>
       <script>scripts\edge_bounce_circle.gml</script>
       <script>scripts\wall_bounce_circle.gml</script>
     </scripts>
@@ -47,6 +46,7 @@
       <script>scripts\player_launched.gml</script>
       <scripts name="Orb_Interaction">
         <script>scripts\player_hit_orb.gml</script>
+        <script>scripts\ricochet_off_orb.gml</script>
         <script>scripts\set_to_orbit.gml</script>
         <script>scripts\capture_orb.gml</script>
       </scripts>
@@ -78,9 +78,9 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\two_player</room>
-    <room>rooms\single_player</room>
     <room>rooms\debug_room</room>
+    <room>rooms\single_player</room>
+    <room>rooms\two_player</room>
   </rooms>
   <constants number="12">
     <constant name="NUM_ORB_TYPES">4</constant>

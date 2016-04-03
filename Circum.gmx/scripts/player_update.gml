@@ -136,7 +136,7 @@ else {
                     ricochet_reward = NONE;
                 }
                                 
-                ricochet_off_orb(orb, false);
+                ricochet_off_orb(orb);
                 collision_hit_burst(
                     x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
                     orb.color, 300, 60, orb.p_emitter, orb.p_type

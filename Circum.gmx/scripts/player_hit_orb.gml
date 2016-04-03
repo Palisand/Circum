@@ -38,13 +38,13 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
     case DEAD_ORB:
         ricochet_streak++;
         capture_streak = 0;
-        ricochet_off_orb(orb, false);
+        ricochet_off_orb(orb);
         break;    
     case DEFAULT_ORB:
         var to_orb_dir = point_direction(x, y, orb.x, orb.y);
         // if OPPONENT-GUARDED orb
         if (orb.guarded && orb.guarder != id) {
-            ricochet_off_orb(orb, false);
+            ricochet_off_orb(orb);
             collision_hit_burst(
                 x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
                 orb.guarder.color, 300, 60, orb.p_emitter, orb.p_type
@@ -56,7 +56,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
         else if (orb.captured && orb.capturer != id) {
             play_ricochet(++ricochet_streak, scale);
             
-            ricochet_off_orb(orb, false);
+            ricochet_off_orb(orb);
             collision_hit_burst(
                 x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
                 orb.color, 300, 60, orb.p_emitter, orb.p_type
