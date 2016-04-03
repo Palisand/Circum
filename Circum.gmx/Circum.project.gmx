@@ -83,11 +83,11 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\debug_room</room>
     <room>rooms\single_player</room>
     <room>rooms\two_player</room>
+    <room>rooms\debug_room</room>
   </rooms>
-  <constants number="13">
+  <constants number="17">
     <constant name="NUM_ORB_TYPES">4</constant>
     <constant name="DEFAULT_ORB">0</constant>
     <constant name="DEAD_ORB">1</constant>
@@ -101,6 +101,10 @@
     <constant name="RELEASE">3</constant>
     <constant name="THEFT">6</constant>
     <constant name="NONE">0</constant>
+    <constant name="S_FIXED_PREBUILT">0</constant>
+    <constant name="S_FIXED_RANDOM">1</constant>
+    <constant name="S_RANDOM">2</constant>
+    <constant name="S_MAX_LANES">2</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

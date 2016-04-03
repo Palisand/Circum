@@ -18,6 +18,7 @@ if (x1+r1+r2 > x2 and x1 < x2+r1+r2 and y1+r1+r2 > y2 and y1 < y2+r1+r2) {
         
         // set orb collision statuses and coordinates
         col_orb = true;
+        orb.col_orb = true;
         col_orb_coords[0] = ((x1 * r2) + (x2 * r1)) / (r1 + r2);
         col_orb_coords[1] = ((y1 * r2) + (y2 * r1)) / (r1 + r2);
         orb.col_orb_coords[0] = col_orb_coords[0];
