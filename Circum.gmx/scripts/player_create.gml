@@ -31,6 +31,7 @@ possession_streak_used = false;
 // Collision
 col_edge = false;
 col_orb_set = false;
+enter_the_void = false;
 
 // Ricochet Streak Variables
 ricochet_streak = 0;  // Counter for the current ricochet streak

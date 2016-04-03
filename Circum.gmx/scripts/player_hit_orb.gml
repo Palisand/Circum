@@ -11,9 +11,17 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
         col_orb_set = true;
         orb.col_player = true;
     }
-            
+    
+    var to_orb_dir = point_direction(x, y, orb.x, orb.y);
+    
     switch (orb.type) {
     case VOID_ORB:
+        collision_hit_burst(
+            x, y, 0, 360,
+            color, 300, 60, orb.p_emitter, orb.p_type
+        );
+        color = c_white;
+        room_speed = 20;
         // for every orb the player once owned, reset it
         with (orb_obj) {
             if (capturer == other.id) {
@@ -25,8 +33,9 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
                 guarded = false;
                 guarder = -1;
             }
-        }            
-        instance_destroy();  // player dies
+        }
+        current_orb = orb;
+        enter_the_void = true;         
         break;
     case MASTER_ORB:
         // player wins iff the master orb is unguarded
@@ -41,16 +50,41 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
         ricochet_off_orb(orb);
         break;    
     case DEFAULT_ORB:
-        var to_orb_dir = point_direction(x, y, orb.x, orb.y);
-        // if OPPONENT-GUARDED orb
-        if (orb.guarded && orb.guarder != id) {
-            ricochet_off_orb(orb);
-            collision_hit_burst(
-                x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
-                orb.guarder.color, 300, 60, orb.p_emitter, orb.p_type
-            );
-            capture_streak = 0;  // reset capture streak
-            play_ricochet(++ricochet_streak, scale);
+        // if GUARDED orb
+        if (orb.guarded) {
+            // if OPPONENT-GUARDED (multiplayer)
+            if (orb.guarder != id) {
+                ricochet_off_orb(orb);
+                collision_hit_burst(
+                    x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
+                    orb.guarder.color, 300, 60, orb.p_emitter, orb.p_type
+                );
+                capture_streak = 0;  // reset capture streak
+                play_ricochet(++ricochet_streak, scale);
+            }
+            // if SELF-GUARDED and this is SINGLE PLAYER, release
+            if (orb.guarder == id && (instance_exists(o_single_handler) || instance_exists(o_handler_debug))) {
+                ricochet_off_orb(orb);
+                collision_hit_burst(
+                    x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
+                    orb.guarder.color, 300, 60, orb.p_emitter, orb.p_type
+                );
+                capture_streak = 0;  // reset capture streak
+                play_ricochet(++ricochet_streak, scale);
+                
+                orb.guarded = false;
+                // Visuals
+                room_speed = 20;
+                with (instance_create(orb.x, orb.y, o_release_effect)) {
+                    color = orb.color;
+                }
+                instance_create(x, y, o_shockwave);
+                // Reset orb capture status 
+                orb.captured = false;
+                orb.capturer = -1; // default
+                // Reset orb color
+                orb.color = c_white;
+            }
         }
         // if OPPONENT-CAPTURED orb
         else if (orb.captured && orb.capturer != id) {
@@ -68,12 +102,8 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             if ((tethered && current_orb.capturer == id && global.hammer)) { // (ricochet_reward == THEFT || ricochet_reward == RELEASE) {
                 // Decrement opponent player capture count
                 orb.capturer.num_orb_captured--;
-                // Slow-Mo!!!
-                room_speed = 20;
-                
-                /* previously only if (ricochet_reward == RELEASE) { ... */
-                
                 // Visuals
+                room_speed = 20;
                 with (instance_create(orb.x, orb.y, o_release_effect)) {
                     color = orb.color;
                 }
@@ -85,7 +115,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
                 orb.color = c_white;
             }
             
-            /* No Theft       
+            /* No Theft... for now    
             if (ricochet_reward == THEFT) {
                 // Reset streak (since highest reward used)
                 ricochet_streak = 0;

@@ -41,3 +41,4 @@ guard_impact_alpha = 0;
 
 p_emitter = part_emitter_create(global.p_system);
 p_type = part_type_create();
+p_type_alt = part_type_create();

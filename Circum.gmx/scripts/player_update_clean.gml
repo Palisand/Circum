@@ -38,22 +38,32 @@ else if (ricochet_streak == THEFT) {
 // reset orb collision set flag (otherwise landing on a free or owned orb won't result in a radius reveal)
 col_orb_set = false;
 
-//if we are tethered to an orb
-if (tethered) { player_tethered(); }
-
-//if we are orbiting an orb
-if (orbiting) { player_orbit(player_obj, orb_obj); }
-
-//we've launched or tethered
+// if collided with void orb
+if (enter_the_void) {
+    move_towards_point(current_orb.x, current_orb.y, 10);
+    trail_length--;
+    if (trail_length < 0) {
+        instance_destroy();
+    }
+}
 else {
-    speed = launch_speed;
-
-    //we've launched
-    if (! tethered) { player_launched(orb_obj); }
+    //if we are tethered to an orb
+    if (tethered) { player_tethered(); }
     
-    // in either launched or tethered state, check against all orbs
-    for (var i = 0; i < instance_number(orb_obj); i++) {
-        var orb = instance_find(orb_obj, i);
-        player_hit_orb(orb, orb_obj);
+    //if we are orbiting an orb
+    if (orbiting) { player_orbit(player_obj, orb_obj); }
+    
+    //we've launched or tethered
+    else {
+        speed = launch_speed;
+    
+        //we've launched
+        if (! tethered) { player_launched(orb_obj); }
+        
+        // in either launched or tethered state, check against all orbs
+        for (var i = 0; i < instance_number(orb_obj); i++) {
+            var orb = instance_find(orb_obj, i);
+            player_hit_orb(orb, orb_obj);
+        }
     }
 }
