@@ -67,8 +67,8 @@ screen = surface_create(room_width, room_height);
 spawn_orbs(true, room_width/6, -0.5, 0, get_orb_pattern(3, DEAD_ORB, DEFAULT_ORB, DEFAULT_ORB));
 spawn_orbs(true, room_width/4, 0.5, 0, get_orb_pattern(10, VOID_ORB));
 */
-spawn_orbs(false, room_width/3, 0, 0, get_orb_pattern(6, DEAD_ORB, DEFAULT_ORB));
-spawn_orbs(false, room_width/6, 0, 0, get_orb_pattern(3, VOID_ORB, CAPTURED_ORB));
+spawn_orbs(false, room_width/3, 0, 0, get_orb_pattern(3, DEAD_ORB, DEFAULT_ORB, CAPTURED_ORB));
+spawn_orbs(false, room_width/6, 0, 0, get_orb_pattern(3, VOID_ORB, DEFAULT_ORB));
 
 // Spawn Starting Orb
 var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);

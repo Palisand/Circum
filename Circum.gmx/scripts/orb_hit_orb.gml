@@ -20,6 +20,8 @@ if (x1+r1+r2 > x2 and x1 < x2+r1+r2 and y1+r1+r2 > y2 and y1 < y2+r1+r2) {
         col_orb = true;
         col_orb_coords[0] = ((x1 * r2) + (x2 * r1)) / (r1 + r2);
         col_orb_coords[1] = ((y1 * r2) + (y2 * r1)) / (r1 + r2);
+        orb.col_orb_coords[0] = col_orb_coords[0];
+        orb.col_orb_coords[1] = col_orb_coords[1];
         
         // bounce off orb
         var obj_dir = point_direction(x, y, orb.x, orb.y) - 180;
@@ -27,10 +29,12 @@ if (x1+r1+r2 > x2 and x1 < x2+r1+r2 and y1+r1+r2 > y2 and y1 < y2+r1+r2) {
         var incident_angle = angle_difference(obj_dir, norm_dir);
         direction = obj_dir + sign(norm_dir - 180) * incident_angle * 2;
         
+        obj_dir = point_direction(orb.x, orb.y, x, y) - 180;
+        norm_dir = point_direction(col_orb_coords[0], col_orb_coords[1], x, y);
+        indicent_angle = angle_difference(obj_dir, norm_dir);
+        orb.direction = obj_dir + sign(norm_dir - 180) * incident_angle * 2;
+        
         if (!halt) {  // if calling orb is not stationary
-            if (!other.halt) {
-                diff /= 2;  // half-way out (so other orb will do the same)
-            }
             // move out of orb
             var dir = point_direction(orb.x, orb.y, x, y);
             x += lengthdir_x(ceil(diff), dir);
