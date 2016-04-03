@@ -136,7 +136,7 @@ else {
                     ricochet_reward = NONE;
                 }
                                 
-                ricochet_off_orb(orb, false);
+                ricochet_off_orb(orb);
                 collision_hit_burst(
                     x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
                     orb.color, 300, 60, orb.p_emitter, orb.p_type
@@ -215,12 +215,6 @@ else {
             }
         }
     }
-    
-    // Reset orb speed (now reset on launch)
-    /*
-    if (current_orb != -1) {
-        current_orb.speed = lerp(current_orb.speed, current_orb.initial_speed, 0.1);
-    }*/
     
     speed = launch_speed;
 }

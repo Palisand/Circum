@@ -16,7 +16,9 @@ orbit_speed_set = 4;
 orbiting = false;
 tethered = false;
 
+single = true;
 num_orb_captured = 0;
+num_to_win = -1;
 current_orb = -1;
 nearest_orb = -1;
 dist_to_nearest = room_width * 2;  // pseudo MAX_INT
@@ -28,6 +30,7 @@ possession_streak_used = false;
 // Collision
 col_edge = false;
 col_orb_set = false;
+enter_the_void = false;
 
 // Ricochet Streak Variables
 ricochet_streak = 0;  // Counter for the current ricochet streak

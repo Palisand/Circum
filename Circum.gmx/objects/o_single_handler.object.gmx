@@ -56,10 +56,90 @@ drawn_to_surface = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Player and Orb Spawns
+            <string>/// Player and Orb Spawns NEW
 randomize();
 
-num_orb = 11;
+// Screen (Circular)
+screen = surface_create(room_width, room_height);
+
+// Spawn Orbs
+/* FIXED 
+spawn_orbs(true, room_width/6, -0.5, 0, get_orb_pattern(3, DEAD_ORB, DEFAULT_ORB, DEFAULT_ORB));
+spawn_orbs(true, room_width/4, 0.5, 0, get_orb_pattern(10, VOID_ORB));
+*/
+spawn_orbs(false, room_width/3, 0, 0, get_orb_pattern(3, DEAD_ORB, DEFAULT_ORB, CAPTURED_ORB));
+spawn_orbs(false, room_width/6, 0, 0, get_orb_pattern(3, VOID_ORB, DEFAULT_ORB));
+
+// Spawn Starting Orb
+var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);
+start_orb.speed = 0;  // not necessary if fixed = true, but let's keep it anyway
+start_orb.fixed = true;
+
+// Get number of orbs required to win (now that all orbs have been spawned)
+num_to_win = 0;
+with (o_orb) {
+    if (type == DEFAULT_ORB) { other.num_to_win++; }
+}
+
+// Spawn Player
+plr_color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
+with (instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)) {
+    color = other.plr_color;
+    action_key = vk_space;
+    num_to_win =  other.num_to_win; 
+}
+// set captured orbs' colors based on player color
+with (o_orb) {
+    if (captured) {
+        do {
+            color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
+        } until (color != other.plr_color);
+    }
+}
+
+// Spawn Hidden Opponent
+instance_create(0, 0, o_fake_player);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Player and Orb Spawns
+/*
+randomize();
+
+//available for capture
+num_free = 5;
+//already claimed (not counting the orb you start on)
+num_owned = 1;
+//claimed by opponent (must be liberated by hammer)
+num_opponent = 3;
+//ricochet
+num_dead = 3;
+//dangerous
+num_void = 1;
+
+//how many orbs circle the starting orb
+num_orb = num_free + num_owned + num_opponent + num_dead + num_void;
+
+//the orb you start on plus all the DEFAULT orbs
+num_to_win = 1+num_free + num_owned + num_opponent;
+
 edge_buffer = 512;
 
 var x_center = SCREEN_RADIUS;
@@ -68,70 +148,90 @@ var y_center = SCREEN_RADIUS;
 // Screen (Circular)
 screen = surface_create(room_width, room_height);
 
+//starting orb
 var orb;
-// Player 1
-orb = instance_create(0, y_center, o_orb);
-orb.x = orb.orbit_radius;
-orb.speed = 0;
+orb = instance_create(x_center, y_center, o_orb);
+//orb.speed = 0;
+orb.fixed = true;
+// Player
+player_color = c_fuchsia;
+player_id = -1;
 with (instance_create(orb.x, y_center, o_player)) {
-    color = c_fuchsia;  // c_yellow
-    action_key = vk_lshift;
+    num_orb_captured = other.num_owned;
+    color = other.player_color;
+    action_key = vk_space;
+    num_to_win = other.num_to_win;
+    other.player_id = self.id;
 }
 
-// Player 2
-orb = instance_create(0, y_center, o_orb);
-orb.x = room_width - orb.orbit_radius;
-orb.speed = 0;
-with (instance_create(orb.x, y_center, o_player)) {
-    color = c_aqua;  // c_lime
-    action_key = vk_enter;  // cannot be vk_rshift (only one shift key registered at a time)
+// hidden opponent
+opponent_color = c_aqua;
+opponent_id = -1;
+with (instance_create(0,0, o_player)) {
+    action_key = vk_escape;
+    num_to_win = other.num_orb+1;
+    visible = false;
+    speed = 0;
+    launch_speed = 0;
+    orbit_speed = 0;
+    other.opponent_id = self.id;
 }
 
-// Orbs
+// Orbs that circle the starting orb
+var rad = room_width/3;
 for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
-    with (instance_create(0, 0, o_orb)) {
-        fixed_orbit = dir;
-        fixed_orbit_speed = 0.5;
-        fixed_orbit_radius = room_width/3;
-        fixed = true;
-    }
-}
-for (var dir = 0; dir &lt; 360; dir += 360/(num_orb - 5)) {
-    with (instance_create(0, 0, o_orb)) {
-        fixed_orbit = dir;
-        fixed_orbit_speed = -0.5;
-        fixed_orbit_radius = room_width/6;
-        fixed = true;
+    var orb_x = x_center + rad*cos(degtorad(dir));
+    var orb_y = y_center - rad*sin(degtorad(dir));
+    with (instance_create(orb_x, orb_y, o_orb)) {
+        speed = random_range(3,7);
+        direction = random(360);
     }
 }
 
-/*
-instance_create(
-    x_center + lengthdir_x(x_center - edge_buffer, dir),
-    y_center + lengthdir_y(y_center - edge_buffer, dir),
-    o_orb
-)
-*/
+//set their capturer or type
+var orb_categories;
+orb_categories[0] = num_free;
+orb_categories[1] = num_owned;
+orb_categories[2] = num_opponent;
+orb_categories[3] = num_dead;
+orb_categories[4] = num_void;
 
-//for debugging purposes, really
-/*
-var dead = instance_find(o_orb, 2);
-set_orb_type(dead,DEAD_ORB);
-var void = instance_find(o_orb,3);
-set_orb_type(void,VOID_ORB);
-var master = instance_find(o_orb,4);
-set_orb_type(master,MASTER_ORB);
-
-/*
-repeat (num_orb) {
-    var dir = random(360);
-    instance_create(
-        random_range(x_center, x_center + lengthdir_x(x_center - edge_buffer, dir)),
-        random_range(y_center, y_center + lengthdir_y(y_center - edge_buffer, dir)),
-        o_orb
-    );
+//loop thru orbs that circle the starting orb
+var o_index = 1;
+for(var i = 0; i &lt; 5; i++){
+    for(var j = 0; j &lt; orb_categories[i]; j++){
+        var cur_orb = instance_find(o_orb,o_index);
+        
+        //set parameters based on category
+        switch(i){
+        //free
+        case 0: break;
+        //already captured
+        case 1:
+            with cur_orb {
+                captured = true;
+                capturer = other.player_id;
+                color = other.player_color;
+            }
+            break;
+        //opponent captured
+        case 2:
+            with cur_orb {
+                captured = true;
+                capturer = other.opponent_id;
+                color = other.opponent_color;
+            }
+            break;
+        case 3:
+            set_orb_type(cur_orb,DEAD_ORB);
+            break;
+        case 4:
+            set_orb_type(cur_orb,VOID_ORB);
+            break;
+        }
+        o_index++;
+    }
 }
-
 </string>
           </argument>
         </arguments>

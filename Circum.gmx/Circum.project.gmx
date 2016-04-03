@@ -31,7 +31,6 @@
       <script>scripts\player_debug_visuals.gml</script>
     </scripts>
     <scripts name="Generic_Collision">
-      <script>scripts\ricochet_off_orb.gml</script>
       <script>scripts\edge_bounce_circle.gml</script>
       <script>scripts\wall_bounce_circle.gml</script>
     </scripts>
@@ -42,11 +41,12 @@
     <scripts name="Update_Players">
       <script>scripts\player_update.gml</script>
       <script>scripts\player_update_clean.gml</script>
-      <script>scripts\player_orbit.gml</script>
+      <script>scripts\player_orbiting.gml</script>
       <script>scripts\player_tethered.gml</script>
       <script>scripts\player_launched.gml</script>
       <scripts name="Orb_Interaction">
         <script>scripts\player_hit_orb.gml</script>
+        <script>scripts\ricochet_off_orb.gml</script>
         <script>scripts\set_to_orbit.gml</script>
         <script>scripts\capture_orb.gml</script>
       </scripts>
@@ -56,16 +56,22 @@
       <script>scripts\orb_create.gml</script>
       <script>scripts\set_orb_type.gml</script>
     </scripts>
+    <scripts name="Orb Spawning">
+      <script>scripts\get_orb_pattern.gml</script>
+      <script>scripts\spawn_orbs.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
   </shaders>
   <objects name="objects">
-    <object>objects\o_handler</object>
+    <object>objects\o_multi_handler</object>
+    <object>objects\o_single_handler</object>
     <object>objects\o_globals</object>
     <object>objects\o_player</object>
     <object>objects\o_orb</object>
     <object>objects\o_payload</object>
+    <object>objects\o_fake_player</object>
     <objects name="Debug">
       <object>objects\o_handler_debug</object>
       <object>objects\o_player_debug</object>
@@ -77,17 +83,19 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
-    <room>rooms\room_debug</room>
+    <room>rooms\debug_room</room>
+    <room>rooms\single_player</room>
+    <room>rooms\two_player</room>
   </rooms>
-  <constants number="12">
+  <constants number="13">
     <constant name="NUM_ORB_TYPES">4</constant>
     <constant name="DEFAULT_ORB">0</constant>
     <constant name="DEAD_ORB">1</constant>
     <constant name="VOID_ORB">2</constant>
     <constant name="MASTER_ORB">3</constant>
+    <constant name="CAPTURED_ORB">4</constant>
     <constant name="SCREEN_RADIUS">room_width/2</constant>
-    <constant name="STREAK_TIMEOUT">300</constant>
+    <constant name="STREAK_TIMEOUT">600</constant>
     <constant name="POSSESSION">3</constant>
     <constant name="DOMINATION">5</constant>
     <constant name="RELEASE">3</constant>
