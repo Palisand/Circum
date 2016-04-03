@@ -59,6 +59,7 @@
     <scripts name="Orb Spawning">
       <script>scripts\get_orb_pattern.gml</script>
       <script>scripts\spawn_orbs.gml</script>
+      <script>scripts\spawn_orbs_level.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">

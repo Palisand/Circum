@@ -63,56 +63,7 @@ randomize();
 screen = surface_create(room_width, room_height);
 
 // Spawn Orbs
-// FIXED 
-/*
-spawn_orbs(true, room_width/8, -0.5, 0, get_orb_pattern(5, DEAD_ORB, DEFAULT_ORB, DEFAULT_ORB, VOID_ORB));
-spawn_orbs(true, room_width/3, 0.5, 0, get_orb_pattern(10, MASTER_ORB));
-*/
-/*
-spawn_orbs(false, room_width/3, 0, 0, get_orb_pattern(3, DEAD_ORB, DEFAULT_ORB, CAPTURED_ORB));
-spawn_orbs(false, room_width/6, 0, 0, get_orb_pattern(3, VOID_ORB, DEFAULT_ORB));
-*/
-
-// Spawning Orbs NEW
-// Consider spawning with three different methods (the exact one will be selected at random):
-//  1. Creating fixed-orbit rings in a setup that is prebuilt by hand
-//  2. Creating fixed-orbit rings in a setup that is randomly generated
-//  3. Creating randomly orbs (not fixed) in a randomly generated setup
-// To implement the above, first we decide on which level generation method we will be using
-// Comment: Use at least 2.25 as the denominator of room_width/x; otherwise orbs get close enough to constantly collide against edge of room
-var spawning_type = irandom(2);         // Gives a number between 0 ~ 2 (including 2)
-switch (spawning_type) {
-    case S_FIXED_PREBUILT:  // Fixed orbit rings; prebuilt setups
-        // We can have another switch statement here to pick out the prebuilt setup to use OR we can make a new function for that
-        // This level is actually REALLY hard
-        spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(4, VOID_ORB));
-        spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB));
-        spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB, DEFAULT_ORB));
-        break;
-    case S_FIXED_RANDOM:    // Fixed orbit rings; random setup
-        var orbit_lanes = 1 + irandom(S_MAX_LANES); // Find out how many lanes we are going to have; default [1,3]
-        switch (orbit_lanes) {
-            case 1: // One lane
-                spawn_orbs(true, room_width/3, -0.5, 0, get_orb_pattern(3, DEFAULT_ORB, irandom(CAPTURED_ORB), irandom(CAPTURED_ORB), irandom(CAPTURED_ORB)));
-                break;
-            case 2: // Two lanes
-                spawn_orbs(true, room_width/5, -0.5, 0, get_orb_pattern(3, DEFAULT_ORB, irandom(CAPTURED_ORB)));
-                spawn_orbs(true, room_width/2.5, +0.5, 0, get_orb_pattern(2, DEFAULT_ORB, irandom(CAPTURED_ORB), irandom(CAPTURED_ORB), irandom(CAPTURED_ORB)));
-                break;
-            case 3: // Three lanes
-                spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(2, irandom(CAPTURED_ORB), irandom(CAPTURED_ORB)));
-                spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (3, irandom(CAPTURED_ORB), irandom(CAPTURED_ORB)));
-                spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, DEFAULT_ORB, irandom(CAPTURED_ORB), irandom(CAPTURED_ORB)));
-                break;
-        }
-        
-        break;
-    case S_RANDOM:          // Random spawning of orbs   
-        spawn_orbs(false, room_width/3, 0, 0, get_orb_pattern(1 + irandom(S_MAX_LANES), 
-                    DEFAULT_ORB, irandom(DEAD_ORB), irandom(DEAD_ORB), irandom(VOID_ORB), irandom(VOID_ORB)));
-        spawn_orbs(false, room_width/2.5, 0, 0, get_orb_pattern(1, irandom(MASTER_ORB), irandom(MASTER_ORB)));
-        break;
-}
+spawn_orbs_level();
 
 // Spawn Starting Orb
 var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);
