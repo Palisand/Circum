@@ -216,11 +216,5 @@ else {
         }
     }
     
-    // Reset orb speed (now reset on launch)
-    /*
-    if (current_orb != -1) {
-        current_orb.speed = lerp(current_orb.speed, current_orb.initial_speed, 0.1);
-    }*/
-    
     speed = launch_speed;
 }

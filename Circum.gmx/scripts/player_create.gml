@@ -4,9 +4,6 @@
 color = c_white;
 action_key = vk_shift;
 
-num_to_win = -1;
-single = true;
-
 trail_length = 30;
 draw_radius = 5;
 radius = 5;
@@ -19,7 +16,9 @@ orbit_speed_set = 4;
 orbiting = false;
 tethered = false;
 
+single = true;
 num_orb_captured = 0;
+num_to_win = -1;
 current_orb = -1;
 nearest_orb = -1;
 dist_to_nearest = room_width * 2;  // pseudo MAX_INT

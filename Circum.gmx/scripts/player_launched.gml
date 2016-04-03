@@ -3,12 +3,14 @@
 //Called when player is neither tethered nor orbiting
 var orb_obj = argument0;
 
-// update nearest UN-OPPONENT-GUARDED, FREE, or OWNED orbs
+// update nearest UN-OPPONENT-GUARDED, DEAD, FREE, or OWNED orbs
 if (nearest_orb != -1) {
     dist_to_nearest = point_distance(x, y, nearest_orb.x, nearest_orb.y);
 }
 with (orb_obj) {
-    if ((!guarded || guarder.id == other.id) && (!captured || capturer.id == other.id)) {
+    if ((type == DEFAULT_ORB || type == DEAD_ORB)
+        && (!guarded || guarder.id == other.id)
+        && (!captured || capturer.id == other.id)) {
         dist_to_orb = point_distance(x, y, other.x, other.y);
         if (dist_to_orb < other.dist_to_nearest) {
             other.dist_to_nearest = dist_to_orb;

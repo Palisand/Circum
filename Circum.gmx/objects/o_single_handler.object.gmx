@@ -56,7 +56,71 @@ drawn_to_surface = false;
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>/// Player and Orb Spawns NEW
+randomize();
+
+// Screen (Circular)
+screen = surface_create(room_width, room_height);
+
+// Spawn Orbs
+/* FIXED 
+spawn_orbs(true, room_width/6, -0.5, 0, get_orb_pattern(3, DEAD_ORB, DEFAULT_ORB, DEFAULT_ORB));
+spawn_orbs(true, room_width/4, 0.5, 0, get_orb_pattern(10, VOID_ORB));
+*/
+spawn_orbs(false, room_width/3, 0, 0, get_orb_pattern(6, DEAD_ORB, DEFAULT_ORB));
+spawn_orbs(false, room_width/6, 0, 0, get_orb_pattern(3, VOID_ORB, CAPTURED_ORB));
+
+// Spawn Starting Orb
+var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);
+start_orb.speed = 0;  // not necessary if fixed = true, but let's keep it anyway
+start_orb.fixed = true;
+
+// Get number of orbs required to win (now that all orbs have been spawned)
+num_to_win = 0;
+with (o_orb) {
+    if (type == DEFAULT_ORB) { other.num_to_win++; }
+}
+
+// Spawn Player
+plr_color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
+with (instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)) {
+    color = other.plr_color;
+    action_key = vk_space;
+    num_to_win =  other.num_to_win; 
+}
+// set captured orbs' colors based on player color
+with (o_orb) {
+    if (captured) {
+        do {
+            color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
+        } until (color != other.plr_color);
+    }
+}
+
+// Spawn Hidden Opponent
+instance_create(0, 0, o_fake_player);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>/// Player and Orb Spawns
+/*
 randomize();
 
 //available for capture
@@ -87,7 +151,8 @@ screen = surface_create(room_width, room_height);
 //starting orb
 var orb;
 orb = instance_create(x_center, y_center, o_orb);
-orb.speed = 0;
+//orb.speed = 0;
+orb.fixed = true;
 // Player
 player_color = c_fuchsia;
 player_id = -1;
@@ -167,25 +232,6 @@ for(var i = 0; i &lt; 5; i++){
         o_index++;
     }
 }
-
-/*
-instance_create(
-    x_center + lengthdir_x(x_center - edge_buffer, dir),
-    y_center + lengthdir_y(y_center - edge_buffer, dir),
-    o_orb
-)
-*/
-
-/*
-repeat (num_orb) {
-    var dir = random(360);
-    instance_create(
-        random_range(x_center, x_center + lengthdir_x(x_center - edge_buffer, dir)),
-        random_range(y_center, y_center + lengthdir_y(y_center - edge_buffer, dir)),
-        o_orb
-    );
-}
-
 </string>
           </argument>
         </arguments>

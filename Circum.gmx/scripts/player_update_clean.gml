@@ -51,7 +51,7 @@ else {
     if (tethered) { player_tethered(); }
     
     //if we are orbiting an orb
-    if (orbiting) { player_orbit(player_obj, orb_obj); }
+    if (orbiting) { player_orbiting(player_obj, orb_obj); }
     
     //we've launched or tethered
     else {

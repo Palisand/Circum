@@ -1,4 +1,4 @@
-///player_orbit(player_obj, orb_obj)
+///player_orbiting(player_obj, orb_obj)
 
 //Called when orbiting
 //Maintains orbit

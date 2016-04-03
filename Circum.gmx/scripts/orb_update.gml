@@ -76,7 +76,7 @@ if (type == VOID_ORB) {
     part_type_life(p_type_alt, 0, 10);
     part_type_orientation(p_type_alt, 0, 0, 0, 0, true);
     part_type_scale(p_type_alt, 1, 1);
-    for (var start = 0; start < 360; start++) {
+    for (var start = 0; start < 360; start += 3) {
         var xx = x + lengthdir_x(radius, start);
         var yy = y + lengthdir_y(radius, start)
         var dir = point_direction(xx, yy, x, y);
