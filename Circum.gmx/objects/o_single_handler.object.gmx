@@ -56,7 +56,7 @@ drawn_to_surface = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Player and Orb Spawns NEW
+            <string>/// Player and Orb Spawns
 randomize();
 
 // Screen (Circular)
@@ -114,7 +114,7 @@ instance_create(0, 0, o_fake_player);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Player and Orb Spawns
+            <string>/// Defunct Player and Orb Spawns
 /*
 randomize();
 
