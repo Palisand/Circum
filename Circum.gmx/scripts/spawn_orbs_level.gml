@@ -19,12 +19,12 @@ var spawning_type = irandom(2);         // Gives a number between 0 ~ 2 (includi
 switch (spawning_type) {
     case S_FIXED_PREBUILT:  // Fixed orbit rings; prebuilt setups
         // We can have another switch statement here to pick out the prebuilt setup to use OR we can make a new function for that
-        var num_prebuilt = 2;                           // Modify this as more custom stages are added
+        var num_prebuilt = 4;                           // Number of pre-built stages
         var fixed_select = irandom(num_prebuilt - 1);   // This makes it easier to access a particular stage in the following switch
         //fixed_select = 3;
         switch (fixed_select) {
             case 0:
-                // This level is actually REALLY hard
+                // This level is actually REALLY hard - Alternating Death; Cleansed by Fire
                 spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(4, VOID_ORB));
                 spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB));
                 spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB, DEFAULT_ORB));
