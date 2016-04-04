@@ -35,7 +35,8 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             }
         }
         current_orb = orb;
-        enter_the_void = true;         
+        enter_the_void = true;      
+        audio_sound_pitch(audio_play_sound(snd_death, 0, 0), 1/3);
         break;
     case MASTER_ORB:
         // player wins iff the master orb is unguarded

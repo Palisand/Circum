@@ -11,6 +11,8 @@
     <sound>sound\snd_ricochet</sound>
     <sound>sound\snd_capture</sound>
     <sound>sound\snd_orb_hit_orb</sound>
+    <sound>sound\snd_death</sound>
+    <sound>sound\snd_game_over</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_ring</sprite>
@@ -83,8 +85,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\debug_room</room>
     <room>rooms\single_player</room>
+    <room>rooms\debug_room</room>
     <room>rooms\two_player</room>
   </rooms>
   <constants number="13">

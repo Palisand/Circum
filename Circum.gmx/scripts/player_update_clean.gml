@@ -44,6 +44,7 @@ if (enter_the_void) {
     trail_length--;
     if (trail_length < 0) {
         instance_destroy();
+        audio_play_sound(snd_game_over, 0, 0);
     }
 }
 else {
