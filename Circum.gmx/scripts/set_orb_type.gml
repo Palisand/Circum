@@ -12,7 +12,7 @@ switch(orb.type){
         orb.color = c_red;
         break;
     case MASTER_ORB:
-        orb.color = c_orange;
+        orb.color = c_white;
         break;
     case CAPTURED_ORB:  // for single-player use
         var fake_player;
