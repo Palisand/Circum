@@ -35,6 +35,8 @@ instance_create(0, 0, o_globals);
 p_emitter = part_emitter_create(global.p_system);
 p_type = part_type_create();
 
+// Screen (Circular)
+screen = surface_create(room_width, room_height);
 drawn_to_surface = false;
 </string>
           </argument>
@@ -64,9 +66,6 @@ edge_buffer = 512;
 
 var x_center = SCREEN_RADIUS;
 var y_center = SCREEN_RADIUS;
-
-// Screen (Circular)
-screen = surface_create(room_width, room_height);
 
 var orb;
 // Player 1
@@ -138,6 +137,34 @@ repeat (num_orb) {
     );
 }
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Clean up
+
+part_emitter_destroy(global.p_system, p_emitter);
+part_type_destroy(p_type);
+
+surface_free(screen);
 </string>
           </argument>
         </arguments>
