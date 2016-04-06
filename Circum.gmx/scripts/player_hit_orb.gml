@@ -46,9 +46,9 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
         }
         break;
     case DEAD_ORB:
-        ricochet_streak++;
         capture_streak = 0;
         ricochet_off_orb(orb);
+        play_ricochet(++ricochet_streak, scale);
         break;    
     case DEFAULT_ORB:
         // if GUARDED orb

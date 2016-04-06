@@ -13,6 +13,7 @@
     <sound>sound\snd_orb_hit_orb</sound>
     <sound>sound\snd_death</sound>
     <sound>sound\snd_game_over</sound>
+    <sound>sound\snd_win</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_ring</sprite>

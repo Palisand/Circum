@@ -14,7 +14,7 @@ if (col_edge) {
     
     if (tethered) {
         orbit_speed = -orbit_speed;  // reverse orbit speed
-        ricochet_streak = 0;
+        ricochet_streak = -1;
     }
     
     // Ricochet Streak Update

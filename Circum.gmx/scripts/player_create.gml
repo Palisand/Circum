@@ -33,7 +33,7 @@ col_orb_set = false;
 enter_the_void = false;
 
 // Ricochet Streak Variables
-ricochet_streak = 0;  // Counter for the current ricochet streak
+ricochet_streak = -1;  // Counter for the current ricochet streak
 ricochet_reward = 0;  // Records the ricochet reward (for the current version either 3 or 6)
 
 // Sound
