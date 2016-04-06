@@ -23,15 +23,32 @@ draw_primitive_begin_texture(pr_trianglestrip,Texture);
 AlphaT = 1;
 Dir = 0;
 Min = min(Height - 1,Length);
+
+//cannot rely on default code (because orb may be moving)
+if (orbiting) {
+
+    //get relevant parameters of the orb and player
+    var ox = current_orb.x;
+    var oy = current_orb.y;
+    var orad = current_orb.orbit_radius;
+    
+    //set "previous positions" to be on the orbit path
+    for(var i = 0; i < Min; i++){
+        var angle = degtorad(orbit-i*orbit_speed);
+        ArrayTrail[i,0] = ox - orad*cos(angle);
+        ArrayTrail[i,1] = oy + orad*sin(angle);
+    }
+}
+
 for(var i = 0; i < Min; i++){
-  if (ArrayTrail[i,0] != ArrayTrail[i+1,0] || ArrayTrail[i,1] != ArrayTrail[i+1,1])
-    Dir = point_direction(ArrayTrail[i,0],ArrayTrail[i,1],ArrayTrail[i+1,0],ArrayTrail[i+1,1]);
-  var Len = Width / 2 - ((i + 1) / Min * Width / 2) * Slim;
-  var XX = lengthdir_x(Len,Dir + 90); 
-  var YY = lengthdir_y(Len,Dir + 90);
-  AlphaT = (Min - i) / (Min / 2) * Alpha;
-  draw_vertex_texture_color(ArrayTrail[i,0] + XX,ArrayTrail[i,1] + YY,ArrayTrail[i,2] / Width,0,Color,AlphaT);
-  draw_vertex_texture_color(ArrayTrail[i,0] - XX,ArrayTrail[i,1] - YY,ArrayTrail[i,2] / Width,1,Color,AlphaT);
+    if (ArrayTrail[i,0] != ArrayTrail[i+1,0] || ArrayTrail[i,1] != ArrayTrail[i+1,1])
+      Dir = point_direction(ArrayTrail[i,0],ArrayTrail[i,1],ArrayTrail[i+1,0],ArrayTrail[i+1,1]);
+    var Len = Width / 2 - ((i + 1) / Min * Width / 2) * Slim;
+    var XX = lengthdir_x(Len,Dir + 90); 
+    var YY = lengthdir_y(Len,Dir + 90);
+    AlphaT = (Min - i) / (Min / 2) * Alpha;
+    draw_vertex_texture_color(ArrayTrail[i,0] + XX,ArrayTrail[i,1] + YY,ArrayTrail[i,2] / Width,0,Color,AlphaT);
+    draw_vertex_texture_color(ArrayTrail[i,0] - XX,ArrayTrail[i,1] - YY,ArrayTrail[i,2] / Width,1,Color,AlphaT);
 }
 draw_primitive_end();
 //Replacing the coordinates positions within the array
