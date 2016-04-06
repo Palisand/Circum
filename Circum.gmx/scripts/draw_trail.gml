@@ -8,12 +8,16 @@ Color = argument2; //Which color will be used to tint the trail
 Sprite = argument3; //Which sprite's texture must be used for the trail. Must have "Used for 3D" marked. -1 for no sprite 
 Slim = argument4; //Whether the trail will slim down at the end
 Alpha = argument5; //The alpha to draw the trail with (0-1), optional
+
 ArrayTrail[0,0] = x;
 ArrayTrail[0,1] = y;
 Height = array_height_2d(ArrayTrail);
 //Getting distance between current and past coordinates
 if (Height > 1) ArrayTrail[0,2] = point_distance(ArrayTrail[0,0],ArrayTrail[0,1],ArrayTrail[1,0],ArrayTrail[1,1]) + ArrayTrail[1,2];
 else ArrayTrail[0,2] = 0;
+//store whether or not we are orbiting
+ArrayTrail[0,3] = orbiting;
+
 //Setting the texture
 if (Sprite >= 0) Texture = sprite_get_texture(Sprite,0);
 else Texture = -1;
@@ -34,9 +38,22 @@ if (orbiting) {
     
     //set "previous positions" to be on the orbit path
     for(var i = 0; i < Min; i++){
+    
+        //calculate based on player's angular location on orb
         var angle = degtorad(orbit-i*orbit_speed);
         ArrayTrail[i,0] = ox - orad*cos(angle);
         ArrayTrail[i,1] = oy + orad*sin(angle);
+
+        //draw the player here (angular-adjustment != raw x/y)
+        if (i == 0)
+            { draw_circle(ArrayTrail[i,0], ArrayTrail[i,1], draw_radius, false); }
+            
+        //only adjust the first coordinate that isn't orbiting
+        //all others will be done in the future iterations
+        if (!ArrayTrail[i,3]) {
+            ArrayTrail[i,3] = true;
+            break;
+        }
     }
 }
 
@@ -54,7 +71,8 @@ draw_primitive_end();
 //Replacing the coordinates positions within the array
 Min = min(Height,Length);
 for (var i = Min; i > 0; i--){
-  ArrayTrail[i,0] = ArrayTrail[i - 1,0];
-  ArrayTrail[i,1] = ArrayTrail[i - 1,1];
-  ArrayTrail[i,2] = ArrayTrail[i - 1,2];
+    ArrayTrail[i,0] = ArrayTrail[i - 1,0];
+    ArrayTrail[i,1] = ArrayTrail[i - 1,1];
+    ArrayTrail[i,2] = ArrayTrail[i - 1,2];
+    ArrayTrail[i,3] = ArrayTrail[i - 1,3];
 }
