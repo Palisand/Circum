@@ -22,6 +22,7 @@
   <scripts name="scripts">
     <scripts name="FX">
       <script>scripts\draw_trail.gml</script>
+      <script>scripts\draw_player.gml</script>
       <script>scripts\collision_hit_burst.gml</script>
       <script>scripts\play_ricochet.gml</script>
       <script>scripts\draw_circle_width.gml</script>
