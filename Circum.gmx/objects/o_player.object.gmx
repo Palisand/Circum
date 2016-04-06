@@ -60,6 +60,11 @@ if (global.winner &lt; 0) {
     
 }
 
+// If you won, drop this sick jam
+if (global.winner == self.id &amp;&amp; draw_radius == 5) {
+    audio_play_sound(snd_win, 0, 0);
+}
+
 // If you won, consume the entire screen
 if (global.winner == self.id &amp;&amp; draw_radius &lt; room_width) {
     draw_radius += 40;

@@ -24,7 +24,7 @@ nearest_orb = orb.id;
 current_orb.halt = true;
 
 // reset ricochet streak
-ricochet_streak = 0;
+ricochet_streak = -1;
                         
 // Play capture sound
 var s_engine = audio_play_sound(snd_capture, 0, 0);
