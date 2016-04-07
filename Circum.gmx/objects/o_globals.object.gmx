@@ -28,6 +28,9 @@
             <string>//do we show the orbits?
 global.tmp_visuals_on = false;
 
+//use pre-fix player trail
+global.pre_fix_trail = false;
+
 //who won
 global.winner = -1;
 

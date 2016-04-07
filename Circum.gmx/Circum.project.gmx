@@ -65,7 +65,9 @@
       <script>scripts\spawn_orbs.gml</script>
       <script>scripts\spawn_orbs_level.gml</script>
     </scripts>
-    <script>scripts\distance.gml</script>
+    <scripts name="Other">
+      <script>scripts\distance.gml</script>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>

@@ -4,7 +4,6 @@ draw_set_colour(color);
 var debug_text = ("Captured: " + string(num_orb_captured) + "#");
 debug_text += ("Ricochet: " + string(ricochet_streak) + "#");
 debug_text += ("Capture: " + string(capture_streak) + "#");
-debug_text += ("Framerate: " + string(fps_real) + "#");
 draw_text_transformed(x, y + 20, debug_text, 2, 2, 0);
 /*
 if (ricochet_reward == THEFT) {
