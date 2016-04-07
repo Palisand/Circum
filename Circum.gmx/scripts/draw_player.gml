@@ -16,48 +16,52 @@ Height = array_height_2d(ArrayTrail);
 if (Height > 1) ArrayTrail[0,2] = point_distance(ArrayTrail[0,0],ArrayTrail[0,1],ArrayTrail[1,0],ArrayTrail[1,1]) + ArrayTrail[1,2];
 else ArrayTrail[0,2] = 0;
 
-OrbitTrail[0] = orbiting;
-
-//Setting the texture
-if (Sprite >= 0) Texture = sprite_get_texture(Sprite,0);
-else Texture = -1;
-texture_set_repeat(1);
-//Drawing the primitive
-draw_primitive_begin_texture(pr_trianglestrip,Texture);
 AlphaT = 1;
 Dir = 0;
 Min = min(Height - 1,Length);
 
 //cannot rely on default code (because orb may be moving)
-if (orbiting) {
-
+if (orbiting || tethered) {
+    OrbitTrail[0] = sign(orbit_speed);
+    
     //get relevant parameters of the orb and player
     var ox = current_orb.x;
-    var oy = current_orb.y;
+    var oy = current_orb.y;    
     var orad = current_orb.orbit_radius;
+    if (tethered) { orad = tether_radius; }
     
     //set "previous positions" to be on the orbit path
     for(var i = 0; i < Min; i++){
-        if (OrbitTrail[i]) {
-            //calculate based on player's angular location on orb
-            var angle = degtorad(orbit-i*orbit_speed);
-            ArrayTrail[i,0] = ox - orad*cos(angle);
-            ArrayTrail[i,1] = oy + orad*sin(angle);
-    
-            //draw the player here (angular-adjustment != raw x/y)
-            if (i == 0)
-                { draw_circle(ArrayTrail[i,0], ArrayTrail[i,1], draw_radius, false); }
+        //calculate based on player's angular location
+        var angle = degtorad(orbit-i*orbit_speed);
+        var newX = ox - orad*cos(angle);
+        var newY = oy + orad*sin(angle);
+        
+        if (OrbitTrail[i] == OrbitTrail[0]) {
+            ArrayTrail[i,0] = newX;
+            ArrayTrail[i,1] = newY;
         }
         
         else {
-            OrbitTrail[i] = true;
+            OrbitTrail[i] = OrbitTrail[0];
             break;
         }
+        
     }
 }
 
-else { draw_circle(x,y,draw_radius,false); }
+else { OrbitTrail[0] = 0; }
 
+//draw the player here
+draw_circle(ArrayTrail[0,0], ArrayTrail[0,1], draw_radius, false);
+
+//Setting the texture
+if (Sprite >= 0) Texture = sprite_get_texture(Sprite,0);
+else Texture = -1;
+texture_set_repeat(1);
+
+//draw the trail
+draw_primitive_begin_texture(pr_trianglestrip,Texture);
 for(var i = 0; i < Min; i++){
     if (ArrayTrail[i,0] != ArrayTrail[i+1,0] || ArrayTrail[i,1] != ArrayTrail[i+1,1])
       Dir = point_direction(ArrayTrail[i,0],ArrayTrail[i,1],ArrayTrail[i+1,0],ArrayTrail[i+1,1]);
@@ -69,6 +73,7 @@ for(var i = 0; i < Min; i++){
     draw_vertex_texture_color(ArrayTrail[i,0] - XX,ArrayTrail[i,1] - YY,ArrayTrail[i,2] / Width,1,Color,AlphaT);
 }
 draw_primitive_end();
+
 //Replacing the coordinates positions within the array
 Min = min(Height,Length);
 for (var i = Min; i > 0; i--){

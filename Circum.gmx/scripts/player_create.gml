@@ -15,6 +15,7 @@ orbit_speed = 0;
 orbit_speed_set = 4;
 orbiting = false;
 tethered = false;
+tether_radius = 0;
 
 single = true;
 num_orb_captured = 0;

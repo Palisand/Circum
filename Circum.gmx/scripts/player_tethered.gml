@@ -12,8 +12,8 @@ direction = orbit - (sign(orbit_speed) * 90);
 
 // Launch
 if (keyboard_check_released(action_key)  // on key-release
-    || (current_orb.guarded && current_orb.guarder != id)  // if the orb is or has become guarded
-    || (current_orb.captured && current_orb.capturer != id)  // the orb is captured by an opponent
+    //|| (current_orb.guarded && current_orb.guarder != id)  // if the orb is or has become guarded
+    //|| (current_orb.captured && current_orb.capturer != id)  // the orb is captured by an opponent
     ) {
     current_orb.halt = false;
     speed = launch_speed;

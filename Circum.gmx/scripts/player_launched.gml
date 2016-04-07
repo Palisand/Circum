@@ -8,9 +8,15 @@ if (nearest_orb != -1) {
     dist_to_nearest = point_distance(x, y, nearest_orb.x, nearest_orb.y);
 }
 with (orb_obj) {
-    if ((type == DEFAULT_ORB || type == DEAD_ORB)
+    if (type != VOID_ORB
+        /*
+        (type == DEFAULT_ORB || type == DEAD_ORB)
         && (!guarded || guarder.id == other.id)
-        && (!captured || capturer.id == other.id)) {
+        && (!captured || capturer.id == other.id)
+        */
+        )
+        
+        {
         dist_to_orb = point_distance(x, y, other.x, other.y);
         if (dist_to_orb < other.dist_to_nearest) {
             other.dist_to_nearest = dist_to_orb;
@@ -26,4 +32,5 @@ if (keyboard_check_pressed(action_key) && nearest_orb != -1 && (!nearest_orb.gua
     tethered = true;
     orbit = point_direction(x, y, nearest_orb.x, nearest_orb.y);
     orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
+    tether_radius = distance(self,current_orb);
 }

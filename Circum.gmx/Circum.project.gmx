@@ -65,6 +65,7 @@
       <script>scripts\spawn_orbs.gml</script>
       <script>scripts\spawn_orbs_level.gml</script>
     </scripts>
+    <script>scripts\distance.gml</script>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
@@ -91,7 +92,6 @@
     <room>rooms\single_player</room>
     <room>rooms\debug_room</room>
     <room>rooms\two_player</room>
-    <room>rooms\debug_room</room>
   </rooms>
   <constants number="17">
     <constant name="NUM_ORB_TYPES">4</constant>

@@ -23,7 +23,7 @@ switch(type) {
 
 // Orbit
 var orbit_radius_color;
-if (guarded) {
+if (guarded && guarder != -1) {
     orbit_radius_color = guarder.color;
     orbit_radius_alpha = orbit_radius_alpha_max / 3;
     draw_set_colour(orbit_radius_color);
