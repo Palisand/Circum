@@ -20,9 +20,15 @@ AlphaT = 1;
 Dir = 0;
 Min = min(Height - 1,Length);
 
-//cannot rely on default code (because orb may be moving)
-if (orbiting || tethered) {
-    OrbitTrail[0] = sign(orbit_speed);
+if (ricochet_time < trail_length) { ricochet_time++; }
+
+//if the orb is moving on a fixed path, cannot rely on default code
+if ((orbiting || tethered) &&
+    current_orb.fixed &&
+    current_orb.fixed_orbit_speed != 0
+    ) {
+    
+    On_orbit[0] = current_orb.id;
     
     //get relevant parameters of the orb and player
     var ox = current_orb.x;
@@ -30,32 +36,41 @@ if (orbiting || tethered) {
     var orad = current_orb.orbit_radius;
     if (tethered) { orad = tether_radius; }
     
-    //set "previous positions" to be on the orbit path
-    for(var i = 0; i < Min; i++){
-        //calculate based on player's angular location
-        var angle = degtorad(orbit-i*orbit_speed);
-        var newX = ox - orad*cos(angle);
-        var newY = oy + orad*sin(angle);
-        var d = point_distance(ArrayTrail[i,0],ArrayTrail[i,1],newX,newY);
+    //account for orb movement, for the points that have left the ricochet point
+    var end_loop = min(Min,ricochet_time);
+    for(var i = 0; i < end_loop; i++){
+        var newX, newY;
         
-        if (OrbitTrail[i] == OrbitTrail[0]) {
-            if (abs(d - orad) > 4) {
-                newX = lerp(ArrayTrail[i,0],newX,0.3);
-                newY = lerp(ArrayTrail[i,1],newY,0.3);
-            }
-            ArrayTrail[i,0] = newX;
-            ArrayTrail[i,1] = newY;
+        if (i > 0 && On_orbit[i] != current_orb.id) {
+            //the previous point pulls this one closer (scale down the distance)
+            var prevX = ArrayTrail[i-1,0];
+            var prevY = ArrayTrail[i-1,1];
+            newX = ArrayTrail[i,0];
+            newY = ArrayTrail[i,1];
+            var dx = newX - prevX;
+            newX = prevX + 0.7*dx;
+            var dy = newY - prevY;
+            newY = prevY + 0.7*dy;
+            
+            //check if orbit/tether radius has been reached
+            if (point_distance(newX,newY,ox,oy) == orad) { On_orbit[i] = current_orb.id; }
         }
         
         else {
-            OrbitTrail[i] = OrbitTrail[0];
-            break;
+            //calculate based on player's angular location
+            var angle = degtorad(orbit-i*orbit_speed);
+            newX = ox - orad*cos(angle);
+            newY = oy + orad*sin(angle);
         }
         
+        ArrayTrail[i,0] = newX;
+        ArrayTrail[i,1] = newY;
     }
 }
 
-else { OrbitTrail[0] = 0; }
+else {
+    On_orbit[0] = -1;
+}
 
 //draw the player here
 draw_circle(ArrayTrail[0,0], ArrayTrail[0,1], draw_radius, false);
@@ -85,5 +100,5 @@ for (var i = Min; i > 0; i--){
     ArrayTrail[i,0] = ArrayTrail[i - 1,0];
     ArrayTrail[i,1] = ArrayTrail[i - 1,1];
     ArrayTrail[i,2] = ArrayTrail[i - 1,2];
-    OrbitTrail[i] = OrbitTrail[i-1];
+    On_orbit[i] = On_orbit[i-1];
 }
