@@ -36,8 +36,13 @@ if (orbiting || tethered) {
         var angle = degtorad(orbit-i*orbit_speed);
         var newX = ox - orad*cos(angle);
         var newY = oy + orad*sin(angle);
+        var d = point_distance(ArrayTrail[i,0],ArrayTrail[i,1],newX,newY);
         
         if (OrbitTrail[i] == OrbitTrail[0]) {
+            if (abs(d - orad) > 4) {
+                newX = lerp(ArrayTrail[i,0],newX,0.3);
+                newY = lerp(ArrayTrail[i,1],newY,0.3);
+            }
             ArrayTrail[i,0] = newX;
             ArrayTrail[i,1] = newY;
         }
