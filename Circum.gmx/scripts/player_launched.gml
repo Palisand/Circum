@@ -11,9 +11,8 @@ with (orb_obj) {
     if (type != VOID_ORB
         /*
         (type == DEFAULT_ORB || type == DEAD_ORB)
-        && (!guarded || guarder.id == other.id)
+        && (!guarded || guarder.id == other.id) */
         && (!captured || capturer.id == other.id)
-        */
         )
         
         {
