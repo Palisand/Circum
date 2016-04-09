@@ -1,7 +1,7 @@
 /// master_orb_particles()
 
 part_system_depth(global.p_system, -99);
-part_type_shape(p_type_alt, pt_shape_flare);
+part_type_sprite(p_type_alt, s_flare, false, false, false);
 part_type_blend(p_type_alt, true);
 part_type_alpha2(p_type_alt, 1, 0);
 part_type_colour1(p_type_alt, color);

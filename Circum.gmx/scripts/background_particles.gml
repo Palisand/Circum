@@ -1,7 +1,7 @@
 // background_particles()
 
 part_system_depth(global.p_system, -98);
-part_type_shape(p_type, pt_shape_flare);
+part_type_sprite(p_type, s_flare, false, false, false);
 part_type_blend(p_type, true);
 part_type_alpha2(p_type, 1, 0);
 part_type_colour1(p_type, c_white);

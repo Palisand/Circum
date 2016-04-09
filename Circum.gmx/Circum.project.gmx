@@ -17,6 +17,8 @@
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_ring</sprite>
+    <sprite>sprites\s_line</sprite>
+    <sprite>sprites\s_flare</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
