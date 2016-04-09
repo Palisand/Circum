@@ -4,10 +4,10 @@
 color = c_white;
 action_key = vk_shift;
 
-draw_radius = 5;
-radius = 5;
+radius = 3;
+draw_radius = radius;
 
-launch_speed = 20;
+launch_speed = 15;
 direction = choose(1, -1); // randomly begin with a clockwise or counter-clockwise rotation
 orbit = 0;
 orbit_speed = 0;

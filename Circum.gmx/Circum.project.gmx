@@ -24,10 +24,13 @@
     <scripts name="FX">
       <script>scripts\draw_trail.gml</script>
       <script>scripts\draw_fixed_trail.gml</script>
+      <script>scripts\correct_trail.gml</script>
       <script>scripts\collision_hit_burst.gml</script>
       <script>scripts\play_ricochet.gml</script>
       <script>scripts\draw_circle_width.gml</script>
-      <script>scripts\correct_trail.gml</script>
+      <script>scripts\background_particles.gml</script>
+      <script>scripts\void_orb_particles.gml</script>
+      <script>scripts\master_orb_particles.gml</script>
     </scripts>
     <scripts name="Visuals">
       <script>scripts\orb_visuals.gml</script>
@@ -40,12 +43,11 @@
       <script>scripts\wall_bounce_circle.gml</script>
     </scripts>
     <scripts name="Update_Orbs">
-      <script>scripts\orb_hit_orb.gml</script>
       <script>scripts\orb_update.gml</script>
+      <script>scripts\orb_hit_orb.gml</script>
     </scripts>
     <scripts name="Update_Players">
       <script>scripts\player_update.gml</script>
-      <script>scripts\player_update_clean.gml</script>
       <script>scripts\player_orbiting.gml</script>
       <script>scripts\player_tethered.gml</script>
       <script>scripts\player_launched.gml</script>

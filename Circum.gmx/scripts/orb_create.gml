@@ -15,7 +15,7 @@ fixed_orbit_radius = 0;
 guarder = -1;
 guarded = false;
 
-orbit_radius = 80;
+orbit_radius = 50;
 radius = orbit_radius / 2;
 
 direction = random(360);
