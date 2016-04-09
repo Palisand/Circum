@@ -11,7 +11,10 @@ if (diff < 0) {
 }
 
 //if the player is thethered, switch orbit direction
-if (tethered) { orbit_speed *= -1; }
+if (tethered) {
+    orbit_speed *= -1;
+    ricochet_time = 0;
+}
 
 //otherwise, "bounce" off in appropriate direction
 else {

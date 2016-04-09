@@ -4,7 +4,6 @@
 color = c_white;
 action_key = vk_shift;
 
-trail_length = 30;
 draw_radius = 5;
 radius = 5;
 
@@ -13,8 +12,19 @@ direction = choose(1, -1); // randomly begin with a clockwise or counter-clockwi
 orbit = 0;
 orbit_speed = 0;
 orbit_speed_set = 4;
+//flags for state
 orbiting = false;
 tethered = false;
+
+/* For trails */
+trail_length = 30;
+trail_id[0] = -1;
+//upon tether, store distance to current_orb
+tether_radius = 0;
+//steps since last ricochet
+ricochet_time = trail_length;
+//time at which we tethered/orbited
+latch_time = -1;
 
 single = true;
 num_orb_captured = 0;

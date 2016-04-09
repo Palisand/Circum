@@ -2,9 +2,10 @@
 
 draw_set_circle_precision(64);
 draw_set_colour(color);
-draw_player(trail_length, radius * 2, color, -1, true, 1);
-//draw the winner's circle
-if (global.winner == self.id) { draw_circle(x, y, draw_radius, false); }
+
+// draw player and trail
+draw_fixed_trail(trail_length, draw_radius * 2, color, -1, true, 1);
+draw_circle(x, y, draw_radius, false);
 
 if (!enter_the_void && nearest_orb != -1 && (!nearest_orb.guarded || nearest_orb.guarder == id)) {
     var alpha = 0.3;

@@ -14,6 +14,7 @@ if (orbit_speed == 0) {
 // start orbiting
 speed = 0;
 orbiting = true;
+latch_time = get_timer();
 
 //if tethered, release that anchor
 if (tethered) { current_orb.halt = false; }

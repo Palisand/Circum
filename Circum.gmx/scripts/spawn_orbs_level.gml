@@ -21,7 +21,7 @@ switch (spawning_type) {
         // We can have another switch statement here to pick out the prebuilt setup to use OR we can make a new function for that
         var num_prebuilt = 4;                           // Number of pre-built stages
         var fixed_select = irandom(num_prebuilt - 1);   // This makes it easier to access a particular stage in the following switch
-        //fixed_select = 3;
+        //fixed_select = 1;
         switch (fixed_select) {
             case 0:
                 // This level is actually REALLY hard - Alternating Death; Cleansed by Fire

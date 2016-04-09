@@ -35,6 +35,8 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             }
         }
         current_orb = orb;
+        tethered = false;
+        
         enter_the_void = true;      
         audio_sound_pitch(audio_play_sound(snd_death, 0, 0), 1/3);
         break;
@@ -100,7 +102,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             
             // if player is tethered to an owned orb, it can Release opponent orbs
                      
-            if ((tethered && current_orb.capturer == id && global.hammer)) { // (ricochet_reward == THEFT || ricochet_reward == RELEASE) {
+            if ((tethered && global.hammer)) { // (ricochet_reward == THEFT || ricochet_reward == RELEASE) {
                 // Decrement opponent player capture count
                 orb.capturer.num_orb_captured--;
                 // Visuals
