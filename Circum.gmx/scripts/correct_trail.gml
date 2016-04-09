@@ -1,10 +1,11 @@
-
-//Precondition: the player is orbiting/tethered
+/// correct_trail(Min)
 
 var Min = argument0;
 
 //if the orb is moving on a fixed path
-if (current_orb.fixed && current_orb.fixed_orbit_speed != 0) {
+if ((orbiting || tethered)
+    && current_orb.fixed && current_orb.fixed_orbit_speed != 0) {
+    
     trail_id[0] = latch_time;
     
     //get relevant parameters of the orb and player

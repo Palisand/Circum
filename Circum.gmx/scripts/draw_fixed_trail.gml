@@ -25,12 +25,7 @@ Min = min(Height - 1,Length);
 
 if (ricochet_time < trail_length) { ricochet_time++; }
 
-if (orbiting || tethered)
-    { correct_trail(Min); }
-else { trail_id[0] = -1; }
-
-//draw the player here
-draw_circle(ArrayTrail[0,0],ArrayTrail[0,1], draw_radius, false);
+if (!global.pre_fix_trail) { correct_trail(Min); }
 
 //Setting the texture
 if (Sprite >= 0) Texture = sprite_get_texture(Sprite,0);
