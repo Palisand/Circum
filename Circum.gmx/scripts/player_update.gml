@@ -18,23 +18,9 @@ if (col_edge) {
         ricochet_time = 0;
     }
     
-    // Ricochet Streak Update
-    // Increment the Ricochet Streak counter if the streak has already started
-    if (ricochet_streak > 0) {
-        play_ricochet(++ricochet_streak, scale);
-    }
+    // Increment the ricochet streak and play the ricochet sound
+    play_ricochet(++ricochet_streak, scale);
 }
-
-// Ricochet Streak Update
-// Check if our streak is high enough for a streak reward / power-up
-/*
-if (ricochet_streak == RELEASE) {
-    ricochet_reward = RELEASE;
-}
-else if (ricochet_streak == THEFT) {
-    ricochet_reward = THEFT;
-}
-*/
 
 // reset orb collision set flag (otherwise landing on a free or owned orb won't result in a radius reveal)
 col_orb_set = false;

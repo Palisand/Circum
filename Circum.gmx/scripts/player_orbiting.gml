@@ -19,8 +19,6 @@ direction = orbit - (sign(orbit_speed) * 90);
 // Launch
 if ((keyboard_check_pressed(action_key)  // on action if there isn't a winner
     && (player_obj == o_player_debug || (player_obj == o_player && global.winner < 0)))
-    || (current_orb.guarded && current_orb.guarder != id)  // if the orb is or has become guarded
-    || current_orb.capturer != id  // the orb no longer belongs to the player
     ) {
     speed = launch_speed;
     orbiting = false;

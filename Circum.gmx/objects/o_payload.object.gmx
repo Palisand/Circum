@@ -79,17 +79,27 @@ part_type_destroy(p_type);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Seek Target Orb...
+            <string>/// Seek Target Orb
 
 if (distance_to_point(target.x, target.y) &gt; target.radius) {
     move_towards_point(target.x, target.y, move_speed);
 }
 else {
-    // because guarder is set, old guarder's streak bonus is removed
-    target.guarded = true;
-    target.guarder = sender;
-    target.alarm[0] = STREAK_TIMEOUT;
-    // temporary effect, should be different
+    if (target.type == VOID_ORB) {
+        // guard so that the player will not die
+        target.guarded = true;
+        target.guarder = sender;
+        target.alarm[0] = GUARD_TIME;
+    }
+    else {
+        // temporarily release orb
+        with (instance_create(target.x, target.y, o_release_effect)) {
+            color = other.target.color;
+        }
+        target.captured = false;
+        // leave capturer alone so orb can revert
+        target.alarm[1] = RELEASE_TIME;
+    }
     collision_hit_burst(x, y, 0, 360, sender.color, 300, 30, target.p_emitter, target.p_type);
     instance_destroy();
 }
