@@ -18,7 +18,7 @@ if (!fixed) {
 if (fixed_orbit_speed == 0) {
     for (var i = 0; i < instance_number(orb_obj); i++) {
         var orb = instance_find(orb_obj, i);
-        if (self.id != orb.id) {
+        if (self.id != orb.id && point_distance(x, y, orb.x, orb.y) < orbit_radius * 2) {
             orb_hit_orb(orb);
         }
     }
