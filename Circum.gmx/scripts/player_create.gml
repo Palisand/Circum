@@ -4,7 +4,6 @@
 color = c_white;
 action_key = vk_shift;
 
-trail_length = 30;
 draw_radius = 5;
 radius = 5;
 
@@ -16,11 +15,15 @@ orbit_speed_set = 4;
 //flags for state
 orbiting = false;
 tethered = false;
+
+/* For trails */
+trail_length = 30;
+trail_id[0] = -1;
 //upon tether, store distance to current_orb
 tether_radius = 0;
-//for trails: steps since last ricochet
+//steps since last ricochet
 ricochet_time = trail_length;
-//for trails: time at which we tethered/orbited
+//time at which we tethered/orbited
 latch_time = -1;
 
 single = true;

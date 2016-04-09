@@ -27,6 +27,7 @@
       <script>scripts\collision_hit_burst.gml</script>
       <script>scripts\play_ricochet.gml</script>
       <script>scripts\draw_circle_width.gml</script>
+      <script>scripts\correct_trail.gml</script>
     </scripts>
     <scripts name="Visuals">
       <script>scripts\orb_visuals.gml</script>
