@@ -20,6 +20,8 @@ tethered = false;
 tether_radius = 0;
 //for trails: steps since last ricochet
 ricochet_time = trail_length;
+//for trails: time at which we tethered/orbited
+latch_time = -1;
 
 single = true;
 num_orb_captured = 0;

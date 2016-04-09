@@ -33,4 +33,5 @@ if (keyboard_check_pressed(action_key) && nearest_orb != -1 && (!nearest_orb.gua
     orbit = point_direction(x, y, nearest_orb.x, nearest_orb.y);
     orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
     tether_radius = distance(self,current_orb);
+    latch_time = get_timer();
 }

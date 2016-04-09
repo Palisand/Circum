@@ -23,12 +23,12 @@ Min = min(Height - 1,Length);
 if (ricochet_time < trail_length) { ricochet_time++; }
 
 //if the orb is moving on a fixed path, cannot rely on default code
-if ((orbiting || tethered) &&
-    current_orb.fixed &&
-    current_orb.fixed_orbit_speed != 0
+if ((orbiting || tethered)
+    && current_orb.fixed
+    && current_orb.fixed_orbit_speed != 0
     ) {
     
-    On_orbit[0] = current_orb.id;
+    trail_id[0] = latch_time;
     
     //get relevant parameters of the orb and player
     var ox = current_orb.x;
@@ -41,26 +41,22 @@ if ((orbiting || tethered) &&
     for(var i = 0; i < end_loop; i++){
         var newX, newY;
         
-        if (i > 0 && On_orbit[i] != current_orb.id) {
+        if (i > 0 && trail_id[i] != latch_time) {
             //the previous point pulls this one closer (scale down the distance)
-            var prevX = ArrayTrail[i-1,0];
-            var prevY = ArrayTrail[i-1,1];
-            newX = ArrayTrail[i,0];
-            newY = ArrayTrail[i,1];
-            var dx = newX - prevX;
-            newX = prevX + 0.7*dx;
-            var dy = newY - prevY;
-            newY = prevY + 0.7*dy;
-            
+            newX = ArrayTrail[i-1,0] + 0.7*(ArrayTrail[i,0] - ArrayTrail[i-1,0]);
+            newY = ArrayTrail[i-1,1] + 0.7*(ArrayTrail[i,1] - ArrayTrail[i-1,1]);
             //check if orbit/tether radius has been reached
-            if (point_distance(newX,newY,ox,oy) == orad) { On_orbit[i] = current_orb.id; }
+            if (point_distance(newX,newY,ox,oy) == orad) { trail_id[i] = latch_time; }
         }
         
         else {
             //calculate based on player's angular location
-            var angle = degtorad(orbit-i*orbit_speed);
-            newX = ox - orad*cos(angle);
-            newY = oy + orad*sin(angle);
+            var angle = orbit-i*orbit_speed;
+            
+            newX = ox - orad*dcos(angle);
+            
+            newY = oy + orad*dsin(angle);
+            
         }
         
         ArrayTrail[i,0] = newX;
@@ -69,11 +65,11 @@ if ((orbiting || tethered) &&
 }
 
 else {
-    On_orbit[0] = -1;
+    trail_id[0] = -1;
 }
 
 //draw the player here
-draw_circle(ArrayTrail[0,0], ArrayTrail[0,1], draw_radius, false);
+draw_circle(ArrayTrail[0,0],ArrayTrail[0,1], draw_radius, false);
 
 //Setting the texture
 if (Sprite >= 0) Texture = sprite_get_texture(Sprite,0);
@@ -100,5 +96,5 @@ for (var i = Min; i > 0; i--){
     ArrayTrail[i,0] = ArrayTrail[i - 1,0];
     ArrayTrail[i,1] = ArrayTrail[i - 1,1];
     ArrayTrail[i,2] = ArrayTrail[i - 1,2];
-    On_orbit[i] = On_orbit[i-1];
+    trail_id[i] = trail_id[i-1];
 }
