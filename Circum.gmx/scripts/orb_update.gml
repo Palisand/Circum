@@ -10,13 +10,17 @@ else {
 }
 
 // bounce off the screen's edge
-var col_edge_coords = edge_bounce_circle(orbit_radius);
+if (!fixed) {
+    var col_edge_coords = edge_bounce_circle(orbit_radius);
+}
 
 // bounce off other orbs
-for (var i = 0; i < instance_number(orb_obj); i++) {
-    var orb = instance_find(orb_obj, i);
-    if (self.id != orb.id) {
-        orb_hit_orb(orb);
+if (fixed_orbit_speed == 0) {
+    for (var i = 0; i < instance_number(orb_obj); i++) {
+        var orb = instance_find(orb_obj, i);
+        if (self.id != orb.id && point_distance(x, y, orb.x, orb.y) < orbit_radius * 2) {
+            orb_hit_orb(orb);
+        }
     }
 }
 
@@ -66,39 +70,10 @@ else {
 
 // Void Effect
 if (type == VOID_ORB) {
-    part_system_depth(global.p_system, -99);
-    part_type_shape(p_type_alt, pt_shape_line);
-    part_type_blend(p_type_alt, true);
-    part_type_alpha1(p_type_alt, 1);
-    part_type_colour1(p_type_alt, color);
-    part_type_speed(p_type_alt, 0, 2, 0, 0);
-    part_type_size(p_type_alt, 0.2, 0.2, 0, 0);
-    part_type_life(p_type_alt, 0, 10);
-    part_type_orientation(p_type_alt, 0, 0, 0, 0, true);
-    part_type_scale(p_type_alt, 1, 1);
-    for (var start = 0; start < 360; start += 3) {
-        var xx = x + lengthdir_x(radius, start);
-        var yy = y + lengthdir_y(radius, start)
-        var dir = point_direction(xx, yy, x, y);
-        part_type_direction(p_type_alt, dir, dir, 0, 0);
-        part_emitter_region(global.p_system, p_emitter, xx, xx, yy, yy, ps_shape_line, ps_distr_linear);
-        part_emitter_burst(global.p_system, p_emitter, p_type_alt, 1);
-    }
+    void_orb_particles();
 }
 
 // Master Effect
 if (type == MASTER_ORB) {
-    part_system_depth(global.p_system, -99);
-    part_type_shape(p_type_alt, pt_shape_flare);
-    part_type_blend(p_type_alt, true);
-    part_type_alpha2(p_type_alt, 1, 0);
-    part_type_colour1(p_type_alt, color);
-    part_type_speed(p_type_alt, 0, 4, 0, 0);
-    part_type_size(p_type_alt, 0.2, 0.2, 0, 0);
-    part_type_life(p_type_alt, 0, 10);
-    part_type_orientation(p_type_alt, 0, 0, 0, 0, true);
-    part_type_scale(p_type_alt, 1, 1);
-    part_type_direction(p_type_alt, 0, 360, 0, 0);
-    part_emitter_region(global.p_system, p_emitter, x - radius, x + radius, y - radius, y + radius, ps_shape_ellipse, ps_distr_linear);
-    part_emitter_burst(global.p_system, p_emitter, p_type_alt, 100);
+    master_orb_particles();
 }

@@ -33,6 +33,7 @@ global.pre_fix_trail = false;
 
 //who won
 global.winner = -1;
+global.snd_win_played = false;
 
 //global particle system (the only one that should be used)
 global.p_system = part_system_create();

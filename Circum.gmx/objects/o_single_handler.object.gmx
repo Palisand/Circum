@@ -347,6 +347,29 @@ if (room_speed &lt; 60) {
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Ambient Background Particles
+
+background_particles();
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="64">
       <action>
@@ -413,41 +436,6 @@ if (surface_exists(screen)) {
 else {
     screen = surface_create(room_width, room_height);
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Ambient Background Particles
-
-part_system_depth(global.p_system, -98);
-part_type_shape(p_type, pt_shape_flare);
-part_type_blend(p_type, true);
-part_type_alpha2(p_type, 1, 0);
-part_type_colour1(p_type, c_white); // maybe can change color depending on which player is winning
-part_type_direction(p_type, 0, 360, 0, 0); // completely random direction
-part_type_speed(p_type, 0, 4, 0, 0);
-part_type_size(p_type, 0.2, 0.2, 0, 0);
-part_type_life(p_type, 1, 120);
-part_type_orientation(p_type, 0, 360, 0, 0, false);
-part_type_scale(p_type, 1, 1);
-part_emitter_region(global.p_system, p_emitter, 0, room_width, 0, room_height, ps_shape_ellipse, ps_distr_linear);
-part_emitter_burst(global.p_system, p_emitter, p_type, random(5));
 </string>
           </argument>
         </arguments>
