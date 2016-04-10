@@ -64,11 +64,13 @@
       <script>scripts\player_create.gml</script>
       <script>scripts\orb_create.gml</script>
       <script>scripts\set_orb_type.gml</script>
+      <script>scripts\level_create.gml</script>
     </scripts>
     <scripts name="Orb Spawning">
       <script>scripts\get_orb_pattern.gml</script>
       <script>scripts\spawn_orbs.gml</script>
       <script>scripts\spawn_orbs_level.gml</script>
+      <script>scripts\spawn_tutorial_orbs.gml</script>
     </scripts>
     <scripts name="Other">
       <script>scripts\distance.gml</script>
@@ -95,6 +97,7 @@
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_tutorial</room>
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>

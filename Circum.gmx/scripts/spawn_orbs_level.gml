@@ -1,6 +1,5 @@
 /// spawn_orbs_level()
 
-
 //spawn_orbs(true, room_width/8, -0.5, 0, get_orb_pattern(5, DEAD_ORB, DEFAULT_ORB, DEFAULT_ORB, VOID_ORB));
 //spawn_orbs(true, room_width/3, 0.5, 0, get_orb_pattern(10, MASTER_ORB));
 

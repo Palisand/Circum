@@ -38,6 +38,13 @@ p_type = part_type_create();
 // Screen (Circular)
 screen = surface_create(room_width, room_height);
 drawn_to_surface = false;
+
+tut_count = -1;
+if (room_get_name(room) == "rm_tutorial"){
+    tut_count = 0;
+    alpha_transition = 0;
+    prev_player_color = -1;
+}
 </string>
           </argument>
         </arguments>
@@ -61,38 +68,8 @@ drawn_to_surface = false;
             <string>/// Player and Orb Spawns
 randomize();
 
-// Spawn Orbs
-spawn_orbs_level();
+level_create();
 
-// Spawn Starting Orb
-var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);
-start_orb.speed = 0;  // not necessary if fixed = true, but let's keep it anyway
-start_orb.fixed = true;
-
-// Get number of orbs required to win (now that all orbs have been spawned)
-num_to_win = 0;
-with (o_orb) {
-    if (type == DEFAULT_ORB) { other.num_to_win++; }
-}
-
-// Spawn Player
-plr_color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
-with (instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)) {
-    color = other.plr_color;
-    action_key = vk_space;
-    num_to_win =  other.num_to_win; 
-}
-// set captured orbs' colors based on player color
-with (o_orb) {
-    if (captured) {
-        do {
-            color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
-        } until (color != other.plr_color);
-    }
-}
-
-// Spawn Hidden Opponent
-instance_create(0, 0, o_fake_player);
 </string>
           </argument>
         </arguments>
@@ -370,6 +347,47 @@ background_particles();
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Win tutorial stage
+
+if (room_get_name(room) == "rm_tutorial" &amp;&amp; instance_exists(o_player)) {
+
+    var plr = instance_find(o_player,0);
+    if (plr.draw_radius &gt;= 2*SCREEN_RADIUS) {
+    
+        prev_player_color = plr.color;
+        alpha_transition = 1;
+            
+        with (plr) { instance_destroy(); }
+        global.winner = -1;
+        
+        with (o_orb) { instance_destroy(); }
+        with (o_fake_player) { instance_destroy(); }
+        
+        tut_count = (tut_count + 1) % 6;
+        
+        level_create();
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="64">
       <action>
@@ -435,6 +453,15 @@ if (surface_exists(screen)) {
 }
 else {
     screen = surface_create(room_width, room_height);
+}
+
+//fade-in
+if (alpha_transition &gt; 0.001) {
+    draw_set_alpha(alpha_transition);
+    alpha_transition = lerp(alpha_transition,0,0.1);
+    draw_set_color(prev_player_color);
+    draw_circle(SCREEN_RADIUS,SCREEN_RADIUS,SCREEN_RADIUS,false);
+    draw_set_alpha(1);
 }
 </string>
           </argument>
