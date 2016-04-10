@@ -1,3 +1,4 @@
+/// spawn_tutorial_orbs()
 
 switch(tut_count) {
 //launch and tether (not moving)

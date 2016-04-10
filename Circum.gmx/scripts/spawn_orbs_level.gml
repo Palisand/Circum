@@ -1,11 +1,5 @@
 /// spawn_orbs_level()
 
-//spawn_orbs(true, room_width/8, -0.5, 0, get_orb_pattern(5, DEAD_ORB, DEFAULT_ORB, DEFAULT_ORB, VOID_ORB));
-//spawn_orbs(true, room_width/3, 0.5, 0, get_orb_pattern(10, MASTER_ORB));
-
-//spawn_orbs(false, room_width/3, 0, 0, get_orb_pattern(3, DEAD_ORB, DEFAULT_ORB, CAPTURED_ORB));
-//spawn_orbs(false, room_width/6, 0, 0, get_orb_pattern(3, VOID_ORB, DEFAULT_ORB));
-
 // Spawning Orbs NEW
 // Consider spawning with three different methods (the exact one will be selected at random):
 //  1. Creating fixed-orbit rings in a setup that is prebuilt by hand
@@ -69,3 +63,17 @@ switch (spawning_type) {
         spawn_orbs(false, room_width/2.5, 0, 0, get_orb_pattern(1, irandom(MASTER_ORB), irandom(MASTER_ORB)));
         break;
 }
+
+// Save Layout
+var index = 0;
+with (o_orb) {
+    global.orb_layout[index, 0] = x;
+    global.orb_layout[index, 1] = y;
+    global.orb_layout[index, 2] = type;
+    global.orb_layout[index, 3] = fixed;
+    global.orb_layout[index, 4] = fixed_orbit;
+    global.orb_layout[index, 5] = fixed_orbit_speed;
+    global.orb_layout[index, 6] = fixed_orbit_radius;
+    index++;
+}
+global.num_orb = index;
