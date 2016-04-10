@@ -3,7 +3,11 @@
 
 // Spawn Orbs
 if (tut_count < 0) { spawn_orbs_level(); }
-else { spawn_tutorial_orbs(); }
+else {
+    tutorial_text_appeared = false;
+    tutorial_text_alpha = 0;
+    spawn_tutorial_orbs();
+}
 
 // Spawn Starting Orb
 var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);

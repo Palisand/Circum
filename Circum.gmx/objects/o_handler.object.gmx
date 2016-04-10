@@ -44,6 +44,7 @@ if (room_get_name(room) == "rm_tutorial"){
     tut_count = 0;
     alpha_transition = 0;
     prev_player_color = -1;
+    tutorial_text = "Tap to launch#Hold to tether";
 }
 </string>
           </argument>
@@ -380,7 +381,6 @@ if (room_get_name(room) == "rm_tutorial" &amp;&amp; instance_exists(o_player)) {
         with (o_fake_player) { instance_destroy(); }
         
         tut_count = (tut_count + 1) % 6;
-        
         level_create();
     }
 }
@@ -410,6 +410,8 @@ if (room_get_name(room) == "rm_tutorial" &amp;&amp; instance_exists(o_player)) {
 
 debug_text = ("Framerate: " + string(fps) + "#");
 debug_text += ("Actual Framerate: " + string(fps_real));
+draw_set_alpha(1);
+draw_set_color(c_white);
 draw_text(0, 0, debug_text);
 </string>
           </argument>
@@ -453,6 +455,19 @@ if (surface_exists(screen)) {
 }
 else {
     screen = surface_create(room_width, room_height);
+}
+
+/// Tutorial text
+if (tut_count &gt; -1 &amp;&amp; (!tutorial_text_appeared || tutorial_text_alpha &gt; 0.001)) {
+    draw_set_color(c_white);
+    draw_set_halign(fa_center);
+    draw_set_alpha(tutorial_text_alpha);
+    draw_text_transformed(SCREEN_RADIUS,SCREEN_RADIUS-128,tutorial_text,2.5,2.5,0);
+    if (!tutorial_text_appeared) {
+        tutorial_text_alpha = lerp(tutorial_text_alpha,1,0.02);
+        if (tutorial_text_alpha &gt;= 0.9) { tutorial_text_appeared = true; }
+    }
+    else { tutorial_text_alpha = lerp(tutorial_text_alpha,0,0.08); }
 }
 
 //fade-in
