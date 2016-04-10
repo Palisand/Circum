@@ -16,16 +16,6 @@ orbit_speed_set = 4;
 orbiting = false;
 tethered = false;
 
-/* For trails */
-trail_length = 30;
-trail_id[0] = -1;
-//upon tether, store distance to current_orb
-tether_radius = 0;
-//steps since last ricochet
-ricochet_time = trail_length;
-//time at which we tethered/orbited
-latch_time = -1;
-
 single = true;
 num_orb_captured = 0;
 num_to_win = -1;
@@ -33,9 +23,15 @@ current_orb = -1;
 nearest_orb = -1;
 dist_to_nearest = room_width * 2;  // pseudo MAX_INT
 
+// Trail
+trail_length = 30;
+trail_id[0] = -1;
+tether_radius = 0;  //upon tether, store distance to current_orb
+ricochet_time = trail_length;  //steps since last ricochet
+latch_time = -1;  //time at which we tethered/orbited
+
 // Capture Streak
 capture_streak = -1;  // offset by one because we will capture the initial orb
-possession_streak_used = false;
 
 // Collision
 col_edge = false;
@@ -44,7 +40,6 @@ enter_the_void = false;
 
 // Ricochet Streak Variables
 ricochet_streak = -1;  // Counter for the current ricochet streak
-ricochet_reward = 0;  // Records the ricochet reward (for the current version either 3 or 6)
 
 // Sound
 scale[0] = 2/3;

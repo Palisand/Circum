@@ -44,6 +44,4 @@ for (var i = Min; i > 0; i--){
     ArrayTrail[i,0] = ArrayTrail[i - 1,0];
     ArrayTrail[i,1] = ArrayTrail[i - 1,1];
     ArrayTrail[i,2] = ArrayTrail[i - 1,2];
-    //special addition
-    trail_id[i] = trail_id[i-1];
 }

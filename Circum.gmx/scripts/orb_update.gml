@@ -24,14 +24,6 @@ if (fixed_orbit_speed == 0) {
     }
 }
 
-// Fade alpha depending on captured status
-if (captured) {
-    fill_alpha = lerp(fill_alpha, 1, fill_alpha_rate);
-}
-else {
-    fill_alpha = lerp(fill_alpha, 0, fill_alpha_rate);
-}
-
 // collision-dependent
 if (col_orb || col_edge || col_player) {
     orbit_radius_alpha = orbit_radius_alpha_max;  // reveal orbit radius on collision
@@ -56,16 +48,6 @@ if (col_edge) {
 
 if (col_player) {
     col_player = false;
-}
-
-// Guarded
-if (guarded) {
-    if (guard_impact_alpha > 0) {
-        guard_impact_alpha -= 0.1;
-    }
-}
-else {
-    guard_impact_alpha = 1;
 }
 
 // Void Effect

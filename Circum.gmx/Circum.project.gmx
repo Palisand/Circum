@@ -78,8 +78,7 @@
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
   </shaders>
   <objects name="objects">
-    <object>objects\o_multi_handler</object>
-    <object>objects\o_single_handler</object>
+    <object>objects\o_handler</object>
     <object>objects\o_globals</object>
     <object>objects\o_player</object>
     <object>objects\o_orb</object>
@@ -96,11 +95,10 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\single_player</room>
-    <room>rooms\debug_room</room>
-    <room>rooms\two_player</room>
+    <room>rooms\rm_play</room>
+    <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="17">
+  <constants number="19">
     <constant name="NUM_ORB_TYPES">4</constant>
     <constant name="DEFAULT_ORB">0</constant>
     <constant name="DEAD_ORB">1</constant>
@@ -118,6 +116,8 @@
     <constant name="S_FIXED_RANDOM">1</constant>
     <constant name="S_RANDOM">2</constant>
     <constant name="S_MAX_LANES">2</constant>
+    <constant name="GUARD_TIME">800</constant>
+    <constant name="RELEASE_TIME">500</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

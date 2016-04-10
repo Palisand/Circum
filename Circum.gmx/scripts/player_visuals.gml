@@ -7,7 +7,8 @@ draw_set_colour(color);
 draw_fixed_trail(trail_length, draw_radius * 2, color, -1, true, 1);
 draw_circle(x, y, draw_radius, false);
 
-if (!enter_the_void && nearest_orb != -1 && (!nearest_orb.guarded || nearest_orb.guarder == id)) {
+// draw tether
+if (!enter_the_void && nearest_orb != -1) {
     var alpha = 0.3;
     if (tethered) {
         alpha = 1;
@@ -22,13 +23,3 @@ if (!enter_the_void && nearest_orb != -1 && (!nearest_orb.guarded || nearest_orb
     );
     draw_set_alpha(1);
 }
-
-/*
-draw_set_halign(fa_center);
-if (ricochet_reward == THEFT) {
-    draw_text_transformed(x, y - 40, "THEFT", 2, 2, 0);
-}
-if (ricochet_reward == RELEASE) {
-    draw_text_transformed(x, y - 40, "RELEASE", 2, 2, 0);
-}
-*/
