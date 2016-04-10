@@ -71,6 +71,7 @@
       <script>scripts\spawn_orbs.gml</script>
       <script>scripts\spawn_orbs_level.gml</script>
       <script>scripts\spawn_tutorial_orbs.gml</script>
+      <script>scripts\save_level.gml</script>
     </scripts>
     <scripts name="Other">
       <script>scripts\distance.gml</script>

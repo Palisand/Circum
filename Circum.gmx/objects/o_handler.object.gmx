@@ -265,6 +265,8 @@ if (keyboard_check_pressed(ord("R"))) {
         game_restart();
     }
     else {
+        tutorial_text_appeared = false;
+        
         // RESTART CURRENT LEVEL
         with (o_orb) {
             instance_destroy();
