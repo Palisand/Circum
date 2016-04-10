@@ -1,18 +1,20 @@
-/// level_create()
+/// level_create(restart)
 //Places orbs & player, and initializes variables
 //called by handler
 
-// Spawn Hidden Opponent
-instance_create(0, 0, o_fake_player);
-
 // Spawn Orbs
-if (tut_count < 0) {
-    spawn_orbs_level();
+if (argument0) {
+    spawn_orbs_saved();
 }
 else {
-    tutorial_text_appeared = false;
-    tutorial_text_alpha = 0;
-    spawn_tutorial_orbs();
+    if (tut_count < 0) {
+        spawn_orbs_level();
+    }
+    else {
+        tutorial_text_appeared = false;
+        tutorial_text_alpha = 0;
+        spawn_tutorial_orbs();
+    }
 }
 
 // Spawn Starting Orb

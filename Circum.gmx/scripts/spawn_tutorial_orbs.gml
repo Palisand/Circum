@@ -43,4 +43,3 @@ case 5:
     spawn_orbs(false,3*SCREEN_RADIUS/4,0.1,0,get_orb_pattern(2,DEFAULT_ORB,CAPTURED_ORB,DEFAULT_ORB));
 }
 
-save_level();

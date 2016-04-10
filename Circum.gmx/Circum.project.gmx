@@ -72,6 +72,7 @@
       <script>scripts\spawn_orbs_level.gml</script>
       <script>scripts\spawn_tutorial_orbs.gml</script>
       <script>scripts\save_level.gml</script>
+      <script>scripts\spawn_orbs_saved.gml</script>
     </scripts>
     <scripts name="Other">
       <script>scripts\distance.gml</script>
@@ -98,8 +99,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_tutorial</room>
     <room>rooms\rm_play</room>
+    <room>rooms\rm_tutorial</room>
     <room>rooms\rm_debug</room>
   </rooms>
   <constants number="19">

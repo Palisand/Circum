@@ -32,6 +32,7 @@ window_set_cursor(cr_none);  // not changed in global game settings because of d
 // init global vars
 instance_create(0, 0, o_globals);
 
+// Particles
 p_emitter = part_emitter_create(global.p_system);
 p_type = part_type_create();
 
@@ -39,7 +40,10 @@ p_type = part_type_create();
 screen = surface_create(room_width, room_height);
 drawn_to_surface = false;
 
+// Tutorial Setup
 tut_count = -1;
+alpha_transition = 0;  // TODO: include transition for standard play
+
 if (room_get_name(room) == "rm_tutorial"){
     tut_count = 0;
     alpha_transition = 0;
@@ -66,11 +70,10 @@ if (room_get_name(room) == "rm_tutorial"){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Player and Orb Spawns
+            <string>/// Initial Player and Orb Spawns
+
 randomize();
-
-level_create();
-
+level_create(false);
 </string>
           </argument>
         </arguments>
@@ -265,9 +268,8 @@ if (keyboard_check_pressed(ord("R"))) {
         game_restart();
     }
     else {
-        tutorial_text_appeared = false;
-        
         // RESTART CURRENT LEVEL
+        tutorial_text_appeared = false;
         with (o_orb) {
             instance_destroy();
         }
@@ -275,48 +277,10 @@ if (keyboard_check_pressed(ord("R"))) {
             instance_destroy();
         }
         if (room_get_name(room) == "rm_tutorial") {
-            global.winner = -1;
-            level_create();
+            level_create(false);
         }
         else {
-            // spawn orbs using global.orb_layout array
-            for (var i = 0; i &lt; global.num_orb; i++) {
-                var orb = instance_create(global.orb_layout[i, 0], global.orb_layout[i, 1], o_orb);
-                set_orb_type(orb, global.orb_layout[i, 2]);
-                if (global.orb_layout[i, 3]) {
-                    orb.fixed = true;
-                    orb.fixed_orbit = global.orb_layout[i, 4];
-                    orb.fixed_orbit_speed = global.orb_layout[i, 5];
-                    orb.fixed_orbit_radius = global.orb_layout[i, 6];
-                }
-            }
-            /* The rest is copied from level_create() */
-            // Spawn Starting Orb
-            var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);
-            start_orb.speed = 0;  // not necessary if fixed = true, but let's keep it anyway
-            start_orb.fixed = true;
-            
-            // Get number of orbs required to win (now that all orbs have been spawned)
-            num_to_win = 0;
-            with (o_orb) {
-                if (type == DEFAULT_ORB) { other.num_to_win++; }
-            }
-            
-            // Spawn Player
-            plr_color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
-            with (instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)) {
-                color = other.plr_color;
-                action_key = vk_space;
-                num_to_win =  other.num_to_win; 
-            }
-            // set captured orbs' colors based on player color
-            with (o_orb) {
-                if (captured) {
-                    do {
-                        color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
-                    } until (color != other.plr_color);
-                }
-            }
+            level_create(true);
         }
     }
 }
@@ -434,7 +398,7 @@ if (room_get_name(room) == "rm_tutorial" &amp;&amp; instance_exists(o_player)) {
         with (o_fake_player) { instance_destroy(); }
         
         tut_count = (tut_count + 1) % 6;
-        level_create();
+        level_create(false);
     }
 }
 </string>
