@@ -40,14 +40,13 @@ p_type = part_type_create();
 screen = surface_create(room_width, room_height);
 drawn_to_surface = false;
 
-// Tutorial Setup
 tut_count = -1;
-alpha_transition = 0;  // TODO: include transition for standard play
+alpha_transition = 0;
+prev_player_color = -1;
 
+// Tutorial Setup
 if (room_get_name(room) == "rm_tutorial"){
     tut_count = 0;
-    alpha_transition = 0;
-    prev_player_color = -1;
     tutorial_text = "Tap to launch#Hold to tether";
 }
 </string>
@@ -381,23 +380,30 @@ background_particles();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Win tutorial stage
+            <string>/// Win
 
-if (room_get_name(room) == "rm_tutorial" &amp;&amp; instance_exists(o_player)) {
+if (instance_exists(o_player)) {
 
     var plr = instance_find(o_player,0);
-    if (plr.draw_radius &gt;= 2*SCREEN_RADIUS) {
     
-        prev_player_color = plr.color;
-        alpha_transition = 1;
-            
-        with (plr) { instance_destroy(); }
+    //if the player has filled the screen, move to another game
+    if (plr.draw_radius &gt;= 2*SCREEN_RADIUS) {
         global.winner = -1;
         
+        //prepare for fade-in
+        prev_player_color = plr.color;
+        alpha_transition = 1;
+        
+        //erase objects
+        with (plr) { instance_destroy(); }
         with (o_orb) { instance_destroy(); }
         with (o_fake_player) { instance_destroy(); }
         
-        tut_count = (tut_count + 1) % 6;
+        //progress along the tutorial sequence
+        if (tut_count != -1) {
+            tut_count = (tut_count + 1) % NUM_TUTORIALS;
+        }
+        
         level_create(false);
     }
 }
@@ -474,7 +480,7 @@ else {
     screen = surface_create(room_width, room_height);
 }
 
-/// Tutorial text
+/// Tutorial text, if applicable
 if (tut_count &gt; -1 &amp;&amp; (!tutorial_text_appeared || tutorial_text_alpha &gt; 0.001)) {
     draw_set_color(c_white);
     draw_set_halign(fa_center);
@@ -487,7 +493,7 @@ if (tut_count &gt; -1 &amp;&amp; (!tutorial_text_appeared || tutorial_text_alpha
     else { tutorial_text_alpha = lerp(tutorial_text_alpha,0,0.08); }
 }
 
-//fade-in
+// Fade-in from previous win
 if (alpha_transition &gt; 0.001) {
     draw_set_alpha(alpha_transition);
     alpha_transition = lerp(alpha_transition,0,0.1);
