@@ -63,12 +63,16 @@
     <scripts name="Creation">
       <script>scripts\player_create.gml</script>
       <script>scripts\orb_create.gml</script>
-      <script>scripts\set_orb_type.gml</script>
+      <script>scripts\level_create.gml</script>
     </scripts>
     <scripts name="Orb Spawning">
+      <script>scripts\set_orb_type.gml</script>
       <script>scripts\get_orb_pattern.gml</script>
       <script>scripts\spawn_orbs.gml</script>
       <script>scripts\spawn_orbs_level.gml</script>
+      <script>scripts\spawn_tutorial_orbs.gml</script>
+      <script>scripts\save_level.gml</script>
+      <script>scripts\spawn_orbs_saved.gml</script>
     </scripts>
     <scripts name="Other">
       <script>scripts\distance.gml</script>
@@ -96,9 +100,10 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_play</room>
+    <room>rooms\rm_tutorial</room>
     <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="19">
+  <constants number="20">
     <constant name="NUM_ORB_TYPES">4</constant>
     <constant name="DEFAULT_ORB">0</constant>
     <constant name="DEAD_ORB">1</constant>
@@ -118,6 +123,7 @@
     <constant name="S_MAX_LANES">2</constant>
     <constant name="GUARD_TIME">800</constant>
     <constant name="RELEASE_TIME">500</constant>
+    <constant name="NUM_TUTORIALS">6</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

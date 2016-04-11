@@ -1,12 +1,5 @@
 /// spawn_orbs_level()
 
-
-//spawn_orbs(true, room_width/8, -0.5, 0, get_orb_pattern(5, DEAD_ORB, DEFAULT_ORB, DEFAULT_ORB, VOID_ORB));
-//spawn_orbs(true, room_width/3, 0.5, 0, get_orb_pattern(10, MASTER_ORB));
-
-//spawn_orbs(false, room_width/3, 0, 0, get_orb_pattern(3, DEAD_ORB, DEFAULT_ORB, CAPTURED_ORB));
-//spawn_orbs(false, room_width/6, 0, 0, get_orb_pattern(3, VOID_ORB, DEFAULT_ORB));
-
 // Spawning Orbs NEW
 // Consider spawning with three different methods (the exact one will be selected at random):
 //  1. Creating fixed-orbit rings in a setup that is prebuilt by hand
@@ -70,3 +63,6 @@ switch (spawning_type) {
         spawn_orbs(false, room_width/2.5, 0, 0, get_orb_pattern(1, irandom(MASTER_ORB), irandom(MASTER_ORB)));
         break;
 }
+
+// Save Layout
+save_level();
