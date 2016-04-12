@@ -303,7 +303,7 @@ if (keyboard_check_pressed(ord("R"))) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Visual and Player Trail toggles
+            <string>/// Toggles (visuals, trail, orb gravity)
 
 if (keyboard_check_pressed(ord("V"))) {
     global.tmp_visuals_on = !global.tmp_visuals_on;
@@ -311,6 +311,10 @@ if (keyboard_check_pressed(ord("V"))) {
 
 if (keyboard_check_pressed(ord("T"))) {
     global.pre_fix_trail = !global.pre_fix_trail;
+}
+
+if (keyboard_check_pressed(ord("G"))) {
+    global.orb_gravity_on = !global.orb_gravity_on;
 }
 </string>
           </argument>

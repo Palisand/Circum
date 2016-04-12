@@ -46,6 +46,9 @@ enum ORB {
 //use pre-fix player trail
 global.pre_fix_trail = false;
 
+//for toggling free orb gravitational pull
+global.orb_gravity_on = true;
+
 //who won
 global.winner = -1;
 global.snd_win_played = false;
