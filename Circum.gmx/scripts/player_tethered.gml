@@ -4,7 +4,7 @@
 current_orb.halt = true;
 
 // Tether Orbit
-orbit += sign(orbit_speed) * (launch_speed * room_speed) / dist_to_nearest;
+orbit += global.speed_scale * sign(orbit_speed) * (launch_speed * room_speed) / dist_to_nearest;
 x = current_orb.x - cos(degtorad(orbit)) * dist_to_nearest;
 y = current_orb.y + sin(degtorad(orbit)) * dist_to_nearest;
 // set direction to orbit tangent
