@@ -380,7 +380,7 @@ background_particles();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Ambient Background Noise
+            <string>/// Ambient Background Noise
 play_background();
 </string>
           </argument>
