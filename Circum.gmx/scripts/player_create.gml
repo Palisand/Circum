@@ -16,6 +16,7 @@ orbit_speed_set = 4;
 //flags for state
 orbiting = false;
 tethered = false;
+just_released = false;
 
 single = true;
 num_orb_captured = 0;
@@ -51,11 +52,21 @@ scale[4] = 1/1;
 scale[5] = 9/8;
 scale[6] = 5/4;
 scale[7] = 4/3;
+/*
 scale_capture[0] = 4/3;
 scale_capture[1] = 3/2;
 scale_capture[2] = 5/3;
 scale_capture[3] = 7/4;
 scale_capture[4] = 2/1;
-scale_capture[5] = 17/8;
-scale_capture[6] = 9/4;
-scale_capture[7] = 7/3;
+scale_capture[5] = 18/8;
+scale_capture[6] = 10/4;
+scale_capture[7] = 8/3;
+*/
+scale_capture[0] = 1;
+scale_capture[1] = 9/8;
+scale_capture[2] = 5/4;
+scale_capture[3] = 4/3;
+scale_capture[4] = 3/2;
+scale_capture[5] = 5/3;
+scale_capture[6] = 15/8;
+scale_capture[7] = 2;

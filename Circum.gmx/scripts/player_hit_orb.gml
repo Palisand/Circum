@@ -77,7 +77,6 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
         case DEFAULT_ORB:
             // if CAPTURED orb
             if (orb.captured && orb.capturer != id) {
-                play_ricochet(++ricochet_streak, scale);
                 ricochet_off_orb(orb);
                 collision_hit_burst(
                     x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
@@ -99,7 +98,9 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
                     orb.captured = false;
                     orb.capturer = -1;
                     orb.color = c_white;
+                    audio_sound_pitch(audio_play_sound(snd_release, 0, 0), 4/3);
                 }
+                else { play_ricochet(++ricochet_streak, scale); }
             }
             // if OWNED orb
             else if (orb.captured && orb.capturer == id) {
