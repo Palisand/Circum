@@ -15,6 +15,7 @@ orbit_speed_set = 4;
 //flags for state
 orbiting = false;
 tethered = false;
+just_released = false;
 
 single = true;
 num_orb_captured = 0;

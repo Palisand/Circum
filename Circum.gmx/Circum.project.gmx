@@ -14,6 +14,9 @@
     <sound>sound\snd_death</sound>
     <sound>sound\snd_game_over</sound>
     <sound>sound\snd_win</sound>
+    <sound>sound\snd_tether</sound>
+    <sound>sound\snd_tether_fade</sound>
+    <sound>sound\snd_release</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_ring</sprite>
@@ -33,6 +36,7 @@
       <script>scripts\background_particles.gml</script>
       <script>scripts\void_orb_particles.gml</script>
       <script>scripts\master_orb_particles.gml</script>
+      <script>scripts\play_background.gml</script>
     </scripts>
     <scripts name="Visuals">
       <script>scripts\orb_visuals.gml</script>
