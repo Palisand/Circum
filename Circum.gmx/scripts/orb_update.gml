@@ -6,7 +6,7 @@ if (halt) {
     speed = lerp(speed, 0, 0.1);
 }
 else {
-    speed = lerp(initial_speed,speed,0.1);
+    speed = lerp(initial_speed*global.speed_scale,speed,0.1);
 }
 
 // bounce off the screen's edge

@@ -25,7 +25,7 @@ nearest_orb = -1;
 dist_to_nearest = room_width * 2;  // pseudo MAX_INT
 
 // Trail
-trail_length = 60;
+trail_length = 30;
 trail_id[0] = -1;
 tether_radius = 0;  //upon tether, store distance to current_orb
 ricochet_time = trail_length;  //steps since last ricochet

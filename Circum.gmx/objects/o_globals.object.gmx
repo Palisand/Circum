@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//do we show the orbits?
+            <string>global.speed_scale = 1.0;
+
+//do we show the orbits?
 global.tmp_visuals_on = false;
 
 //orb layout for current level

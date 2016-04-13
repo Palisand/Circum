@@ -415,6 +415,34 @@ if (instance_exists(o_player)) {
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Speed control
+
+if (keyboard_check_pressed(vk_up) &amp;&amp; global.speed_scale &lt; 0.9) {
+    global.speed_scale += 0.05;
+}
+if (keyboard_check_pressed(vk_down) &amp;&amp; global.speed_scale &gt; 0.2) {
+    global.speed_scale -= 0.05;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="64">
       <action>
@@ -433,10 +461,11 @@ if (instance_exists(o_player)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Framerate
+            <string>/// Framerate &amp; speed scale
 
-debug_text = ("Framerate: " + string(fps) + "#");
-debug_text += ("Actual Framerate: " + string(fps_real));
+debug_text = ("Framerate: " + string(fps));
+debug_text += ("#Actual Framerate: " + string(fps_real));
+debug_text += ("#Speed scale: " + string(global.speed_scale));
 draw_set_alpha(1);
 draw_set_color(c_white);
 draw_text(0, 0, debug_text);
