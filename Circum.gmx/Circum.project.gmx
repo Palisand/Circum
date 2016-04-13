@@ -6,6 +6,7 @@
   <NewExtensions>
     <extension index="0">extensions\Draw Trail</extension>
     <extension index="1">extensions\Draw Circle Width</extension>
+    <extension index="2">extensions\Essential Scripts</extension>
   </NewExtensions>
   <sounds name="sound">
     <sound>sound\snd_ricochet</sound>
@@ -77,6 +78,13 @@
     <scripts name="Other">
       <script>scripts\distance.gml</script>
     </scripts>
+    <scripts name="Essential Scripts">
+      <scripts name="Approach Value">
+        <script>scripts\approach.gml</script>
+        <script>scripts\angle_approach.gml</script>
+        <script>scripts\smooth_approach.gml</script>
+      </scripts>
+    </scripts>
   </scripts>
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
@@ -100,8 +108,8 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_play</room>
-    <room>rooms\rm_tutorial</room>
     <room>rooms\rm_debug</room>
+    <room>rooms\rm_tutorial</room>
   </rooms>
   <constants number="20">
     <constant name="NUM_ORB_TYPES">4</constant>

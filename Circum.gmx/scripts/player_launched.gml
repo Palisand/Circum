@@ -6,7 +6,20 @@ var orb_obj = argument0;
 // update nearest orb (cannot be VOID or CAPTURED)
 if (nearest_orb != -1) {
     dist_to_nearest = point_distance(x, y, nearest_orb.x, nearest_orb.y);
+    
+    // move towards nearest free orb if close enough
+    if (global.orb_gravity_on && nearest_orb.type == DEFAULT_ORB && !nearest_orb.captured && dist_to_nearest < 100) {
+        orb_pull_speed = lerp(orb_pull_speed, launch_speed, 0.1);
+        var dir = point_direction(x, y, nearest_orb.x, nearest_orb.y);
+        //x += lengthdir_x(orb_pull_speed, dir);
+        //y += lengthdir_y(orb_pull_speed, dir);
+        direction = angle_approach(direction, dir, orb_pull_speed);
+    }
+    else {
+        orb_pull_speed = lerp(orb_pull_speed, 0, 0.1);
+    }
 }
+
 with (orb_obj) {
     if (type != VOID_ORB && (!captured || capturer.id == other.id)) {
         dist_to_orb = point_distance(x, y, other.x, other.y);
