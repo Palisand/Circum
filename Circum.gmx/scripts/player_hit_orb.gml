@@ -97,6 +97,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
                     // Reset orb
                     orb.captured = false;
                     orb.capturer = -1;
+                    orb.color = c_white;
                     audio_sound_pitch(audio_play_sound(snd_release, 0, 0), 4/3);
                 }
                 else { play_ricochet(++ricochet_streak, scale); }
