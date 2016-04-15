@@ -36,6 +36,7 @@ fill_alpha = 0;
 fill_alpha_rate = 0.04;
 orbit_radius_alpha = 0;
 orbit_radius_alpha_max = 0.5;
+orbit_radius_alpha_min = 0;
 orbit_radius_alpha_rate = 0.1;
 guard_impact_alpha = 0;
 draw_scale = radius * 2/sprite_get_width(s_ring);

@@ -23,7 +23,6 @@ else {
 }
 with (o_orb) {
     if (captured) {
-        //color = c_fuchsia;
         color = global.lock_color;
     }
 }
@@ -41,21 +40,9 @@ with (o_orb) {
 
 // Spawn Player
 has_launched = false;
-//plr_color = c_lime; //choose(c_fuchsia, c_aqua, c_lime, c_yellow);
-//plr_color = global.player_color;
 with (instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)) {
-    //color = other.plr_color;
     color = global.player_color;
     action_key = vk_space;
     num_to_win =  other.num_to_win; 
 }
 
-// set captured orbs' colors based on player color
-/*
-with (o_orb) {
-    if (captured) {
-        do {
-            color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
-        } until (color != other.plr_color);
-    }
-}

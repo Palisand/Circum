@@ -56,7 +56,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
                 var orb_id = id;
                 var sender_id = other.id;
                 if (type == VOID_ORB || (captured && capturer != other.id)) {
-                    with (instance_create(other.x, other.y, o_payload)) {
+                    with (instance_create(orb.x, orb.y, o_payload)) {
                         sender = sender_id;
                         target = orb_id;
                     }
@@ -67,7 +67,8 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             set_orb_type(orb, DEFAULT_ORB);
             set_to_orbit(orb, to_orb_dir);
             capture_orb(orb, orb_obj);
-            num_orb_captured--; // master orbs don't count?
+            num_orb_captured--; // master orbs don't count
+            room_speed = 20;
             break;
         case DEAD_ORB:
             capture_streak = 0;

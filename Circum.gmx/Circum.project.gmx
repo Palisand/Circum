@@ -81,6 +81,7 @@
     </scripts>
     <scripts name="Other">
       <script>scripts\distance.gml</script>
+      <script>scripts\ease_in_quart.gml</script>
     </scripts>
     <scripts name="Essential Scripts">
       <scripts name="Approach Value">
