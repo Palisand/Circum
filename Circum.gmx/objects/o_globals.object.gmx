@@ -25,7 +25,11 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.speed_scale = 1.0;
+            <string>
+//settings that can be controlled by the player
+global.player_color = c_lime;
+global.lock_color = c_fuchsia;
+global.speed_scale = 1.0;
 
 //do we show the orbits?
 global.tmp_visuals_on = false;

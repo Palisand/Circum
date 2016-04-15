@@ -111,8 +111,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_play</room>
     <room>rooms\rm_tutorial</room>
+    <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
   <constants number="20">
@@ -135,7 +135,7 @@
     <constant name="S_MAX_LANES">2</constant>
     <constant name="GUARD_TIME">800</constant>
     <constant name="RELEASE_TIME">800</constant>
-    <constant name="NUM_TUTORIALS">6</constant>
+    <constant name="NUM_TUTORIALS">7</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

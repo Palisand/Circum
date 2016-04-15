@@ -415,9 +415,9 @@ if (instance_exists(o_player)) {
     //if the player has filled the screen, move to another game
     if (plr.draw_radius &gt;= 2*SCREEN_RADIUS) {
         global.winner = -1;
+        global.snd_win_played = false;
         
         //prepare for fade-in
-        prev_player_color = plr.color;
         alpha_transition = 1;
         
         //erase objects
@@ -548,11 +548,11 @@ if (tut_count &gt; -1 &amp;&amp; (!tutorial_text_appeared || tutorial_text_alpha
     else { tutorial_text_alpha = lerp(tutorial_text_alpha,0,0.08); }
 }
 
-// Fade-in from previous win
+// Fade-in
 if (alpha_transition &gt; 0.001) {
     draw_set_alpha(alpha_transition);
     alpha_transition = lerp(alpha_transition,0,0.1);
-    draw_set_color(prev_player_color);
+    draw_set_color(global.player_color);
     draw_circle(SCREEN_RADIUS,SCREEN_RADIUS,SCREEN_RADIUS,false);
     draw_set_alpha(1);
 }
