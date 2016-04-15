@@ -125,9 +125,9 @@ else {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_colour(sender.color);
+            <string>draw_set_colour(c_white);
 draw_circle(x, y, 3, false);
-draw_trail(10, 6, sender.color, -1, true, 1);
+draw_trail(10, 6, c_white, -1, true, 1);
 </string>
           </argument>
         </arguments>

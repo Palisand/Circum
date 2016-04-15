@@ -31,6 +31,9 @@ if (guarded && guarder.id != -1) {
 else {
     orbit_radius_color = color;
 }
+if (!captured && capturer != -1) {
+    //
+}
 draw_set_alpha(orbit_radius_alpha);
 draw_set_blend_mode(bm_add);
 draw_circle_colour(x, y, orbit_radius, c_black, orbit_radius_color, false);

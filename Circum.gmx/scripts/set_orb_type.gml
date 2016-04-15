@@ -6,7 +6,7 @@ var orb_type = argument1;
 orb.type = orb_type;
 switch(orb.type){
     case DEAD_ORB:
-        orb.color = c_gray;
+        orb.color = c_dkgray;
         break;
     case VOID_ORB:
         orb.color = c_red;
