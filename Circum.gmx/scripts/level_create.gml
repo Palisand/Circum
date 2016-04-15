@@ -1,9 +1,16 @@
 /// level_create(restart)
 //Places orbs & player, and initializes variables
+/// level_create(bool restart_level)
+
 //called by handler
 
+var restart_level = argument0;
+
+level_text_alpha = 0;
+level_text = "";
+
 // Spawn Orbs
-if (argument0) {
+if (restart_level) {
     spawn_orbs_saved();
 }
 else {
@@ -11,8 +18,6 @@ else {
         spawn_orbs_level();
     }
     else {
-        tutorial_text_appeared = false;
-        tutorial_text_alpha = 0;
         spawn_tutorial_orbs();
     }
 }
@@ -35,6 +40,7 @@ with (o_orb) {
 }
 
 // Spawn Player
+has_launched = false;
 //plr_color = c_lime; //choose(c_fuchsia, c_aqua, c_lime, c_yellow);
 //plr_color = global.player_color;
 with (instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)) {

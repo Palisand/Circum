@@ -268,7 +268,7 @@ if (keyboard_check_pressed(ord("R"))) {
     }
     else {
         // RESTART CURRENT LEVEL
-        tutorial_text_appeared = false;
+        has_launched = false;
         with (o_orb) {
             instance_destroy();
         }
@@ -282,6 +282,31 @@ if (keyboard_check_pressed(ord("R"))) {
             level_create(true);
         }
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Player has launched
+
+if (!has_launched &amp;&amp; keyboard_check_pressed(vk_space)){
+    has_launched = true;
 }
 </string>
           </argument>
@@ -417,6 +442,8 @@ if (instance_exists(o_player)) {
         global.winner = -1;
         global.snd_win_played = false;
         
+        has_launched = false;
+        
         //prepare for fade-in
         alpha_transition = 1;
         
@@ -535,20 +562,58 @@ else {
     screen = surface_create(room_width, room_height);
 }
 
-/// Tutorial text, if applicable
-if (tut_count &gt; -1 &amp;&amp; (!tutorial_text_appeared || tutorial_text_alpha &gt; 0.001)) {
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Level text, if applicable
+if (level_text != "" &amp;&amp; (!has_launched || level_text_alpha &gt; 0.001)) {
     draw_set_color(c_white);
     draw_set_halign(fa_center);
-    draw_set_alpha(tutorial_text_alpha);
-    draw_text_transformed(SCREEN_RADIUS,SCREEN_RADIUS-128,tutorial_text,2.5,2.5,0);
-    if (!tutorial_text_appeared) {
-        tutorial_text_alpha = lerp(tutorial_text_alpha,1,0.02);
-        if (tutorial_text_alpha &gt;= 0.9) { tutorial_text_appeared = true; }
+    draw_set_alpha(level_text_alpha);
+    draw_text_transformed(SCREEN_RADIUS,SCREEN_RADIUS-128,level_text,2.5,2.5,0);
+    if (! has_launched) {
+        level_text_alpha = lerp(level_text_alpha,1,0.08);
     }
-    else { tutorial_text_alpha = lerp(tutorial_text_alpha,0,0.08); }
+    else { level_text_alpha = lerp(level_text_alpha,0,0.04); }
 }
-
-// Fade-in
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Fade-in
 if (alpha_transition &gt; 0.001) {
     draw_set_alpha(alpha_transition);
     alpha_transition = lerp(alpha_transition,0,0.1);
