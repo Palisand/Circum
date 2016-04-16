@@ -1,9 +1,12 @@
-///ricochet_off_orb(orb)
+///ricochet_off_orb(orb,orad)
+//called by player
 
 var orb = argument0;
+//either orbit_radius or raw radius
+var orad = argument1;
 
 var dir = point_direction(orb.x, orb.y, x, y);
-var diff = sqrt(sqr(orb.x - x) + sqr(orb.y - y)) - (orb.orbit_radius + radius);
+var diff = sqrt(sqr(orb.x - x) + sqr(orb.y - y)) - (orad + radius);
 // move out of orb
 if (diff < 0) {
     x += lengthdir_x(abs(diff), dir);

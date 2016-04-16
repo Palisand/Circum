@@ -3,9 +3,12 @@
 
 var orb = argument0;
 var orb_obj = argument1;
+var orad = orb.orbit_radius;
+//unguarded void orbs should be harder to hit
+if (orb.type == VOID_ORB && !orb.guarded) { orad = orb.radius; }
 
 // if the player will collide with the orbit in the next step
-if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
+if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orad)) {
     // set orb collision status if not yet set
     if (!col_orb_set) {
         col_orb_set = true;
@@ -17,7 +20,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
     switch (orb.type) {
         case VOID_ORB:
             if (orb.guarded) {
-                ricochet_off_orb(orb);
+                ricochet_off_orb(orb,orad);
                 collision_hit_burst(
                     x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
                     c_white, 300, 60, orb.p_emitter, orb.p_type
@@ -73,12 +76,12 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
         case DEAD_ORB:
             capture_streak = 0;
             play_ricochet(++ricochet_streak, scale);
-            ricochet_off_orb(orb);
+            ricochet_off_orb(orb,orad);
             break;    
         case DEFAULT_ORB:
             // if CAPTURED orb
             if (orb.captured && orb.capturer != id) {
-                ricochet_off_orb(orb);
+                ricochet_off_orb(orb,orad);
                 collision_hit_burst(
                     x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
                     orb.color, 300, 60, orb.p_emitter, orb.p_type
