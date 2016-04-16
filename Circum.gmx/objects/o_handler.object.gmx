@@ -515,10 +515,12 @@ if (keyboard_check_pressed(vk_down) &amp;&amp; global.speed_scale &gt; 0.2) {
             <kind>1</kind>
             <string>/// Slow Down All Orbs
 
-var num_orb_left = num_to_win - o_player.num_orb_captured
+var num_orb_remaining = num_to_win - o_player.num_orb_captured;
+var total_threshold = 10;
+var remaining_threshold = 2;
 
 // if there are many orbs and there are only a few left to capture
-if (instance_number(o_orb) &gt;= 10 &amp;&amp; num_orb_left &lt;= 2) {
+if (instance_number(o_orb) &gt;= total_threshold &amp;&amp; num_orb_remaining &lt;= remaining_threshold) {
     if (global.orb_speed_multiplier &gt; 0) {
         global.orb_speed_multiplier -= 0.01;
     }
