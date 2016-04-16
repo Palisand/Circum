@@ -94,6 +94,10 @@
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
   </shaders>
+  <fonts name="fonts">
+    <font>fonts\font_main</font>
+    <font>fonts\font_debug</font>
+  </fonts>
   <objects name="objects">
     <object>objects\o_handler</object>
     <object>objects\o_globals</object>
@@ -112,8 +116,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_play</room>
     <room>rooms\rm_tutorial</room>
+    <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
   <constants number="20">

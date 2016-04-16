@@ -21,11 +21,6 @@ else {
         spawn_tutorial_orbs();
     }
 }
-with (o_orb) {
-    if (captured) {
-        color = global.lock_color;
-    }
-}
 
 // Spawn Starting Orb
 var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);
@@ -37,12 +32,21 @@ num_to_win = 0;
 with (o_orb) {
     if (type == DEFAULT_ORB) { other.num_to_win++; }
 }
+if (room_get_name(room) == "rm_tutorial" && (tut_count == 1 || tut_count == 2)) {
+    num_to_win++;  // orb spawns during play
+}
 
 // Spawn Player
 has_launched = false;
-with (instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)) {
-    color = global.player_color;
-    action_key = vk_space;
-    num_to_win =  other.num_to_win; 
+var player;
+if (room_get_name(room) == "rm_tutorial" && tut_count == 0) {
+    player = instance_create(room_width/2, room_height - 10, o_player);
+    player.direction = 90;
 }
+else {
+    player = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)
+}
+player.color = global.player_color;
+player.action_key = vk_space;
+player.num_to_win = num_to_win; 
 

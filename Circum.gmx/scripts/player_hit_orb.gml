@@ -20,7 +20,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
                 ricochet_off_orb(orb);
                 collision_hit_burst(
                     x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
-                    orb.guarder.color, 300, 60, orb.p_emitter, orb.p_type
+                    c_white, 300, 60, orb.p_emitter, orb.p_type
                 );
                 capture_streak = 0;  // reset capture streak
                 play_ricochet(++ricochet_streak, scale);
@@ -68,7 +68,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             set_to_orbit(orb, to_orb_dir);
             capture_orb(orb, orb_obj);
             num_orb_captured--; // master orbs don't count
-            room_speed = 20;
+            room_speed = 30;
             break;
         case DEAD_ORB:
             capture_streak = 0;

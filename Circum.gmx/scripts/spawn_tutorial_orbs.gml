@@ -1,18 +1,50 @@
 /// spawn_tutorial_orbs()
 
+// TODO: color match orb's to text
+
 switch(tut_count) {
-//launch and tether (not moving)
+// Launch
 case 0:
-    level_text = "Tap to launch#Hold to tether";
-    spawn_orbs(true,SCREEN_RADIUS/2,0,0,get_orb_pattern(1,DEFAULT_ORB));
+    level_text = "Press [SPACE] to Launch"
+    spawn_orbs(true,SCREEN_RADIUS/2,-0.3,0,get_orb_pattern(1,DEFAULT_ORB));
     break;
 
-//Capture
+// Tether
 case 1:
-    level_text = "Catch 'em all";
-    spawn_orbs(true,SCREEN_RADIUS/2,0,0,get_orb_pattern(4,DEFAULT_ORB));
+    level_text = "Hold [SPACE] while in the air to Tether";
+    break;
+
+// Hammer Unlock
+case 2:
+    level_text = "While Tethering you can Unlock Orbs";
+    break;
+
+// Key Orb Unlock
+case 3:
+    level_text = "You can also temporarily Unlock##by capturing Key Orbs";
+    spawn_orbs(true,SCREEN_RADIUS/2,-0.3,0,get_orb_pattern(1,MASTER_ORB,CAPTURED_ORB,CAPTURED_ORB,CAPTURED_ORB));
     break;
     
+// Dead Orbs
+case 4:
+    level_text = "Dead Orbs can't be captured";
+    spawn_orbs(true,SCREEN_RADIUS/4,-0.5,random(360),get_orb_pattern(1,DEFAULT_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB,DEAD_ORB));
+    break;
+    
+// Void Orbs
+case 5:
+    level_text = "Void Orbs should be aVOIDed... sorry";
+    spawn_orbs(true,SCREEN_RADIUS/4,-0.5,random(360),get_orb_pattern(1,DEFAULT_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB));
+    break;
+
+// Key Orb Void Guard
+case 6:
+    level_text = "But Key Orbs can protect you from them";
+    spawn_orbs(true,SCREEN_RADIUS/4,-0.5,random(360),get_orb_pattern(1,MASTER_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,DEFAULT_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB,DEFAULT_ORB,VOID_ORB,VOID_ORB,VOID_ORB,VOID_ORB));
+    break;
+}
+
+/* TODO: these make good beginner levels
 //dead orbs (all moving)
 case 2:
     level_text = "Dead end";
