@@ -1,9 +1,16 @@
 /// level_create(restart)
 //Places orbs & player, and initializes variables
+/// level_create(bool restart_level)
+
 //called by handler
 
+var restart_level = argument0;
+
+level_text_alpha = 0;
+level_text = "";
+
 // Spawn Orbs
-if (argument0) {
+if (restart_level) {
     spawn_orbs_saved();
 }
 else {
@@ -11,14 +18,7 @@ else {
         spawn_orbs_level();
     }
     else {
-        tutorial_text_appeared = false;
-        tutorial_text_alpha = 0;
         spawn_tutorial_orbs();
-    }
-}
-with (o_orb) {
-    if (captured) {
-        color = c_fuchsia;
     }
 }
 
@@ -32,21 +32,21 @@ num_to_win = 0;
 with (o_orb) {
     if (type == DEFAULT_ORB) { other.num_to_win++; }
 }
+if (room_get_name(room) == "rm_tutorial" && (tut_count == 1 || tut_count == 2)) {
+    num_to_win++;  // orb spawns during play
+}
 
 // Spawn Player
-plr_color = c_lime; //choose(c_fuchsia, c_aqua, c_lime, c_yellow);
-with (instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)) {
-    color = other.plr_color;
-    action_key = vk_space;
-    num_to_win =  other.num_to_win; 
+has_launched = false;
+var player;
+if (room_get_name(room) == "rm_tutorial" && tut_count == 0) {
+    player = instance_create(room_width/2, room_height - 10, o_player);
+    player.direction = 90;
 }
+else {
+    player = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_player)
+}
+player.color = global.player_color;
+player.action_key = vk_space;
+player.num_to_win = num_to_win; 
 
-// set captured orbs' colors based on player color
-/*
-with (o_orb) {
-    if (captured) {
-        do {
-            color = choose(c_fuchsia, c_aqua, c_lime, c_yellow);
-        } until (color != other.plr_color);
-    }
-}

@@ -47,8 +47,13 @@ prev_player_color = -1;
 // Tutorial Setup
 if (room_get_name(room) == "rm_tutorial"){
     tut_count = 0;
-    tutorial_text = "Tap to launch#Hold to tether";
 }
+this_is_you_alpha = 1;
+spawned_tether_length_orb = false;
+
+// for slow motion
+restoring_speed = false;
+tween_time = 0;
 </string>
           </argument>
         </arguments>
@@ -262,13 +267,19 @@ if (keyboard_check_pressed(vk_escape)) {
     game_end();
 }
 
-if (keyboard_check_pressed(ord("R"))) {
+if (keyboard_check_pressed(ord("R")) ||
+    //you died and...
+    (!instance_exists(o_player) &amp;&amp;
+        //you pressed space OR the music stopped
+        (keyboard_check_pressed(vk_space) || !audio_is_playing(snd_game_over)))
+    ){
+    
     if (keyboard_check(vk_shift)) {
         game_restart();
     }
     else {
         // RESTART CURRENT LEVEL
-        tutorial_text_appeared = false;
+        has_launched = false;
         with (o_orb) {
             instance_destroy();
         }
@@ -277,6 +288,7 @@ if (keyboard_check_pressed(ord("R"))) {
         }
         if (room_get_name(room) == "rm_tutorial") {
             level_create(false);
+            spawned_tether_length_orb = false;
         }
         else {
             level_create(true);
@@ -336,10 +348,10 @@ if (keyboard_check_pressed(ord("G"))) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Return room_speed to normal
+            <string>/// Player has launched
 
-if (room_speed &lt; 60) {
-    room_speed++;
+if (!has_launched &amp;&amp; keyboard_check_pressed(vk_space)){
+    has_launched = true;
 }
 </string>
           </argument>
@@ -361,9 +373,23 @@ if (room_speed &lt; 60) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Ambient Background Particles
+            <string>/// Return room_speed to normal
 
-background_particles();
+
+if (room_speed &lt; 60 &amp;&amp; !restoring_speed) {
+    restoring_speed = true;
+    room_speed_start = room_speed;
+    tween_time = 0;
+}
+
+if (restoring_speed) {
+    tween_time++;
+    room_speed = ease_in_quart(tween_time, room_speed_start, 60 - room_speed_start, 20);
+    if (room_speed &gt;= 60) {
+        room_speed = 60;
+        restoring_speed = false;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -384,7 +410,10 @@ background_particles();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Ambient Background Noise
+            <string>/// Ambient
+
+background_particles();
+
 play_background();
 </string>
           </argument>
@@ -415,9 +444,12 @@ if (instance_exists(o_player)) {
     //if the player has filled the screen, move to another game
     if (plr.draw_radius &gt;= 2*SCREEN_RADIUS) {
         global.winner = -1;
+        global.snd_win_played = false;
+        
+        has_launched = false;
+        spawned_tether_length_orb = false;
         
         //prepare for fade-in
-        prev_player_color = plr.color;
         alpha_transition = 1;
         
         //erase objects
@@ -465,6 +497,41 @@ if (keyboard_check_pressed(vk_down) &amp;&amp; global.speed_scale &gt; 0.2) {
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Tutorial Specific
+
+// Tether Level
+if (room_get_name(room) == "rm_tutorial") {
+    if ((tut_count == 1 || tut_count == 2) &amp;&amp; o_player.tethered &amp;&amp; !spawned_tether_length_orb) {
+        var dist = point_distance(o_player.x, o_player.y, SCREEN_RADIUS, SCREEN_RADIUS);
+        var dir = o_player.direction - 180;
+        var orb = instance_create(SCREEN_RADIUS + lengthdir_x(dist, dir), SCREEN_RADIUS + lengthdir_y(dist, dir), o_orb);
+        orb.initial_speed = 0;
+        if (tut_count == 2) {
+            set_orb_type(orb, CAPTURED_ORB);
+        }
+        spawned_tether_length_orb = true;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="64">
       <action>
@@ -490,6 +557,8 @@ debug_text += ("#Actual Framerate: " + string(fps_real));
 debug_text += ("#Speed scale: " + string(global.speed_scale));
 draw_set_alpha(1);
 draw_set_color(c_white);
+draw_set_halign(fa_left);
+draw_set_font(font_debug);
 draw_text(0, 0, debug_text);
 </string>
           </argument>
@@ -535,25 +604,96 @@ else {
     screen = surface_create(room_width, room_height);
 }
 
-/// Tutorial text, if applicable
-if (tut_count &gt; -1 &amp;&amp; (!tutorial_text_appeared || tutorial_text_alpha &gt; 0.001)) {
-    draw_set_color(c_white);
-    draw_set_halign(fa_center);
-    draw_set_alpha(tutorial_text_alpha);
-    draw_text_transformed(SCREEN_RADIUS,SCREEN_RADIUS-128,tutorial_text,2.5,2.5,0);
-    if (!tutorial_text_appeared) {
-        tutorial_text_alpha = lerp(tutorial_text_alpha,1,0.02);
-        if (tutorial_text_alpha &gt;= 0.9) { tutorial_text_appeared = true; }
-    }
-    else { tutorial_text_alpha = lerp(tutorial_text_alpha,0,0.08); }
-}
-
-// Fade-in from previous win
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Fade-in
 if (alpha_transition &gt; 0.001) {
     draw_set_alpha(alpha_transition);
     alpha_transition = lerp(alpha_transition,0,0.1);
-    draw_set_color(prev_player_color);
+    draw_set_color(global.player_color);
     draw_circle(SCREEN_RADIUS,SCREEN_RADIUS,SCREEN_RADIUS,false);
+    draw_set_alpha(1);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Level text, if applicable
+if (level_text != "" &amp;&amp; (!has_launched || level_text_alpha &gt; 0.001)) {
+    draw_set_color(c_white);
+    draw_set_font(font_main);
+    draw_set_halign(fa_right);
+    draw_set_alpha(level_text_alpha);
+    draw_text(SCREEN_RADIUS, 128, level_text);
+    if (! has_launched) {
+        level_text_alpha = lerp(level_text_alpha,1,0.08);
+    }
+    else { level_text_alpha = lerp(level_text_alpha,0,0.04); }
+    draw_set_alpha(1);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// This is You
+
+if (room_get_name(room) == "rm_tutorial" &amp;&amp; tut_count = 0) {
+    if (o_player.current_orb != -1 &amp;&amp; this_is_you_alpha &gt; 0) {
+        this_is_you_alpha -= 0.05;
+    }
+    draw_set_colour(global.player_color);
+    draw_set_alpha(this_is_you_alpha);
+    draw_text(o_player.x + 200, o_player.y, "This is You");
     draw_set_alpha(1);
 }
 </string>

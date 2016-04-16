@@ -8,7 +8,7 @@
 // To implement the above, first we decide on which level generation method we will be using
 // Comment: Use at least 2.25 as the denominator of room_width/x; otherwise orbs get close enough to constantly collide against edge of room
 var spawning_type = irandom(2);         // Gives a number between 0 ~ 2 (including 2)
-//spawning_type = S_RANDOM;
+//spawning_type = S_FIXED_PREBUILT;
 switch (spawning_type) {
     case S_FIXED_PREBUILT:  // Fixed orbit rings; prebuilt setups
         // We can have another switch statement here to pick out the prebuilt setup to use OR we can make a new function for that
@@ -18,26 +18,31 @@ switch (spawning_type) {
         switch (fixed_select) {
             case 0:
                 // Alternating Death; Difficulty: Medium
+                level_text = "Alternating Death";
                 spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(4, VOID_ORB));
                 spawn_orbs(true, room_width/3.5, 0.3, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB));
                 spawn_orbs(true, room_width/2.25, -0.4, 0, get_orb_pattern (4, DEFAULT_ORB, DEAD_ORB, DEFAULT_ORB));
                 break;
             case 1:  // The Cage; Difficulty: Easy (Relaxing) 
+                level_text = "The Cage";
                 spawn_orbs(true, room_width/7, 0, 0, get_orb_pattern(8, DEAD_ORB));
                 spawn_orbs(true, room_width/5, 0, 22.5, get_orb_pattern(8, DEAD_ORB));
                 spawn_orbs(false, room_width/4, 0, 0, get_orb_pattern(5, DEFAULT_ORB, CAPTURED_ORB));
                 break;
             case 2: // Life or Death (aka Flaming Hell); Difficulty: Very Hard
+                level_text = "Life or Death";
                 spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(8, DEFAULT_ORB, VOID_ORB));
                 spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (8, VOID_ORB, DEFAULT_ORB));
                 spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (8, DEFAULT_ORB));
                 break;
             case 3: // Carefree Carousel; Difficulty: Medium
+                level_text = "Carefree Carousel";
                 spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(4, CAPTURED_ORB));
                 spawn_orbs(true, room_width/3.5, 0.3, 0, get_orb_pattern (8, DEFAULT_ORB));
                 spawn_orbs(true, room_width/2.25, -0.4, 0, get_orb_pattern (12, DEFAULT_ORB));
                 break;
             case 4: // The Cage 2.0; Easy but Tedious
+                level_text = "The Cage 2.0";
                 spawn_orbs(true, room_width/7, 0, 0, get_orb_pattern(7, DEAD_ORB));
                 spawn_orbs(true, room_width/4.75, 0, 20, get_orb_pattern(6, DEAD_ORB, DEFAULT_ORB, CAPTURED_ORB));
                 spawn_orbs(false, room_width/2.5, 0, 0, get_orb_pattern(4, DEFAULT_ORB, CAPTURED_ORB, CAPTURED_ORB));

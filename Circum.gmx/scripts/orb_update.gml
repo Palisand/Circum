@@ -29,7 +29,7 @@ if (col_orb || col_edge || col_player) {
     orbit_radius_alpha = orbit_radius_alpha_max;  // reveal orbit radius on collision
 }
 else {
-    orbit_radius_alpha = lerp(orbit_radius_alpha, 0, orbit_radius_alpha_rate);  // fade out otherwise
+    orbit_radius_alpha = lerp(orbit_radius_alpha, orbit_radius_alpha_min, orbit_radius_alpha_rate);  // fade out otherwise
 }
 
 if (col_orb) {

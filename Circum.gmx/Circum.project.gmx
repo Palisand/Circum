@@ -81,6 +81,7 @@
     </scripts>
     <scripts name="Other">
       <script>scripts\distance.gml</script>
+      <script>scripts\ease_in_quart.gml</script>
     </scripts>
     <scripts name="Essential Scripts">
       <scripts name="Approach Value">
@@ -93,6 +94,10 @@
   <shaders name="shaders">
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
   </shaders>
+  <fonts name="fonts">
+    <font>fonts\font_main</font>
+    <font>fonts\font_debug</font>
+  </fonts>
   <objects name="objects">
     <object>objects\o_handler</object>
     <object>objects\o_globals</object>
@@ -111,8 +116,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_play</room>
     <room>rooms\rm_tutorial</room>
+    <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
   <constants number="20">
@@ -135,7 +140,7 @@
     <constant name="S_MAX_LANES">2</constant>
     <constant name="GUARD_TIME">800</constant>
     <constant name="RELEASE_TIME">800</constant>
-    <constant name="NUM_TUTORIALS">6</constant>
+    <constant name="NUM_TUTORIALS">7</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

@@ -22,18 +22,24 @@ switch(type) {
 // Orbit
 var orbit_radius_color;
 if (guarded && guarder.id != -1) {
-    orbit_radius_color = guarder.color;
-    orbit_radius_alpha = orbit_radius_alpha_max / 2;
+    orbit_radius_color = c_white; //guarder.color;
+    orbit_radius_alpha = orbit_radius_alpha_max;
     draw_set_alpha(guard_impact_alpha);
+    draw_set_colour(orbit_radius_color);
     draw_circle(x, y, orbit_radius, false);
     draw_set_alpha(1);
 }
 else {
     orbit_radius_color = color;
 }
-if (!captured && capturer != -1) {
-    //
+
+if (instance_exists(o_player) && id = o_player.current_orb && o_player.orbiting) {
+    orbit_radius_alpha_min = 0.15;
 }
+else {
+    orbit_radius_alpha_min = 0;
+}
+
 draw_set_alpha(orbit_radius_alpha);
 draw_set_blend_mode(bm_add);
 draw_circle_colour(x, y, orbit_radius, c_black, orbit_radius_color, false);

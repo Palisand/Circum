@@ -14,7 +14,8 @@ switch(orb.type){
     case MASTER_ORB:
         orb.color = c_white;
         break;
-    case CAPTURED_ORB:  // for single-player use
+    case CAPTURED_ORB:
+        orb.color = global.lock_color;
         var fake_player;
         if (!instance_exists(o_fake_player)) {
             fake_player = instance_create(0, 0, o_fake_player);

@@ -3,9 +3,12 @@
 
 var orb = argument0;
 var orb_obj = argument1;
+var orad = orb.orbit_radius;
+//unguarded void orbs should be harder to hit
+if (orb.type == VOID_ORB && !orb.guarded) { orad = orb.radius; }
 
 // if the player will collide with the orbit in the next step
-if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
+if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orad)) {
     // set orb collision status if not yet set
     if (!col_orb_set) {
         col_orb_set = true;
@@ -17,10 +20,10 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
     switch (orb.type) {
         case VOID_ORB:
             if (orb.guarded) {
-                ricochet_off_orb(orb);
+                ricochet_off_orb(orb,orad);
                 collision_hit_burst(
                     x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
-                    orb.guarder.color, 300, 60, orb.p_emitter, orb.p_type
+                    c_white, 300, 60, orb.p_emitter, orb.p_type
                 );
                 capture_streak = 0;  // reset capture streak
                 play_ricochet(++ricochet_streak, scale);
@@ -56,7 +59,7 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
                 var orb_id = id;
                 var sender_id = other.id;
                 if (type == VOID_ORB || (captured && capturer != other.id)) {
-                    with (instance_create(other.x, other.y, o_payload)) {
+                    with (instance_create(orb.x, orb.y, o_payload)) {
                         sender = sender_id;
                         target = orb_id;
                     }
@@ -67,17 +70,18 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orb.orbit_radius)) {
             set_orb_type(orb, DEFAULT_ORB);
             set_to_orbit(orb, to_orb_dir);
             capture_orb(orb, orb_obj);
-            num_orb_captured--; // master orbs don't count?
+            num_orb_captured--; // master orbs don't count
+            room_speed = 30;
             break;
         case DEAD_ORB:
             capture_streak = 0;
             play_ricochet(++ricochet_streak, scale);
-            ricochet_off_orb(orb);
+            ricochet_off_orb(orb,orad);
             break;    
         case DEFAULT_ORB:
             // if CAPTURED orb
             if (orb.captured && orb.capturer != id) {
-                ricochet_off_orb(orb);
+                ricochet_off_orb(orb,orad);
                 collision_hit_burst(
                     x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
                     orb.color, 300, 60, orb.p_emitter, orb.p_type
