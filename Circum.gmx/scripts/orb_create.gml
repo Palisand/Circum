@@ -19,7 +19,7 @@ orbit_radius = 50;
 radius = orbit_radius / 2;
 
 direction = random(360);
-initial_speed = random_range(3, 7);
+initial_speed = random_range(3, 5);
 speed = initial_speed;
 halt = false;
 
