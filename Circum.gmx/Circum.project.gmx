@@ -121,12 +121,12 @@
     <room>rooms\rm_debug</room>
   </rooms>
   <constants number="20">
-    <constant name="NUM_ORB_TYPES">4</constant>
+    <constant name="NUM_ORB_TYPES">5</constant>
     <constant name="DEFAULT_ORB">0</constant>
     <constant name="DEAD_ORB">1</constant>
     <constant name="VOID_ORB">2</constant>
-    <constant name="MASTER_ORB">3</constant>
-    <constant name="CAPTURED_ORB">4</constant>
+    <constant name="CAPTURED_ORB">3</constant>
+    <constant name="MASTER_ORB">4</constant>
     <constant name="SCREEN_RADIUS">room_width/2</constant>
     <constant name="STREAK_TIMEOUT">600</constant>
     <constant name="POSSESSION">3</constant>
