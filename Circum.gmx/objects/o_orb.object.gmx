@@ -126,34 +126,6 @@ guarder = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Fixed Orbit
-
-if (fixed) {
-    initial_speed = 0;
-    fixed_orbit += fixed_orbit_speed * global.speed_scale;
-    x = room_width/2 - cos(degtorad(fixed_orbit)) * fixed_orbit_radius;
-    y = room_height/2 + sin(degtorad(fixed_orbit)) * fixed_orbit_radius;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
             <string>/// Update
 
 orb_update(o_orb);
