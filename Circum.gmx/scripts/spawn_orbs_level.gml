@@ -8,7 +8,7 @@
 // To implement the above, first we decide on which level generation method we will be using
 // Comment: Use at least 2.25 as the denominator of room_width/x; otherwise orbs get close enough to constantly collide against edge of room
 var spawning_type = irandom(2);         // Gives a number between 0 ~ 2 (including 2)
-spawning_type = S_RANDOM;
+spawning_type = S_FIXED_RANDOM;
 switch (spawning_type) {
     case S_FIXED_PREBUILT:  // Fixed orbit rings; prebuilt setups
         // We can have another switch statement here to pick out the prebuilt setup to use OR we can make a new function for that
@@ -58,8 +58,8 @@ switch (spawning_type) {
         var b = irandom(CAPTURED_ORB);
         var c = irandom(CAPTURED_ORB);
         var d = irandom(CAPTURED_ORB);
-        if (a >= VOID_ORB) { c = MASTER_ORB; }
-        else if (b >= VOID_ORB || c >= VOID_ORB || d >= VOID_ORB) { a = MASTER_ORB; }
+        //if (a >= VOID_ORB) { c = MASTER_ORB; }
+        //else if (b >= VOID_ORB || c >= VOID_ORB || d >= VOID_ORB) { a = MASTER_ORB; }
         
         switch (orbit_lanes) {
             case 1: // One lane
@@ -79,12 +79,14 @@ switch (spawning_type) {
                 spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, DEFAULT_ORB, e, f));
                 break;
         } 
+        add_master(true);
+        
         break;
     case S_RANDOM:          // Random spawning of orbs   
         var orbit_lanes = irandom(S_MAX_LANES);
         var a = irandom(CAPTURED_ORB);
         var b = irandom(CAPTURED_ORB);
-        var need_master = (a>=VOID_ORB)||(b>=VOID_ORB);
+        
         switch (orbit_lanes) {
             case 0: // No lanes of dead orbs
                 spawn_orbs(false, room_width/3, 0, 0, get_orb_pattern(1 + irandom(S_MAX_LANES), 
@@ -109,15 +111,8 @@ switch (spawning_type) {
                 break;
         }
         
-        //make a master orb to make things a tad easier
-        if (need_master) {
-            with (o_orb) {
-                if (type == DEFAULT_ORB) {
-                    set_orb_type(self,MASTER_ORB);
-                    break;
-                }
-            }
-        }
+        add_master(false);
+        
         break;
 }
 
