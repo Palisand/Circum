@@ -97,9 +97,11 @@
   </shaders>
   <fonts name="fonts">
     <font>fonts\font_main</font>
+    <font>fonts\font_title</font>
     <font>fonts\font_debug</font>
   </fonts>
   <objects name="objects">
+    <object>objects\o_handler_main_menu</object>
     <object>objects\o_handler</object>
     <object>objects\o_globals</object>
     <object>objects\o_player</object>
@@ -117,8 +119,9 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_play</room>
+    <room>rooms\rm_main_menu</room>
     <room>rooms\rm_tutorial</room>
+    <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
   <constants number="20">

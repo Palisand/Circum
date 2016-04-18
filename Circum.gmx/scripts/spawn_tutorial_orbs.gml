@@ -21,7 +21,7 @@ case 2:
 
 // Key Orb Unlock
 case 3:
-    level_text = "You can also temporarily Unlock##by capturing Key Orbs";
+    level_text = "You can also temporarily Unlock#by capturing Key Orbs";
     spawn_orbs(true,SCREEN_RADIUS/2,-0.3,0,get_orb_pattern(1,MASTER_ORB,CAPTURED_ORB,CAPTURED_ORB,CAPTURED_ORB));
     break;
     
