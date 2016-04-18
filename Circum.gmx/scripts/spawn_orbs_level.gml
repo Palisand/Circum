@@ -58,28 +58,69 @@ switch (spawning_type) {
         var b = irandom(CAPTURED_ORB);
         var c = irandom(CAPTURED_ORB);
         var d = irandom(CAPTURED_ORB);
-        //if (a >= VOID_ORB) { c = MASTER_ORB; }
-        //else if (b >= VOID_ORB || c >= VOID_ORB || d >= VOID_ORB) { a = MASTER_ORB; }
-        
+        var head_orb = DEFAULT_ORB;
         switch (orbit_lanes) {
             case 1: // One lane
-                spawn_orbs(true, room_width/3, -0.5, 0, get_orb_pattern(3, DEFAULT_ORB, a, b, c));
+                var candidate_inner = get_orb_pattern(3, a, b, c);
+                var type_count = count_type(candidate_inner);
+                if (type_count[CAPTURED_ORB] > 4) { head_orb = MASTER_ORB; }
+                else if (type_count[VOID_ORB] > 4) {
+                    //if a,b,c are all void
+                    if (type_count[VOID_ORB] == 9) { a = MASTER_ORB; }
+                    //if one of them isn't void
+                    else if (a != VOID_ORB) { a = MASTER_ORB; }
+                    else if (b != VOID_ORB) { b = MASTER_ORB; }
+                    else { c = MASTER_ORB; }
+                }
+                
+                spawn_orbs(true, room_width/3, -0.5, 0, get_orb_pattern(3,head_orb,a,b,c));
                 break;
             case 2: // Two lanes
-                spawn_orbs(true, room_width/5, -0.5, 0, get_orb_pattern(3, DEFAULT_ORB, a));
+                var candidate_inner = get_orb_pattern(3, a);
+                var candidate_outer = get_orb_pattern(2, b, c, d);
+                var type_count = count_type(candidate_inner, candidate_outer);
+                if (type_count[CAPTURED_ORB] > 4) { head_orb = MASTER_ORB; }
+                else if (type_count[VOID_ORB] > 4) {
+                    //if a,b,c,d are all void
+                    if (type_count[VOID_ORB] == 9) { a = MASTER_ORB; }
+                    //if one of them isn't void
+                    else if (a != VOID_ORB) { a = MASTER_ORB; }
+                    else if (b != VOID_ORB) { b = MASTER_ORB; }
+                    else if (c != VOID_ORB) { c = MASTER_ORB; }
+                    else { d = MASTER_ORB; }
+                }
+                
+                spawn_orbs(true, room_width/5, -0.5, 0, get_orb_pattern(3, head_orb, a));
                 spawn_orbs(true, room_width/2.5, +0.5, 0, get_orb_pattern(2, DEFAULT_ORB, b, c, d));
+                
                 break;
             case 3: // Three lanes
                 var e = irandom(CAPTURED_ORB);
                 var f = irandom(CAPTURED_ORB);
-                if (e >= VOID_ORB || f >= VOID_ORB) { c = MASTER_ORB; }
+                
+                var candidate_low = get_orb_pattern(2, a, b);
+                var candidate_mid = get_orb_pattern(3, c, d);
+                var candidate_out = get_orb_pattern(4, e, f);
+                
+                var type_count = count_type(candidate_low, candidate_mid, candidate_out);
+                if (type_count[CAPTURED_ORB] > 4) { head_orb = MASTER_ORB; }
+                else if (type_count[VOID_ORB] > 4) {
+                    //if a,b,c,d are all void
+                    if (type_count[VOID_ORB] == 9) { a = MASTER_ORB; }
+                    //if one of them isn't void
+                    else if (a != VOID_ORB) { a = MASTER_ORB; }
+                    else if (b != VOID_ORB) { b = MASTER_ORB; }
+                    else if (c != VOID_ORB) { c = MASTER_ORB; }
+                    else if (d != VOID_ORB) { d = MASTER_ORB; }
+                    else if (e != VOID_ORB) { e = MASTER_ORB; }
+                    else { f = MASTER_ORB; }
+                }
                 
                 spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(2, a, b));
                 spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (3, c, d));
-                spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, DEFAULT_ORB, e, f));
+                spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, head_orb, e, f));
                 break;
-        } 
-        add_master(true);
+        }
         
         break;
     case S_RANDOM:          // Random spawning of orbs   
@@ -111,7 +152,7 @@ switch (spawning_type) {
                 break;
         }
         
-        add_master(false);
+        add_master_random();
         
         break;
 }

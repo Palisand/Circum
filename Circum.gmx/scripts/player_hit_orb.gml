@@ -84,10 +84,9 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orad)) {
                 
                 // send payloads to void and captured orbs
                 else if (type == VOID_ORB || (captured && capturer != player_id)) {
-                    with (instance_create(orb.x, orb.y, o_payload)) {
-                        sender = player_id;
-                        target = orb_id;
-                    }
+                    var pyld = instance_create(orb.x, orb.y, o_payload);
+                    pyld.sender = player_id;
+                    pyld.target = orb_id;
                 }
             }   
             
