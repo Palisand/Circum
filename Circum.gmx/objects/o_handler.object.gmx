@@ -30,7 +30,9 @@
 window_set_cursor(cr_none);  // not changed in global game settings because of debug room
 
 // init global vars
-instance_create(0, 0, o_globals);
+if (!instance_exists(o_globals)) {
+    instance_create(0, 0, o_globals);
+}
 
 // Particles
 p_emitter = part_emitter_create(global.p_system);
@@ -264,7 +266,7 @@ surface_free(screen);
             <string>/// End, Restart
 
 if (keyboard_check_pressed(vk_escape)) {
-    game_end();
+    room_goto(rm_main_menu);
 }
 
 if (keyboard_check_pressed(ord("R")) ||
@@ -275,7 +277,22 @@ if (keyboard_check_pressed(ord("R")) ||
     ){
     
     if (keyboard_check(vk_shift)) {
-        game_restart();
+        // START NEW LEVEL / SKIP TO NEXT TUTORIAL
+        has_launched = false;
+        with (o_orb) {
+            instance_destroy();
+        }
+        with (o_player) {
+            instance_destroy();
+        }
+        if (room_get_name(room) == "rm_tutorial") {
+            tut_count++;
+            level_create(false);
+            spawned_tether_length_orb = false;
+        }
+        else {
+            level_create(false);
+        }
     }
     else {
         // RESTART CURRENT LEVEL
@@ -515,21 +532,24 @@ if (keyboard_check_pressed(vk_down) &amp;&amp; global.speed_scale &gt; 0.2) {
             <kind>1</kind>
             <string>/// Slow Down All Orbs
 
-var num_orb_remaining = num_to_win - o_player.num_orb_captured;
-var total_threshold = 10;
-var remaining_threshold = 2;
+if (room_get_name(room) != "rm_tutorial" &amp;&amp; instance_exists(o_player)) {
 
-// if there are many orbs and there are only a few left to capture
-if (instance_number(o_orb) &gt;= total_threshold &amp;&amp; num_orb_remaining &lt;= remaining_threshold) {
-    if (global.orb_speed_multiplier &gt; 0) {
-        global.orb_speed_multiplier -= 0.01;
+    var num_orb_remaining = num_to_win - o_player.num_orb_captured;
+    var total_threshold = 10;
+    var remaining_threshold = 2;
+
+    // if there are many orbs and there are only a few left to capture
+    if (instance_number(o_orb) &gt;= total_threshold &amp;&amp; num_orb_remaining &lt;= remaining_threshold) {
+        if (global.orb_speed_multiplier &gt; 0) {
+            global.orb_speed_multiplier -= 0.01;
+        }
+        else {
+            global.orb_speed_multiplier = 0;
+        }
     }
     else {
-        global.orb_speed_multiplier = 0;
+        global.orb_speed_multiplier = 1;
     }
-}
-else {
-    global.orb_speed_multiplier = 1;
 }
 </string>
           </argument>
@@ -560,6 +580,7 @@ if (room_get_name(room) == "rm_tutorial") {
         var dir = o_player.direction - 180;
         var orb = instance_create(SCREEN_RADIUS + lengthdir_x(dist, dir), SCREEN_RADIUS + lengthdir_y(dist, dir), o_orb);
         orb.initial_speed = 0;
+        orb.speed = 0;
         if (tut_count == 2) {
             set_orb_type(orb, CAPTURED_ORB);
         }
@@ -596,6 +617,7 @@ debug_text += ("#Speed scale: " + string(global.speed_scale));
 draw_set_alpha(1);
 draw_set_color(c_white);
 draw_set_halign(fa_left);
+draw_set_valign(fa_top);
 draw_set_font(font_debug);
 draw_text(0, 0, debug_text);
 </string>
@@ -694,7 +716,7 @@ if (alpha_transition &gt; 0.001) {
 if (level_text != "" &amp;&amp; (!has_launched || level_text_alpha &gt; 0.001)) {
     draw_set_color(c_white);
     draw_set_font(font_main);
-    draw_set_halign(fa_right);
+    draw_set_halign(fa_center);
     draw_set_alpha(level_text_alpha);
     draw_text(SCREEN_RADIUS, 128, level_text);
     if (! has_launched) {
