@@ -8,7 +8,7 @@
 // To implement the above, first we decide on which level generation method we will be using
 // Comment: Use at least 2.25 as the denominator of room_width/x; otherwise orbs get close enough to constantly collide against edge of room
 var spawning_type = irandom(2);         // Gives a number between 0 ~ 2 (including 2)
-//spawning_type = S_FIXED_RANDOM;
+spawning_type = S_FIXED_RANDOM;
 switch (spawning_type) {
     case S_FIXED_PREBUILT:  // Fixed orbit rings; prebuilt setups
         // We can have another switch statement here to pick out the prebuilt setup to use OR we can make a new function for that
@@ -58,67 +58,44 @@ switch (spawning_type) {
         var b = irandom(CAPTURED_ORB);
         var c = irandom(CAPTURED_ORB);
         var d = irandom(CAPTURED_ORB);
-        var head_orb = DEFAULT_ORB;
+        var e = irandom(CAPTURED_ORB);
+        var f = irandom(CAPTURED_ORB);
+        
         switch (orbit_lanes) {
+        
             case 1: // One lane
+                var arr = build_array(DEFAULT_ORB, a,b,c);
                 var candidate_inner = get_orb_pattern(3, a, b, c);
                 var type_count = count_type(candidate_inner);
-                if (type_count[CAPTURED_ORB] > 4) { head_orb = MASTER_ORB; }
-                else if (type_count[VOID_ORB] > 4) {
-                    //if a,b,c are all void
-                    if (type_count[VOID_ORB] == 9) { a = MASTER_ORB; }
-                    //if one of them isn't void
-                    else if (a != VOID_ORB) { a = MASTER_ORB; }
-                    else if (b != VOID_ORB) { b = MASTER_ORB; }
-                    else { c = MASTER_ORB; }
-                }
+                add_master_fixed(arr, type_count, 4, 4, 9);
                 
-                spawn_orbs(true, room_width/3, -0.5, 0, get_orb_pattern(3,head_orb,a,b,c));
+                spawn_orbs(true, room_width/3, -0.5, 0, get_orb_pattern(3,arr));
                 break;
+                
             case 2: // Two lanes
+                var arr = build_array(DEFAULT_ORB, a,b,c,d);
+                
                 var candidate_inner = get_orb_pattern(3, a);
                 var candidate_outer = get_orb_pattern(2, b, c, d);
                 var type_count = count_type(candidate_inner, candidate_outer);
-                if (type_count[CAPTURED_ORB] > 4) { head_orb = MASTER_ORB; }
-                else if (type_count[VOID_ORB] > 4) {
-                    //if a,b,c,d are all void
-                    if (type_count[VOID_ORB] == 9) { a = MASTER_ORB; }
-                    //if one of them isn't void
-                    else if (a != VOID_ORB) { a = MASTER_ORB; }
-                    else if (b != VOID_ORB) { b = MASTER_ORB; }
-                    else if (c != VOID_ORB) { c = MASTER_ORB; }
-                    else { d = MASTER_ORB; }
-                }
+                add_master_fixed(arr, type_count, 4, 4, 9);
                 
-                spawn_orbs(true, room_width/5, -0.5, 0, get_orb_pattern(3, head_orb, a));
-                spawn_orbs(true, room_width/2.5, +0.5, 0, get_orb_pattern(2, DEFAULT_ORB, b, c, d));
+                spawn_orbs(true, room_width/5, -0.5, 0, get_orb_pattern(3, arr[0], arr[1]));
+                spawn_orbs(true, room_width/2.5, +0.5, 0, get_orb_pattern(2, DEFAULT_ORB, arr[2], arr[3], arr[4]));
                 
                 break;
             case 3: // Three lanes
-                var e = irandom(CAPTURED_ORB);
-                var f = irandom(CAPTURED_ORB);
+                var arr = build_array(DEFAULT_ORB, a,b,c,d,e,f);
                 
-                var candidate_low = get_orb_pattern(2, a, b);
+                var candidate_near = get_orb_pattern(2, a, b);
                 var candidate_mid = get_orb_pattern(3, c, d);
-                var candidate_out = get_orb_pattern(4, e, f);
+                var candidate_far = get_orb_pattern(4, e, f);
+                var type_count = count_type(candidate_near, candidate_mid, candidate_far);
+                add_master_fixed(arr, type_count, 4, 4, 18);
                 
-                var type_count = count_type(candidate_low, candidate_mid, candidate_out);
-                if (type_count[CAPTURED_ORB] > 4) { head_orb = MASTER_ORB; }
-                else if (type_count[VOID_ORB] > 4) {
-                    //if a,b,c,d are all void
-                    if (type_count[VOID_ORB] == 9) { a = MASTER_ORB; }
-                    //if one of them isn't void
-                    else if (a != VOID_ORB) { a = MASTER_ORB; }
-                    else if (b != VOID_ORB) { b = MASTER_ORB; }
-                    else if (c != VOID_ORB) { c = MASTER_ORB; }
-                    else if (d != VOID_ORB) { d = MASTER_ORB; }
-                    else if (e != VOID_ORB) { e = MASTER_ORB; }
-                    else { f = MASTER_ORB; }
-                }
-                
-                spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(2, a, b));
-                spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (3, c, d));
-                spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, head_orb, e, f));
+                spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(2, arr[1], arr[2]));
+                spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (3, arr[3], arr[4]));
+                spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (4, arr[0], arr[5], arr[6]));
                 break;
         }
         
