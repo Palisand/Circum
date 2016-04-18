@@ -8,7 +8,7 @@
 // To implement the above, first we decide on which level generation method we will be using
 // Comment: Use at least 2.25 as the denominator of room_width/x; otherwise orbs get close enough to constantly collide against edge of room
 var spawning_type = irandom(2);         // Gives a number between 0 ~ 2 (including 2)
-spawning_type = S_FIXED_RANDOM;
+//spawning_type = S_FIXED_RANDOM;
 switch (spawning_type) {
     case S_FIXED_PREBUILT:  // Fixed orbit rings; prebuilt setups
         // We can have another switch statement here to pick out the prebuilt setup to use OR we can make a new function for that
