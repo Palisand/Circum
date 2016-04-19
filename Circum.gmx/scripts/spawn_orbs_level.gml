@@ -67,7 +67,7 @@ switch (spawning_type) {
                 var arr = build_array(DEFAULT_ORB, a,b,c);
                 var candidate_inner = get_orb_pattern(3, a, b, c);
                 var type_count = count_type(candidate_inner);
-                add_master_fixed(arr, type_count, 4, 4, 9);
+                add_master_fixed(arr, type_count, 4, 9);
                 
                 spawn_orbs(true, room_width/3, -0.5, 0, get_orb_pattern(3,arr));
                 break;
@@ -78,7 +78,7 @@ switch (spawning_type) {
                 var candidate_inner = get_orb_pattern(3, a);
                 var candidate_outer = get_orb_pattern(2, b, c, d);
                 var type_count = count_type(candidate_inner, candidate_outer);
-                add_master_fixed(arr, type_count, 4, 4, 9);
+                add_master_fixed(arr, type_count, 4, 9);
                 
                 spawn_orbs(true, room_width/5, -0.5, 0, get_orb_pattern(3, arr[0], arr[1]));
                 spawn_orbs(true, room_width/2.5, +0.5, 0, get_orb_pattern(2, DEFAULT_ORB, arr[2], arr[3], arr[4]));
@@ -91,7 +91,7 @@ switch (spawning_type) {
                 var candidate_mid = get_orb_pattern(3, c, d);
                 var candidate_far = get_orb_pattern(4, e, f);
                 var type_count = count_type(candidate_near, candidate_mid, candidate_far);
-                add_master_fixed(arr, type_count, 4, 4, 18);
+                add_master_fixed(arr, type_count, 4, 18);
                 
                 spawn_orbs(true, room_width/7, -0.25, 0, get_orb_pattern(2, arr[1], arr[2]));
                 spawn_orbs(true, room_width/3.5, 0.5, 0, get_orb_pattern (3, arr[3], arr[4]));
