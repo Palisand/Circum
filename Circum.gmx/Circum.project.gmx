@@ -18,6 +18,8 @@
     <sound>sound\snd_tether</sound>
     <sound>sound\snd_tether_fade</sound>
     <sound>sound\snd_release</sound>
+    <sound>sound\snd_key</sound>
+    <sound>sound\snd_unlock</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_ring</sprite>
