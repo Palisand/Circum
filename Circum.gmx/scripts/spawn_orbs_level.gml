@@ -65,7 +65,7 @@ switch (spawning_type) {
         
             case 1: // One lane
                 var arr = build_array(DEFAULT_ORB, a,b,c);
-                var candidate_inner = get_orb_pattern(3, a, b, c);
+                var candidate_inner = build_array(3, a, b, c);
                 var type_count = count_type(candidate_inner);
                 add_master_fixed(arr, type_count, 4, 9);
                 
@@ -75,8 +75,8 @@ switch (spawning_type) {
             case 2: // Two lanes
                 var arr = build_array(DEFAULT_ORB, a,b,c,d);
                 
-                var candidate_inner = get_orb_pattern(3, a);
-                var candidate_outer = get_orb_pattern(2, b, c, d);
+                var candidate_inner = build_array(3, a);
+                var candidate_outer = build_array(2, b, c, d);
                 var type_count = count_type(candidate_inner, candidate_outer);
                 add_master_fixed(arr, type_count, 4, 9);
                 
@@ -87,9 +87,9 @@ switch (spawning_type) {
             case 3: // Three lanes
                 var arr = build_array(DEFAULT_ORB, a,b,c,d,e,f);
                 
-                var candidate_near = get_orb_pattern(2, a, b);
-                var candidate_mid = get_orb_pattern(3, c, d);
-                var candidate_far = get_orb_pattern(4, e, f);
+                var candidate_near = build_array(2, a, b);
+                var candidate_mid = build_array(3, c, d);
+                var candidate_far = build_array(4, e, f);
                 var type_count = count_type(candidate_near, candidate_mid, candidate_far);
                 add_master_fixed(arr, type_count, 4, 18);
                 
