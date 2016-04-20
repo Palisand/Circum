@@ -78,10 +78,14 @@
       <script>scripts\spawn_tutorial_orbs.gml</script>
       <script>scripts\save_level.gml</script>
       <script>scripts\spawn_orbs_saved.gml</script>
+      <script>scripts\add_master_random.gml</script>
+      <script>scripts\count_type.gml</script>
+      <script>scripts\add_master_fixed.gml</script>
     </scripts>
     <scripts name="Other">
       <script>scripts\distance.gml</script>
       <script>scripts\ease_in_quart.gml</script>
+      <script>scripts\build_array.gml</script>
     </scripts>
     <scripts name="Essential Scripts">
       <scripts name="Approach Value">
@@ -124,12 +128,12 @@
     <room>rooms\rm_debug</room>
   </rooms>
   <constants number="20">
-    <constant name="NUM_ORB_TYPES">4</constant>
+    <constant name="NUM_ORB_TYPES">5</constant>
     <constant name="DEFAULT_ORB">0</constant>
     <constant name="DEAD_ORB">1</constant>
     <constant name="VOID_ORB">2</constant>
-    <constant name="MASTER_ORB">3</constant>
-    <constant name="CAPTURED_ORB">4</constant>
+    <constant name="CAPTURED_ORB">3</constant>
+    <constant name="MASTER_ORB">4</constant>
     <constant name="SCREEN_RADIUS">room_width/2</constant>
     <constant name="STREAK_TIMEOUT">600</constant>
     <constant name="POSSESSION">3</constant>
