@@ -40,6 +40,7 @@
       <script>scripts\void_orb_particles.gml</script>
       <script>scripts\master_orb_particles.gml</script>
       <script>scripts\play_background.gml</script>
+      <script>scripts\tether_volume.gml</script>
     </scripts>
     <scripts name="Visuals">
       <script>scripts\orb_visuals.gml</script>

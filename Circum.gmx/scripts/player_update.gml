@@ -3,8 +3,6 @@
 var player_obj = argument0;
 var orb_obj = argument1;
 
-if (! audio_is_playing(snd_tether)) { audio_play_sound(snd_tether, 2, 1); }
-
 // screen edge collision
 edge_bounce_circle(radius);
 
@@ -47,9 +45,13 @@ else {
     if (tethered) { 
         just_released = false;
         player_tethered(); 
-        audio_resume_sound(snd_tether);
+        //audio_resume_sound(snd_tether);
+        audio_sound_gain(snd_tether, tether_volume(player_obj, current_orb), 0);
+        if (!audio_is_playing(snd_tether)) {
+            audio_play_sound(snd_tether, 0, 0);
+        }
     }
-    else { audio_pause_sound(snd_tether); }
+    else { /*audio_pause_sound(snd_tether)*/ audio_stop_sound(snd_tether); }
     
     //if we are orbiting an orb
     if (orbiting) { player_orbiting(player_obj, orb_obj); }

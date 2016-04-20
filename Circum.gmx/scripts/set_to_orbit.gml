@@ -28,7 +28,9 @@ current_orb.halt = true;
 ricochet_streak = -1;
                         
 // Play capture sound
-var s_engine = audio_play_sound(snd_capture, 0, 0);
+if (orb.type != MASTER_ORB) {
+    var s_engine = audio_play_sound(snd_capture, 0, 0);
+}
 
 // Modify the capture sound to reflect the value of capture_streak
 if (capture_streak > -1 and orb.type != MASTER_ORB){

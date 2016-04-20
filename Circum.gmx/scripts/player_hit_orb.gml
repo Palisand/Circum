@@ -49,7 +49,8 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orad)) {
                 }
                 current_orb = orb;
                 tethered = false;
-                enter_the_void = true;      
+                enter_the_void = true;     
+                audio_pause_sound(snd_tether); 
                 audio_sound_pitch(audio_play_sound(snd_death, 0, 0), 1/3);
             }
             break;
