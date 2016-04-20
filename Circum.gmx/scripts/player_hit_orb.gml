@@ -49,7 +49,8 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orad)) {
                 }
                 current_orb = orb;
                 tethered = false;
-                enter_the_void = true;      
+                enter_the_void = true;     
+                audio_pause_sound(snd_tether); 
                 audio_sound_pitch(audio_play_sound(snd_death, 0, 0), 1/3);
             }
             break;
@@ -70,7 +71,8 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orad)) {
             //otherwise, orbit it...
             set_to_orbit(orb, to_orb_dir);
             collision_hit_burst(orb.x, orb.y, 0, 360, c_white, 300, 60, orb.p_emitter, orb.p_type);
-            
+            audio_play_sound(snd_key, 0, 0);
+             
             //...and apply the key effect
             with (orb_obj) {
                 var player_id = other.id;

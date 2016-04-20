@@ -72,6 +72,7 @@ else {
         target.alarm[1] = RELEASE_TIME;
     }
     collision_hit_burst(x, y, 0, 360, c_white, 300, 30, target.p_emitter, target.p_type);
+    audio_play_sound(snd_unlock, 0, 0);
     instance_destroy();
 }
 </string>
