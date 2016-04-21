@@ -1,27 +1,24 @@
 # Circum Game Guide
 
-### Special Orb Types
-* **Dead**: Cannot be captured or released; can be destroyed.
-* **Void**: On orbit breach, Player will be sucked into the nothingness and will automatically lose the match.
-* **Master**: On capture, Player wins the match.
+### Objective
+Make all the white orbs your color.
 
-### Streaks & Power-Ups
+### Controls
+SPACE - Press while orbiting to Launch / Hold in air to Tether
 
-Ricochet Streak power-ups are activated on orb impact (*or on orbit entrance). While outside of orbit radius, action key must be HELD.
+### Stuff players should learn by themselves
+- You change an orb's color on impact.
+  - Color changing works both ways, so you can't just fire-and-forget.
+- You can tether on to any orb.
+- While tethered to a white orb, you will be drawn to it.
+- The more orbs there are, the greater the chance of accidentally bumping into an already-changed orb.
+  - This also goes for how many orbs are moving.
 
-Capture Streak power-ups are activated "in air" on action key RELEASE. Effects have a short duration.
+### Orb Behavior Level Progression
+- Stationary
+- Stationary and fixed-orbit
+- Fixed-orbit
+- Stationary and random
+- Random
 
-Amount | Power-Up | Description
---- | --- | ---
-Ricochet||
-x3 | Release | Orb capture status unset
-x4 | Destruction | Remove orb entirely
-x6 | *Theft | Release and capture orb
-Capture||
-x3 | Possession | Opponent players will ricochet off their own captured orbs
-x5 | Domination | Possession and opponent players will ricochet off free orbs (they cannot capture)
-
-Other Possible Power-Ups:
-- *Precision*: Ability to slow down orbit speed while holding down the action button.
-- *Orb Seek*: Player will "heat-seek" the nearest free orb.
-- *Unkown*: Occurs when players collide with each other.
+Orb amount increases during each set of levels and resets to some minumum once the next set is introduced.
