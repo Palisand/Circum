@@ -17,7 +17,13 @@ y = current_orb.y + sin(degtorad(orbit)) * current_orb.orbit_radius;
 direction = orbit - (sign(orbit_speed) * 90);
 
 // Launch
-if ((keyboard_check_pressed(action_key)  // on action if there isn't a winner
+// on action if there isn't a winner
+if ((
+    (
+    keyboard_check_pressed(action_key) ||
+    (keyboard_check_released(action_key) && releasable)
+    )
+
     && (player_obj == o_player_debug || (player_obj == o_player && global.winner < 0)))
     ) {
     speed = launch_speed;

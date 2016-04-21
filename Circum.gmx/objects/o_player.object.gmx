@@ -92,7 +92,9 @@ if (global.winner == self.id &amp;&amp; draw_radius &lt; room_width) {
           <argument>
             <kind>1</kind>
             <string>/// Update
-
+if (!releasable &amp;&amp; get_timer()-creation_time &gt; release_threshold) {
+    releasable = true;
+}
 player_update(o_player, o_orb);
 </string>
           </argument>
