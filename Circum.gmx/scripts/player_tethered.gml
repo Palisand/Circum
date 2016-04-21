@@ -4,7 +4,7 @@
 current_orb.halt = true;
 
 // Tether Orbit
-if (current_orb.type != DEAD_ORB) {
+if (current_orb.type != DEAD_ORB && current_orb.captured == false) {
     dist_to_nearest -= homing_speed;
 }
 
