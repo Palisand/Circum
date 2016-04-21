@@ -66,6 +66,7 @@
         <script>scripts\ricochet_off_orb.gml</script>
         <script>scripts\set_to_orbit.gml</script>
         <script>scripts\capture_orb.gml</script>
+        <script>scripts\release_orb.gml</script>
       </scripts>
     </scripts>
     <scripts name="Creation">

@@ -18,6 +18,8 @@ if ((orbiting || tethered)
     if (tethered) {
         orad = dist_to_nearest;
         spd = sign(orbit_speed) * (launch_speed * room_speed) / dist_to_nearest;
+        var fastest = tether_cap*orbit_speed;
+        if (abs(spd) > abs(fastest)) { spd = fastest; }
     }
     
     //account for orb movement, for the points that have left the ricochet point

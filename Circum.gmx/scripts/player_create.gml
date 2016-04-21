@@ -10,6 +10,7 @@ draw_radius = radius;
 launch_speed = 15;
 homing_speed = 1.5;
 orb_pull_speed = 0;
+tether_cap = 1.3;
 direction = choose(1, -1); // randomly begin with a clockwise or counter-clockwise rotation
 orbit = 0;
 orbit_speed = 0;

@@ -9,7 +9,10 @@ if (current_orb.type != DEAD_ORB && current_orb.captured == false) {
 }
 
 var tether_orbit_speed = sign(orbit_speed) * (launch_speed * room_speed) / dist_to_nearest;
-if (tether_orbit_speed > 1.3*orbit_speed) { tether_orbit_speed = 1.3*orbit_speed; }
+var fastest = tether_cap*orbit_speed
+if (abs(tether_orbit_speed) > abs(fastest)) {
+    tether_orbit_speed = fastest;
+}
 
 orbit += tether_orbit_speed;
 x = current_orb.x - cos(degtorad(orbit)) * dist_to_nearest;
