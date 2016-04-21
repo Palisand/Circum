@@ -7,10 +7,6 @@ action_key = vk_shift;
 radius = 3;
 draw_radius = radius;
 
-release_threshold = 1000000;
-releasable = false;
-creation_time = get_timer();
-
 launch_speed = 15;
 homing_speed = 1.5;
 orb_pull_speed = 0;
