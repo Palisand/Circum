@@ -53,4 +53,5 @@ for (var i = Min; i > 0; i--){
     ArrayTrail[i,1] = ArrayTrail[i - 1,1];
     ArrayTrail[i,2] = ArrayTrail[i - 1,2];
     trail_id[i] = trail_id[i-1];
+    trail_tethered[i] = trail_tethered[i-1];
 }

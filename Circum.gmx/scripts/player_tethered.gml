@@ -4,6 +4,10 @@
 current_orb.halt = true;
 
 // Tether Orbit
+if (current_orb.type != DEAD_ORB) {
+    dist_to_nearest -= homing_speed;
+}
+
 orbit += global.speed_scale * sign(orbit_speed) * (launch_speed * room_speed) / dist_to_nearest;
 x = current_orb.x - cos(degtorad(orbit)) * dist_to_nearest;
 y = current_orb.y + sin(degtorad(orbit)) * dist_to_nearest;
