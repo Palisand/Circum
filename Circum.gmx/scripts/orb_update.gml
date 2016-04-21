@@ -6,13 +6,13 @@ if (halt) {
     speed = lerp(speed, 0, 0.1);
 }
 else {
-    speed = lerp(speed, initial_speed*global.speed_scale*global.orb_speed_multiplier, 0.1);
+    speed = lerp(speed, initial_speed*global.orb_speed_multiplier, 0.1);
 }
 
 // Fixed Orbit
 if (fixed) {
     initial_speed = 0;
-    fixed_orbit += fixed_orbit_speed * global.speed_scale * global.orb_speed_multiplier;
+    fixed_orbit += fixed_orbit_speed * global.orb_speed_multiplier;
     x = room_width/2 - cos(degtorad(fixed_orbit)) * fixed_orbit_radius;
     y = room_height/2 + sin(degtorad(fixed_orbit)) * fixed_orbit_radius;
 }

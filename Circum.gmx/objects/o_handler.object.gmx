@@ -337,7 +337,7 @@ if (keyboard_check_pressed(ord("R")) ||
 if (keyboard_check_pressed(ord("V"))) {
     global.tmp_visuals_on = !global.tmp_visuals_on;
 }
-
+/*
 if (keyboard_check_pressed(ord("T"))) {
     global.pre_fix_trail = !global.pre_fix_trail;
 }
@@ -345,6 +345,7 @@ if (keyboard_check_pressed(ord("T"))) {
 if (keyboard_check_pressed(ord("G"))) {
     global.orb_gravity_on = !global.orb_gravity_on;
 }
+*/
 </string>
           </argument>
         </arguments>
@@ -610,16 +611,16 @@ if (room_get_name(room) == "rm_tutorial") {
           <argument>
             <kind>1</kind>
             <string>/// Framerate &amp; speed scale
-
-debug_text = ("Framerate: " + string(fps));
-debug_text += ("#Actual Framerate: " + string(fps_real));
-debug_text += ("#Speed scale: " + string(global.speed_scale));
-draw_set_alpha(1);
-draw_set_color(c_white);
-draw_set_halign(fa_left);
-draw_set_valign(fa_top);
-draw_set_font(font_debug);
-draw_text(0, 0, debug_text);
+if (global.tmp_visuals_on) {
+    debug_text = ("Framerate: " + string(fps));
+    debug_text += ("#Actual Framerate: " + string(fps_real));
+    draw_set_alpha(1);
+    draw_set_color(c_white);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    draw_set_font(font_debug);
+    draw_text(0, 0, debug_text);
+}
 </string>
           </argument>
         </arguments>

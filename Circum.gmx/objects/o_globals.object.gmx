@@ -29,7 +29,7 @@
 //settings that can be controlled by the player
 global.player_color = c_lime;
 global.lock_color = c_fuchsia;
-global.speed_scale = 1.0;
+//global.speed_scale = 1.0;
 
 //to make capturing the last orbs of a level easier
 global.orb_speed_multiplier = 1.0;

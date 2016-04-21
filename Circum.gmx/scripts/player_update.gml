@@ -58,7 +58,7 @@ else {
     
     //we've launched or tethered
     else {
-        speed = launch_speed * global.speed_scale;
+        speed = launch_speed;
     
         //we've launched
         if (! tethered) { 
