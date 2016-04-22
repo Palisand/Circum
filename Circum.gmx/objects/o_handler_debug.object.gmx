@@ -157,7 +157,7 @@ if (mouse_check_button_released(mb_left)) {
         initial_speed = speed;
         direction = other.orb_dir_set;
         other.objects[other.obj_count++] = id;
-        set_orb_type(self, other.orb_type);
+        //set_orb_type(self, other.orb_type);
     }
 }
 // Create Player

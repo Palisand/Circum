@@ -1,7 +1,6 @@
 /// spawn_tutorial_orbs()
 
-// TODO: color match orb's to text
-
+/*
 switch(tut_count) {
 // Launch
 case 0:

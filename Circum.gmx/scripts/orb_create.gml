@@ -1,7 +1,5 @@
 /// orb_create()
 
-type = DEFAULT_ORB;
-
 capturer = -1;
 captured = false;
 

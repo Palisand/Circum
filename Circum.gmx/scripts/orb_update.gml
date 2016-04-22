@@ -42,28 +42,15 @@ else {
 
 if (col_orb) {
     col_orb = false;
-    if (type != DEAD_ORB) {
-        collision_hit_burst(col_orb_coords[0], col_orb_coords[1], 0, 360, color, 100, 20, p_emitter, p_type);
-    }
+    collision_hit_burst(col_orb_coords[0], col_orb_coords[1], 0, 360, color, 100, 20, p_emitter, p_type);
 }
 
 if (col_edge) {
     col_edge = false;
-    if (type != DEAD_ORB) {
-        collision_hit_burst(col_edge_coords[0], col_edge_coords[1], 0, 360, color, 300, 60, p_emitter, p_type);
-    }
+    collision_hit_burst(col_edge_coords[0], col_edge_coords[1], 0, 360, color, 300, 60, p_emitter, p_type);
 }
 
 if (col_player) {
     col_player = false;
 }
 
-// Void Effect
-if (type == VOID_ORB) {
-    void_orb_particles();
-}
-
-// Master Effect
-if (type == MASTER_ORB) {
-    master_orb_particles();
-}

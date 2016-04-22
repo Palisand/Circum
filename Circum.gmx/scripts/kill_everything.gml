@@ -9,4 +9,3 @@ with (o_player) {
 with (o_release_effect) {
     instance_destroy();
 }
-with (o_fake_player) { instance_destroy(); }

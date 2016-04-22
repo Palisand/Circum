@@ -26,7 +26,7 @@ start_orb.fixed = true;
 // Get number of orbs required to win (now that all orbs have been spawned)
 num_to_win = 0;
 with (o_orb) {
-    if (type == DEFAULT_ORB) { other.num_to_win++; }
+    other.num_to_win++;
 }
 if (room_get_name(room) == "rm_tutorial" && (tut_count == 1 || tut_count == 2)) {
     num_to_win++;  // orb spawns during play
