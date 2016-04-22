@@ -42,16 +42,8 @@ p_type = part_type_create();
 screen = surface_create(room_width, room_height);
 drawn_to_surface = false;
 
-tut_count = -1;
+// alpha_transition
 alpha_transition = 0;
-prev_player_color = -1;
-
-// Tutorial Setup
-if (room_get_name(room) == "rm_tutorial"){
-    tut_count = 0;
-}
-this_is_you_alpha = 1;
-spawned_tether_length_orb = false;
 
 // for slow motion
 restoring_speed = false;
@@ -80,139 +72,6 @@ tween_time = 0;
 
 randomize();
 level_create(false);
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Defunct Player and Orb Spawns
-/*
-randomize();
-
-//available for capture
-num_free = 5;
-//already claimed (not counting the orb you start on)
-num_owned = 1;
-//claimed by opponent (must be liberated by hammer)
-num_opponent = 3;
-//ricochet
-num_dead = 3;
-//dangerous
-num_void = 1;
-
-//how many orbs circle the starting orb
-num_orb = num_free + num_owned + num_opponent + num_dead + num_void;
-
-//the orb you start on plus all the DEFAULT orbs
-num_to_win = 1+num_free + num_owned + num_opponent;
-
-edge_buffer = 512;
-
-var x_center = SCREEN_RADIUS;
-var y_center = SCREEN_RADIUS;
-
-// Screen (Circular)
-screen = surface_create(room_width, room_height);
-
-//starting orb
-var orb;
-orb = instance_create(x_center, y_center, o_orb);
-//orb.speed = 0;
-orb.fixed = true;
-// Player
-player_color = c_fuchsia;
-player_id = -1;
-with (instance_create(orb.x, y_center, o_player)) {
-    num_orb_captured = other.num_owned;
-    color = other.player_color;
-    action_key = vk_space;
-    num_to_win = other.num_to_win;
-    other.player_id = self.id;
-}
-
-// hidden opponent
-opponent_color = c_aqua;
-opponent_id = -1;
-with (instance_create(0,0, o_player)) {
-    action_key = vk_escape;
-    num_to_win = other.num_orb+1;
-    visible = false;
-    speed = 0;
-    launch_speed = 0;
-    orbit_speed = 0;
-    other.opponent_id = self.id;
-}
-
-// Orbs that circle the starting orb
-var rad = room_width/3;
-for (var dir = 0; dir &lt; 360; dir += 360/num_orb) {
-    var orb_x = x_center + rad*cos(degtorad(dir));
-    var orb_y = y_center - rad*sin(degtorad(dir));
-    with (instance_create(orb_x, orb_y, o_orb)) {
-        speed = random_range(3,7);
-        direction = random(360);
-    }
-}
-
-//set their capturer or type
-var orb_categories;
-orb_categories[0] = num_free;
-orb_categories[1] = num_owned;
-orb_categories[2] = num_opponent;
-orb_categories[3] = num_dead;
-orb_categories[4] = num_void;
-
-//loop thru orbs that circle the starting orb
-var o_index = 1;
-for(var i = 0; i &lt; 5; i++){
-    for(var j = 0; j &lt; orb_categories[i]; j++){
-        var cur_orb = instance_find(o_orb,o_index);
-        
-        //set parameters based on category
-        switch(i){
-        //free
-        case 0: break;
-        //already captured
-        case 1:
-            with cur_orb {
-                captured = true;
-                capturer = other.player_id;
-                color = other.player_color;
-            }
-            break;
-        //opponent captured
-        case 2:
-            with cur_orb {
-                captured = true;
-                capturer = other.opponent_id;
-                color = other.opponent_color;
-            }
-            break;
-        case 3:
-            set_orb_type(cur_orb,DEAD_ORB);
-            break;
-        case 4:
-            set_orb_type(cur_orb,VOID_ORB);
-            break;
-        }
-        o_index++;
-    }
-}
 </string>
           </argument>
         </arguments>
@@ -269,39 +128,16 @@ if (keyboard_check_pressed(vk_escape)) {
     room_goto(rm_main_menu);
 }
 
+// RESTART CURRENT LEVEL
 if (keyboard_check_pressed(ord("R")) ||
     //you died and...
     (!instance_exists(o_player) &amp;&amp;
         //you pressed space OR the music stopped
         (keyboard_check_pressed(vk_space) || !audio_is_playing(snd_game_over)))
     ){
-    
-    if (keyboard_check(vk_shift)) {
-        // START NEW LEVEL / SKIP TO NEXT TUTORIAL
-        has_launched = false;
-        kill_everything();
-        if (room_get_name(room) == "rm_tutorial") {
-            tut_count++;
-            level_create(false);
-            spawned_tether_length_orb = false;
-        }
-        else {
-            level_create(false);
-        }
-    }
-    else {
-        // RESTART CURRENT LEVEL
-        has_launched = false;
-        kill_everything();
-        
-        if (room_get_name(room) == "rm_tutorial") {
-            level_create(false);
-            spawned_tether_length_orb = false;
-        }
-        else {
-            level_create(true);
-        }
-    }
+    has_launched = false;
+    kill_everything();
+    level_create(true);
 }
 </string>
           </argument>
@@ -323,20 +159,15 @@ if (keyboard_check_pressed(ord("R")) ||
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Toggles (visuals, trail, orb gravity)
+            <string>/// Toggles (visuals, trail)
 
 if (keyboard_check_pressed(ord("V"))) {
     global.tmp_visuals_on = !global.tmp_visuals_on;
 }
-/*
+
 if (keyboard_check_pressed(ord("T"))) {
     global.pre_fix_trail = !global.pre_fix_trail;
 }
-
-if (keyboard_check_pressed(ord("G"))) {
-    global.orb_gravity_on = !global.orb_gravity_on;
-}
-*/
 </string>
           </argument>
         </arguments>
@@ -460,15 +291,9 @@ if (instance_exists(o_player)) {
         
         //prepare for fade-in
         alpha_transition = 1;
-        
-        //erase objects
+
+        global.current_level++;
         kill_everything();
-        
-        //progress along the tutorial sequence
-        if (tut_count != -1) {
-            tut_count = (tut_count + 1) % NUM_TUTORIALS;
-        }
-        
         level_create(false);
     }
 }
@@ -499,83 +324,6 @@ if (keyboard_check_pressed(vk_up) &amp;&amp; global.speed_scale &lt; 0.9) {
 }
 if (keyboard_check_pressed(vk_down) &amp;&amp; global.speed_scale &gt; 0.2) {
     global.speed_scale -= 0.05;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Slow Down All Orbs
-
-if (room_get_name(room) != "rm_tutorial" &amp;&amp; instance_exists(o_player)) {
-
-    var num_orb_remaining = num_to_win - o_player.num_orb_captured;
-    var total_threshold = 10;
-    var remaining_threshold = 2;
-
-    // if there are many orbs and there are only a few left to capture
-    if (instance_number(o_orb) &gt;= total_threshold &amp;&amp; num_orb_remaining &lt;= remaining_threshold) {
-        if (global.orb_speed_multiplier &gt; 0) {
-            global.orb_speed_multiplier -= 0.01;
-        }
-        else {
-            global.orb_speed_multiplier = 0;
-        }
-    }
-    else {
-        global.orb_speed_multiplier = 1;
-    }
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Tutorial Specific
-
-// Tether Level
-if (room_get_name(room) == "rm_tutorial") {
-    if ((tut_count == 1 || tut_count == 2) &amp;&amp; o_player.tethered &amp;&amp; !spawned_tether_length_orb) {
-        var dist = point_distance(o_player.x, o_player.y, SCREEN_RADIUS, SCREEN_RADIUS);
-        var dir = o_player.direction - 180;
-        var orb = instance_create(SCREEN_RADIUS + lengthdir_x(dist, dir), SCREEN_RADIUS + lengthdir_y(dist, dir), o_orb);
-        orb.initial_speed = 0;
-        orb.speed = 0;
-        if (tut_count == 2) {
-            set_orb_type(orb, CAPTURED_ORB);
-        }
-        spawned_tether_length_orb = true;
-    }
 }
 </string>
           </argument>
@@ -713,37 +461,6 @@ if (level_text != "" &amp;&amp; (!has_launched || level_text_alpha &gt; 0.001)) 
         level_text_alpha = lerp(level_text_alpha,1,0.08);
     }
     else { level_text_alpha = lerp(level_text_alpha,0,0.04); }
-    draw_set_alpha(1);
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// This is You
-
-if (room_get_name(room) == "rm_tutorial" &amp;&amp; tut_count = 0) {
-    if (o_player.current_orb != -1 &amp;&amp; this_is_you_alpha &gt; 0) {
-        this_is_you_alpha -= 0.05;
-    }
-    draw_set_colour(global.player_color);
-    draw_set_alpha(this_is_you_alpha);
-    draw_text(o_player.x + 200, o_player.y, "This is You");
     draw_set_alpha(1);
 }
 </string>

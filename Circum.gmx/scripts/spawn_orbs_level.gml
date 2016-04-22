@@ -1,5 +1,9 @@
 /// spawn_orbs_level()
 
+// TODO: One gigantic switch statement on 'global.current_level' to deal with each level
+
+
+/*
 // Spawning Orbs NEW
 // Consider spawning with three different methods (the exact one will be selected at random):
 //  1. Creating fixed-orbit rings in a setup that is prebuilt by hand
@@ -50,7 +54,7 @@ switch (spawning_type) {
                 spawn_orbs(true, room_width/2.25, -0.5, 0, get_orb_pattern (8, DEFAULT_ORB));
                 break;
                 */
-        }
+        /*}
         break;
     case S_FIXED_RANDOM:    // Fixed orbit rings; random setup
         var orbit_lanes = 1 + irandom(S_MAX_LANES); // Find out how many lanes we are going to have; default [1,3]

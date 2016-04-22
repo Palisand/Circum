@@ -11,16 +11,5 @@ draw_text_transformed(x, y + orbit_radius, alarm[0], 2, 2, 0);
 
 // Orb type
 var debug_text = "";
-switch (type) {
-    case DEAD_ORB:
-        debug_text = "DEAD#";
-        break;
-    case VOID_ORB:
-        debug_text = "VOID#";
-        break;
-    case MASTER_ORB:
-        debug_text = "MASTER#";
-        break;
-}
 debug_text += string(speed);
 draw_text_transformed(x, y, debug_text, 2,2,0);

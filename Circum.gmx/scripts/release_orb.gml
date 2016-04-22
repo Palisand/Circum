@@ -10,7 +10,7 @@ collision_hit_burst(
 capture_streak = 0;  // reset capture streak
 
 // Visuals
-room_speed /= 2.5;
+room_speed = 30;
 with (instance_create(orb.x, orb.y, o_release_effect)) {
     color = orb.color;
     orb_follow = orb.id;

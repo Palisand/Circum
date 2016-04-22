@@ -75,16 +75,9 @@
       <script>scripts\level_create.gml</script>
     </scripts>
     <scripts name="Orb Spawning">
-      <script>scripts\set_orb_type.gml</script>
-      <script>scripts\get_orb_pattern.gml</script>
       <script>scripts\spawn_orbs.gml</script>
       <script>scripts\spawn_orbs_level.gml</script>
       <script>scripts\spawn_tutorial_orbs.gml</script>
-      <script>scripts\save_level.gml</script>
-      <script>scripts\spawn_orbs_saved.gml</script>
-      <script>scripts\add_master_random.gml</script>
-      <script>scripts\count_type.gml</script>
-      <script>scripts\add_master_fixed.gml</script>
       <script>scripts\spawn_test_orbs.gml</script>
     </scripts>
     <scripts name="Other">
@@ -115,8 +108,6 @@
     <object>objects\o_globals</object>
     <object>objects\o_player</object>
     <object>objects\o_orb</object>
-    <object>objects\o_payload</object>
-    <object>objects\o_fake_player</object>
     <objects name="Debug">
       <object>objects\o_handler_debug</object>
       <object>objects\o_player_debug</object>
@@ -126,34 +117,22 @@
       <object>objects\o_shockwave</object>
       <object>objects\o_release_effect</object>
     </objects>
+    <objects name="Defunct">
+      <object>objects\o_payload</object>
+      <object>objects\o_fake_player</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_main_menu</room>
-    <room>rooms\rm_tutorial</room>
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="20">
-    <constant name="NUM_ORB_TYPES">5</constant>
-    <constant name="DEFAULT_ORB">0</constant>
-    <constant name="DEAD_ORB">1</constant>
-    <constant name="VOID_ORB">2</constant>
-    <constant name="CAPTURED_ORB">3</constant>
-    <constant name="MASTER_ORB">4</constant>
+  <constants number="5">
     <constant name="SCREEN_RADIUS">room_width/2</constant>
-    <constant name="STREAK_TIMEOUT">600</constant>
-    <constant name="POSSESSION">3</constant>
-    <constant name="DOMINATION">5</constant>
-    <constant name="RELEASE">3</constant>
-    <constant name="THEFT">6</constant>
-    <constant name="NONE">0</constant>
     <constant name="S_FIXED_PREBUILT">0</constant>
     <constant name="S_FIXED_RANDOM">1</constant>
     <constant name="S_RANDOM">2</constant>
     <constant name="S_MAX_LANES">2</constant>
-    <constant name="GUARD_TIME">800</constant>
-    <constant name="RELEASE_TIME">800</constant>
-    <constant name="NUM_TUTORIALS">7</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

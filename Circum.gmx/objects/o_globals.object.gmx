@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -25,14 +25,11 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>global.current_level = 0;
+
 //settings that can be controlled by the player
 global.player_color = c_lime;
-global.lock_color = c_fuchsia;
 //global.speed_scale = 1.0;
-
-//to make capturing the last orbs of a level easier
-global.orb_speed_multiplier = 1.0;
 
 //do we show the orbits?
 global.tmp_visuals_on = false;
@@ -55,9 +52,6 @@ enum ORB {
 //use pre-fix player trail
 global.pre_fix_trail = false;
 
-//for toggling free orb gravitational pull
-global.orb_gravity_on = true;
-
 //who won
 global.winner = -1;
 global.snd_win_played = false;
@@ -73,9 +67,6 @@ global.scale[4] = 1/1;
 global.scale[5] = 9/8;
 global.scale[6] = 5/4;
 global.scale[7] = 4/3;
-
-//whether to enable hammering
-global.hammer = true;
 </string>
           </argument>
         </arguments>
