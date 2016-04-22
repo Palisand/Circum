@@ -328,15 +328,10 @@ if (keyboard_check_pressed(ord("R")) ||
 if (keyboard_check_pressed(ord("V"))) {
     global.tmp_visuals_on = !global.tmp_visuals_on;
 }
-/*
+
 if (keyboard_check_pressed(ord("T"))) {
     global.pre_fix_trail = !global.pre_fix_trail;
 }
-
-if (keyboard_check_pressed(ord("G"))) {
-    global.orb_gravity_on = !global.orb_gravity_on;
-}
-*/
 </string>
           </argument>
         </arguments>
@@ -499,47 +494,6 @@ if (keyboard_check_pressed(vk_up) &amp;&amp; global.speed_scale &lt; 0.9) {
 }
 if (keyboard_check_pressed(vk_down) &amp;&amp; global.speed_scale &gt; 0.2) {
     global.speed_scale -= 0.05;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Slow Down All Orbs
-
-if (room_get_name(room) != "rm_tutorial" &amp;&amp; instance_exists(o_player)) {
-
-    var num_orb_remaining = num_to_win - o_player.num_orb_captured;
-    var total_threshold = 10;
-    var remaining_threshold = 2;
-
-    // if there are many orbs and there are only a few left to capture
-    if (instance_number(o_orb) &gt;= total_threshold &amp;&amp; num_orb_remaining &lt;= remaining_threshold) {
-        if (global.orb_speed_multiplier &gt; 0) {
-            global.orb_speed_multiplier -= 0.01;
-        }
-        else {
-            global.orb_speed_multiplier = 0;
-        }
-    }
-    else {
-        global.orb_speed_multiplier = 1;
-    }
 }
 </string>
           </argument>

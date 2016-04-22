@@ -115,8 +115,6 @@
     <object>objects\o_globals</object>
     <object>objects\o_player</object>
     <object>objects\o_orb</object>
-    <object>objects\o_payload</object>
-    <object>objects\o_fake_player</object>
     <objects name="Debug">
       <object>objects\o_handler_debug</object>
       <object>objects\o_player_debug</object>
@@ -125,6 +123,10 @@
     <objects name="FX">
       <object>objects\o_shockwave</object>
       <object>objects\o_release_effect</object>
+    </objects>
+    <objects name="Defunct">
+      <object>objects\o_payload</object>
+      <object>objects\o_fake_player</object>
     </objects>
   </objects>
   <rooms name="rooms">
