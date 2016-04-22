@@ -16,11 +16,17 @@ with (orb_obj) {
     }
 }
 
+if (keyboard_check_released(action_key)  // on key-release
+)
+{
+    holding_button = false;
+}
 // tether
-if (keyboard_check_pressed(action_key) && nearest_orb != -1) {
+if (keyboard_check_pressed(action_key) && nearest_orb != -1 && !holding_button) {
     current_orb = nearest_orb;
     current_orb.halt = true;
     tethered = true;
+    holding_button = true;
     orbit = point_direction(x, y, nearest_orb.x, nearest_orb.y);
     orbit_speed = sign(angle_difference(orbit, direction)) * orbit_speed_set;
     latch_time = get_timer();

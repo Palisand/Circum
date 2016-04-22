@@ -22,9 +22,15 @@ direction = orbit - (sign(orbit_speed) * 90);
 
 // Launch
 if (keyboard_check_released(action_key)  // on key-release
+)
+{
+    holding_button = false;
+}
+if ((keyboard_check_pressed(action_key) && !holding_button) // on key-press
     // or if the orb is captured by an opponent (i.e. not released anymore)
     || (current_orb.captured && current_orb.capturer != id)
     ) {
+    holding_button = true;
     current_orb.halt = false;
     speed = launch_speed;
     tethered = false;
