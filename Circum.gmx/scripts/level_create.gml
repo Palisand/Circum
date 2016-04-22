@@ -16,6 +16,7 @@ if (restart_level) {
 else {
     if (tut_count < 0) {
         spawn_orbs_level();
+        //spawn_test_orbs();
     }
     else {
         spawn_tutorial_orbs();

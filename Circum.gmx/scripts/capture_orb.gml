@@ -14,4 +14,5 @@ capture_streak++;
 // Visuals
 with (instance_create(orb.x, orb.y, o_release_effect)) {
     color = other.color;
+    orb_follow = orb.id;
 }

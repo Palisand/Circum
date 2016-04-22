@@ -28,6 +28,7 @@
             <string>color = c_white;
 scale = 25 * 2/sprite_get_width(s_ring);
 alpha = 1;
+orb_follow = -1;
 </string>
           </argument>
         </arguments>
@@ -50,9 +51,14 @@ alpha = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>scale = lerp(scale, 5, 0.1);
+            <string>
+if (orb_follow &gt; 0) {
+    x = orb_follow.x;
+    y = orb_follow.y;
+}
+scale = lerp(scale, 5, 0.1);
 
-if (alpha &gt; 0) {
+if (alpha &gt; 0.01) {
     alpha = lerp(alpha, 0, 0.1);
 }
 else {
