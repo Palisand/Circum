@@ -28,7 +28,9 @@
             <string>window_set_cursor(cr_none); 
 
 // init global vars
-instance_create(0, 0, o_globals);
+if (!instance_exists(o_globals)) {
+    instance_create(0, 0, o_globals);
+}
 
 // Particles
 p_emitter = part_emitter_create(global.p_system);
@@ -39,12 +41,19 @@ screen = surface_create(room_width, room_height);
 drawn_to_surface = false;
 
 /// Menu
+// TODO: levels and color selection should be loaded from file
 
 // text
 menu_items[0, 0] = "PLAY";
-menu_items[1, 0] = "TUTORIALS";
-menu_items[2, 0] = "MODIFIERS"; // color, trail, speed, orb attraction, etc.
+menu_items[1, 0] = "LEVEL: " + string(global.current_level);
+menu_items[2, 0] = "COLOR";
 menu_items[3, 0] = "EXIT";
+// colors
+color[0] = c_lime;
+color[1] = c_fuchsia;
+color[2] = c_aqua;
+color[3] = c_yellow;
+color_index = 0;
 // scales
 menu_items[0, 1] = 1;
 menu_items[1, 1] = 1;
@@ -143,11 +152,12 @@ if (keyboard_check_pressed(vk_up)) {
 
 if (keyboard_check_pressed(vk_space)) {
     switch(current_item) {
-        case 0:
+        case 0: // Play
             room_goto(rm_play);
             break;
-        case 1:
-            room_goto(rm_tutorial);
+        // case 1: handle level select
+        case 2: // Color Select
+            global.player_color = color[(++color_index + 4) % 4];
             break;
         case 3:
             game_end();
@@ -161,31 +171,6 @@ if (keyboard_check_pressed(vk_space)) {
       </action>
     </event>
     <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Esc
-
-if (keyboard_check_pressed(vk_escape)) {
-    game_end();
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
