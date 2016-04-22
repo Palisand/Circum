@@ -8,7 +8,9 @@ radius = 3;
 draw_radius = radius;
 
 launch_speed = 15;
+homing_speed = 1.5;
 orb_pull_speed = 0;
+tether_cap = 1.3;
 direction = choose(1, -1); // randomly begin with a clockwise or counter-clockwise rotation
 orbit = 0;
 orbit_speed = 0;
@@ -28,7 +30,7 @@ dist_to_nearest = room_width * 2;  // pseudo MAX_INT
 // Trail
 trail_length = 30;
 trail_id[0] = -1;
-tether_radius = 0;  //upon tether, store distance to current_orb
+trail_tethered[0] = -1;
 ricochet_time = trail_length;  //steps since last ricochet
 latch_time = -1;  //time at which we tethered/orbited
 

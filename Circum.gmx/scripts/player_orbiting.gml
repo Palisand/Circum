@@ -10,7 +10,7 @@ var orb_obj = argument1;
 current_orb.halt = true;
 
 // Orbit
-orbit += orbit_speed*global.speed_scale;
+orbit += orbit_speed;
 x = current_orb.x - cos(degtorad(orbit)) * current_orb.orbit_radius;
 y = current_orb.y + sin(degtorad(orbit)) * current_orb.orbit_radius;
 // set direction to orbit tangent

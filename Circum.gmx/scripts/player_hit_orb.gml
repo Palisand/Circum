@@ -105,37 +105,10 @@ if (point_in_circle(x + hspeed, y + vspeed, orb.x, orb.y, orad)) {
             break;    
         case DEFAULT_ORB:
             // if CAPTURED orb
-            if (orb.captured && orb.capturer != id) {
-                ricochet_off_orb(orb,orad);
-                collision_hit_burst(
-                    x, y, to_orb_dir - 180 - 90, to_orb_dir - 180 + 90,
-                    orb.color, 300, 60, orb.p_emitter, orb.p_type
-                );
-                capture_streak = 0;  // reset capture streak
-    
-                // if a player is tethered, it can release captured orbs
-                if ((tethered && global.hammer)) {
-                    // Decrement opponent player capture count
-                    orb.capturer.num_orb_captured--;
-                    // Visuals
-                    room_speed = 20;
-                    with (instance_create(orb.x, orb.y, o_release_effect)) {
-                        color = orb.color;
-                    }
-                    instance_create(x, y, o_shockwave);
-                    // Reset orb
-                    orb.captured = false;
-                    orb.capturer = -1;
-                    orb.color = c_white;
-                    audio_sound_pitch(audio_play_sound(snd_release, 0, 0), 4/3);
-                }
-                else { play_ricochet(++ricochet_streak, scale); }
+            if (orb.captured) {// && orb.capturer != id) {
+                release_orb(orb,orad,to_orb_dir)
             }
-            // if OWNED orb
-            else if (orb.captured && orb.capturer == id) {
-                set_to_orbit(orb, to_orb_dir);
-                capture_streak = 0;
-            } 
+            
             // if FREE orb
             else if (!orb.captured) {
                 set_to_orbit(orb, to_orb_dir);
