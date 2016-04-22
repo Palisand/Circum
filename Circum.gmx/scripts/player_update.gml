@@ -9,12 +9,6 @@ edge_bounce_circle(radius);
 if (col_edge) {
     col_edge = false;
     
-    // tutorial special case: return to center orb
-    if (room_get_name(room) == "rm_tutorial" && o_handler.tut_count < 2) {
-        x = SCREEN_RADIUS;
-        y = SCREEN_RADIUS;
-    }
-    
     // Remove capture streak
     capture_streak = 0;
     

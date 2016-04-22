@@ -1,27 +1,22 @@
 /// level_create(restart)
+
+
+// TODO: instead of 'restart' the level number is needed
+
+
 //Places orbs & player, and initializes variables
 /// level_create(bool restart_level)
 
 //called by handler
 
-var restart_level = argument0;
+var restart_level = argument0; // TODO: no need to save orbs since levels are the same
 
 level_text_alpha = 0;
 level_text = "";
 
 // Spawn Orbs
-if (restart_level) {
-    spawn_orbs_saved();
-}
-else {
-    if (tut_count < 0) {
-        //spawn_orbs_level();
-        spawn_test_orbs();
-    }
-    else {
-        spawn_tutorial_orbs();
-    }
-}
+//spawn_orbs_level();
+spawn_test_orbs();
 
 // Spawn Starting Orb
 var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);
