@@ -45,7 +45,7 @@ drawn_to_surface = false;
 
 // text
 menu_items[0, 0] = "PLAY";
-menu_items[1, 0] = "LEVEL: " + string(global.current_level);
+menu_items[1, 0] = "LEVEL : " + string(global.current_level);
 menu_items[2, 0] = "COLOR";
 menu_items[3, 0] = "EXIT";
 // colors

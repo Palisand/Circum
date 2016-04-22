@@ -292,7 +292,7 @@ if (instance_exists(o_player)) {
         //prepare for fade-in
         alpha_transition = 1;
 
-        // TODO: global.current_level++
+        global.current_level++;
         kill_everything();
         level_create(false);
     }

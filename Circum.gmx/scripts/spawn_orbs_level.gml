@@ -1,4 +1,8 @@
 /// spawn_orbs_level()
+
+// TODO: One gigantic switch statement on 'global.current_level' to deal with each level
+
+
 /*
 // Spawning Orbs NEW
 // Consider spawning with three different methods (the exact one will be selected at random):

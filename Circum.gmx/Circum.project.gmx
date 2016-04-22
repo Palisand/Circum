@@ -124,7 +124,6 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_main_menu</room>
-    <room>rooms\rm_tutorial</room>
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
