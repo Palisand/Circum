@@ -1,5 +1,8 @@
 /// player_create()
 
+p_emitter = part_emitter_create(global.p_system);
+p_type = part_type_create();
+
 // Set in o_handler Create Event
 color = c_white;
 action_key = vk_shift;
