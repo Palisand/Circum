@@ -16,13 +16,14 @@ with (orb_obj) {
     }
 }
 
-if (keyboard_check_released(action_key)  // on key-release
-)
-{
+// Tether
+if (keyboard_check_released(action_key)) {
     holding_button = false;
 }
-// tether
-if (keyboard_check_pressed(action_key) && nearest_orb != -1 && !holding_button) {
+
+var hold_check = !global.tap_tether || (global.tap_tether && !holding_button);
+
+if (keyboard_check_pressed(action_key) && nearest_orb != -1 && hold_check) {
     current_orb = nearest_orb;
     current_orb.halt = true;
     tethered = true;

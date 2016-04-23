@@ -30,6 +30,7 @@
 //settings that can be controlled by the player
 global.player_color = c_lime;
 //global.speed_scale = 1.0;
+global.tap_tether = true;
 
 //do we show the orbits?
 global.tmp_visuals_on = false;
