@@ -11,7 +11,7 @@
     
     5 Levels for each difficulty tier increase?
 */
-global.current_level = 11;
+global.current_level = 15;
 switch (global.current_level) {
     // 1. Stationary Orb Levels
     case 0:     // Easiest level, 1 stationary orb (1)
@@ -41,7 +41,7 @@ switch (global.current_level) {
         break;
     // Stopping at 5 for completely stationary levels because a player commented that it was starting to test her patience.
     // 2. Stationary and Fixed-Orbit Rings (Moving)
-    case 6:     // Introduce MOVING rings!! (3)
+    case 6:     // Introduce Fixed-Orbit Rings!! (3)
         spawn_orbs (true, room_width/3, 0.25, 0, 3);
         break;
     case 7:     // 2 stationary (outside), 3 fixed-orbit (inside) (5)
@@ -63,6 +63,30 @@ switch (global.current_level) {
         spawn_orbs (true, room_width/2.25, -0.40, 0, 3);
         break;
     // 3. Fixed-Orbit Rings!!
+    case 11:    // Fast Ring of 4! (4)
+        spawn_orbs (true, room_width/4, 0.6, 0, 4);
+        break;
+    case 12:    // Opposite Direction: 2 Rings! (6)
+        spawn_orbs (true, room_width/6, 0.4, 0, 3);
+        spawn_orbs (true, room_width/3, -0.5, 0, 3);
+        break;
+    case 13:    // 3 Rings in the Same Direction! (9) <-- Awesome Design
+        var level_13_speed = 0.5;
+        spawn_orbs (true, room_width/7, level_13_speed, 0, 3);
+        spawn_orbs (true, room_width/4, level_13_speed, 90, 3);
+        spawn_orbs (true, room_width/2.25, level_13_speed, 75, 3);
+        break;
+    case 14:    // Overlapping Danger! (7)
+        spawn_orbs (true, room_width/7.5, -0.2, 60, 2);
+        spawn_orbs (true, room_width/6, 0.5, 30, 4);
+        spawn_orbs (true, room_width/2.25, 0.4, 45, 1);
+        break;
+    case 15:    // Boss Level: Banking on those overlaps (11)
+        spawn_orbs (true, room_width/6.5, -0.2, 60, 3);
+        spawn_orbs (true, room_width/5, 0.5, 30, 4);
+        spawn_orbs (true, room_width/2.5, 0.45, 90, 2);
+        spawn_orbs (true, room_width/4, 0.2, 120, 2); 
+        break;
     // 4. Stationary and Randoms
     // 5. Random Maps
     // 6. To infinitum, generate random maps with stationary, fixed-orbits, and random movements
