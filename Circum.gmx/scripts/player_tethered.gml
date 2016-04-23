@@ -6,6 +6,10 @@ current_orb.halt = true;
 // Tether Orbit
 if (current_orb.captured == false) {
     dist_to_nearest -= homing_speed;
+    global.pre_fix_trail = true;
+}
+else {
+    global.pre_fix_trail = false;
 }
 
 var tether_orbit_speed = sign(orbit_speed) * (launch_speed * room_speed) / dist_to_nearest;
