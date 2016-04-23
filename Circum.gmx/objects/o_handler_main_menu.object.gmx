@@ -70,7 +70,7 @@ num_menu_item = 4;
 current_item = 0;
 
 //testing out fonts
-font_index = 0;
+font_index = 9;
 
 big_fonts[0] = font_title;
 big_fonts[1] = quicksand_bold_title;
