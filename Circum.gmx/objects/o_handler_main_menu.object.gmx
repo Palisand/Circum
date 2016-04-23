@@ -70,19 +70,19 @@ num_menu_item = 4;
 current_item = 0;
 
 //testing out fonts
-font_index = 9;
-
 big_fonts[0] = font_title;
 big_fonts[1] = quicksand_bold_title;
-big_fonts[2] = quicksand_book_title;
+big_fonts[2] = quicksand_book_title;//default, don't insert above
 big_fonts[3] = quicksand_light_title;
 num_big = array_length_1d(big_fonts);
 
 small_fonts[0] = font_main;
-small_fonts[1] = quicksand_bold_main;
+small_fonts[1] = quicksand_bold_main;//default, don't insert above
 small_fonts[2] = quicksand_book_main;
 small_fonts[3] = quicksand_light_main;
 num_small = array_length_1d(small_fonts);
+
+font_index = 2*num_big + 1;//third big font, second small font
 
 font_combos = num_big*num_small;
 </string>
