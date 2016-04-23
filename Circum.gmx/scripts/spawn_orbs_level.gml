@@ -11,42 +11,56 @@
     
     5 Levels for each difficulty tier increase?
 */
-global.current_level = 7;
+global.current_level = 11;
 switch (global.current_level) {
     // 1. Stationary Orb Levels
-    case 0:     // Easiest level, 1 stationary orb
+    case 0:     // Easiest level, 1 stationary orb (1)
         spawn_orbs (true, room_width/3, 0, 100, 1);
         break;
-    case 1:     // 2 stationary orbs
+    case 1:     // 2 stationary orbs (2)
         spawn_orbs (true, room_width/3, 0, 150, 2);
         break;
-    case 2:     // 3 stationary orbs
+    case 2:     // 3 stationary orbs (3)
         spawn_orbs (true, room_width/7, 0, 190, 1);
         spawn_orbs (true, room_width/3.5, 0, 100, 1);
         spawn_orbs (true, room_width/3.5, 0, 330, 1);
         break;
-    case 3:     // 4 stationary orbs
+    case 3:     // 4 stationary orbs (4)
         spawn_orbs (true, room_width/2.5, 0, 60, 2);
         spawn_orbs (true, room_width/5, 0, 330, 2);
         break;
-    case 4:     // 6 stationary orbs
+    case 4:     // 6 stationary orbs (6)
         spawn_orbs (true, room_width/2.5, 0, 0, 2);
         spawn_orbs (true, room_width/4, 0, 80, 2);
         spawn_orbs (true, room_width/7, 0, 120, 2);
         break;
-    case 5:     // 9 stationary orbs: Final all stationary orb stage (unless we change our minds later)
+    case 5:     // 9 stationary orbs (9)
         spawn_orbs (true, room_width/7, 0, 0, 3);
         spawn_orbs (true, room_width/3.5, 0, 20, 3);
         spawn_orbs (true, room_width/2.25, 0, 60, 3);
         break;
     // Stopping at 5 for completely stationary levels because a player commented that it was starting to test her patience.
     // 2. Stationary and Fixed-Orbit Rings (Moving)
-    case 6:     // Introduce MOVING rings!! 3 orbs total
+    case 6:     // Introduce MOVING rings!! (3)
         spawn_orbs (true, room_width/3, 0.25, 0, 3);
         break;
-    case 7:     // 2 stationary (outside), 3 fixed-orbit (inside)
+    case 7:     // 2 stationary (outside), 3 fixed-orbit (inside) (5)
         spawn_orbs (true, room_width/6, -0.25, 0, 3);
         spawn_orbs (true, room_width/3, 0, 100, 2);
+        break;
+    case 8:     // 1 stationary (inside), 4 fixed-orbit (middle), 1 stationary outside (6)
+        spawn_orbs (true, room_width/7, 0, 90, 1);
+        spawn_orbs (true, room_width/4, 0.25, 0, 4);
+        spawn_orbs (true, room_width/2.5, 0, 220, 1);
+        break;
+    case 9:     // 3 stationary (inside), 3 fixed-orbit (outside) (6)
+        spawn_orbs (true, room_width/3, -0.25, 0, 3);
+        spawn_orbs (true, room_width/7, 0, 0, 3);
+        break;
+    case 10:    // Progression 2 boss battle!! (10)
+        spawn_orbs (true, room_width/7, 0.25, 0, 3);
+        spawn_orbs (true, room_width/3.5, 0, 30, 4);
+        spawn_orbs (true, room_width/2.25, -0.40, 0, 3);
         break;
     // 3. Fixed-Orbit Rings!!
     // 4. Stationary and Randoms
@@ -55,9 +69,7 @@ switch (global.current_level) {
     default:
         // This will change to implement the function described in progression stage 6. "To infinitum"
         // For now, this will have to do... for now...
-        spawn_orbs (true, room_width/7, -0.25, 0, 4);
-        spawn_orbs (true, room_width/3.5, 0.3, 0, 4);
-        spawn_orbs (true, room_width/2.25, -0.4, 0, 4);
+        spawn_orbs (false, room_width/3, 0, 0, 10);
         break;
 }
 
