@@ -26,6 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>window_set_cursor(cr_none); 
+menu_reveal_radius = 0;
+game_exit = false;
 
 // init global vars
 if (!instance_exists(o_globals)) {
@@ -190,7 +192,8 @@ if (keyboard_check_pressed(vk_space)) {
             global.player_color = color[global.color_index];
             break;
         case 3:
-            game_end();
+            menu_reveal_radius = room_width/2;
+            game_exit = true;
         default:
             break;
     }
@@ -315,7 +318,24 @@ for (var i = 0; i &lt; num_menu_item; i++) {
             <kind>1</kind>
             <string>/// Circlular Screen
 
-if (!drawn_to_surface) {  // this only needs to happen once
+if (!global.menu_opened) {
+    surface_set_target(screen);
+    draw_clear_alpha(c_black, 1);
+    draw_set_blend_mode(bm_subtract);
+    draw_set_circle_precision(64);
+    draw_circle(room_width/2, room_height/2, menu_reveal_radius, false);
+    draw_set_alpha(1);
+    draw_set_blend_mode(bm_normal);
+    surface_reset_target();
+    if (menu_reveal_radius &lt; room_width/2) {
+        menu_reveal_radius += 40;
+    }
+    else {
+        menu_reveal_radius = room_width/2;
+        global.menu_opened = true;
+    }
+}
+else if (!drawn_to_surface) {  // this only needs to happen once
     drawn_to_surface = true;
     surface_set_target(screen);
     draw_clear_alpha(c_black, 1);  // make entire screen black
@@ -327,13 +347,30 @@ if (!drawn_to_surface) {  // this only needs to happen once
     surface_reset_target();
 }
 
+if (game_exit) {
+    surface_set_target(screen);
+    draw_clear_alpha(c_black, 1);
+    draw_set_blend_mode(bm_subtract);
+    draw_set_circle_precision(64);
+    draw_circle(room_width/2, room_height/2, menu_reveal_radius, false);
+    draw_set_alpha(1);
+    draw_set_blend_mode(bm_normal);
+    surface_reset_target();
+    if (menu_reveal_radius &gt; 0) {
+        menu_reveal_radius -= 40;
+    }
+    else {
+        game_end();
+    }
+}
+
+// Draw to surface
 if (surface_exists(screen)) {
     draw_surface(screen, 0, 0);
 }
 else {
     screen = surface_create(room_width, room_height);
 }
-
 </string>
           </argument>
         </arguments>
