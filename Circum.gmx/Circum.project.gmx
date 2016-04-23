@@ -98,9 +98,19 @@
     <shader type="GLSLES">shaders\shd_shockwave.shader</shader>
   </shaders>
   <fonts name="fonts">
-    <font>fonts\font_main</font>
-    <font>fonts\font_title</font>
-    <font>fonts\font_debug</font>
+    <fonts name="quicksand">
+      <font>fonts\quicksand_bold_title</font>
+      <font>fonts\quicksand_bold_main</font>
+      <font>fonts\quicksand_light_title</font>
+      <font>fonts\quicksand_light_main</font>
+      <font>fonts\quicksand_book_title</font>
+      <font>fonts\quicksand_book_main</font>
+    </fonts>
+    <fonts name="arial_bold">
+      <font>fonts\font_main</font>
+      <font>fonts\font_title</font>
+      <font>fonts\font_debug</font>
+    </fonts>
   </fonts>
   <objects name="objects">
     <object>objects\o_handler_main_menu</object>
