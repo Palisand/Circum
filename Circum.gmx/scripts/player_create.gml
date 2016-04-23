@@ -18,6 +18,7 @@ direction = choose(1, -1); // randomly begin with a clockwise or counter-clockwi
 orbit = 0;
 orbit_speed = 0;
 orbit_speed_set = 4;
+holding_button = false;
 //flags for state
 orbiting = false;
 tethered = false;
