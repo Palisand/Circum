@@ -11,7 +11,7 @@
     
     5 Levels for each difficulty tier increase?
 */
-global.current_level = 15;
+//global.current_level = 15;
 switch (global.current_level) {
     // 1. Stationary Orb Levels
     case 0:     // Easiest level, 1 stationary orb (1)
