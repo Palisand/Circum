@@ -52,6 +52,9 @@ enum ORB {
 //use pre-fix player trail
 global.pre_fix_trail = false;
 
+//first time in main menu
+global.menu_opened = false;
+
 //who won
 global.winner = -1;
 global.snd_win_played = false;
