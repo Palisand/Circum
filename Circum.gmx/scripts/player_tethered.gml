@@ -4,9 +4,25 @@
 current_orb.halt = true;
 
 // Tether Orbit
-if (current_orb.captured == false) {
+if (!current_orb.captured) {
+	global.pre_fix_trail = true;
+    // home in on orb
     dist_to_nearest -= homing_speed;
-    global.pre_fix_trail = true;
+    // visuals
+    var dir = point_direction(x, y, current_orb.x, current_orb.y);
+    part_system_depth(global.p_system, -99);
+    part_type_sprite(p_type, s_line, false, false, false);
+    part_type_blend(p_type, true);
+    part_type_alpha2(p_type, 1, 0);
+    part_type_colour2(p_type, color, current_orb.color);
+    part_type_direction(p_type, dir, dir, 0, 0);
+    part_type_speed(p_type, 0, 8, 0, 0);
+    part_type_size(p_type, 0.2, 0.2, 0, 0);
+    part_type_life(p_type, 1, 60);
+    part_type_orientation(p_type, 0, 0, 0, 0, true);
+    part_type_scale(p_type, 1, 1);
+    part_emitter_region(global.p_system, p_emitter, x, x, y, y, ps_shape_line, ps_distr_linear);
+    part_emitter_burst(global.p_system, p_emitter, p_type, 5);
 }
 else {
     global.pre_fix_trail = false;
