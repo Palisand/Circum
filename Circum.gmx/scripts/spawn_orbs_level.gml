@@ -1,7 +1,65 @@
 /// spawn_orbs_level()
 
 // TODO: One gigantic switch statement on 'global.current_level' to deal with each level
-
+/* 
+    Difficulty progression as noted in the guide:
+    1.  Stationary
+    2.  Stationary and Fixed-Orbit Ring
+    3.  Fixed-Orbit Ring
+    4.  Stationary and Random
+    5.  Random
+    
+    5 Levels for each difficulty tier increase?
+*/
+global.current_level = 7;
+switch (global.current_level) {
+    // 1. Stationary Orb Levels
+    case 0:     // Easiest level, 1 stationary orb
+        spawn_orbs (true, room_width/3, 0, 100, 1);
+        break;
+    case 1:     // 2 stationary orbs
+        spawn_orbs (true, room_width/3, 0, 150, 2);
+        break;
+    case 2:     // 3 stationary orbs
+        spawn_orbs (true, room_width/7, 0, 190, 1);
+        spawn_orbs (true, room_width/3.5, 0, 100, 1);
+        spawn_orbs (true, room_width/3.5, 0, 330, 1);
+        break;
+    case 3:     // 4 stationary orbs
+        spawn_orbs (true, room_width/2.5, 0, 60, 2);
+        spawn_orbs (true, room_width/5, 0, 330, 2);
+        break;
+    case 4:     // 6 stationary orbs
+        spawn_orbs (true, room_width/2.5, 0, 0, 2);
+        spawn_orbs (true, room_width/4, 0, 80, 2);
+        spawn_orbs (true, room_width/7, 0, 120, 2);
+        break;
+    case 5:     // 9 stationary orbs: Final all stationary orb stage (unless we change our minds later)
+        spawn_orbs (true, room_width/7, 0, 0, 3);
+        spawn_orbs (true, room_width/3.5, 0, 20, 3);
+        spawn_orbs (true, room_width/2.25, 0, 60, 3);
+        break;
+    // Stopping at 5 for completely stationary levels because a player commented that it was starting to test her patience.
+    // 2. Stationary and Fixed-Orbit Rings (Moving)
+    case 6:     // Introduce MOVING rings!! 3 orbs total
+        spawn_orbs (true, room_width/3, 0.25, 0, 3);
+        break;
+    case 7:     // 2 stationary (outside), 3 fixed-orbit (inside)
+        spawn_orbs (true, room_width/6, -0.25, 0, 3);
+        spawn_orbs (true, room_width/3, 0, 100, 2);
+        break;
+    // 3. Fixed-Orbit Rings!!
+    // 4. Stationary and Randoms
+    // 5. Random Maps
+    // 6. To infinitum, generate random maps with stationary, fixed-orbits, and random movements
+    default:
+        // This will change to implement the function described in progression stage 6. "To infinitum"
+        // For now, this will have to do... for now...
+        spawn_orbs (true, room_width/7, -0.25, 0, 4);
+        spawn_orbs (true, room_width/3.5, 0.3, 0, 4);
+        spawn_orbs (true, room_width/2.25, -0.4, 0, 4);
+        break;
+}
 
 /*
 // Spawning Orbs NEW
