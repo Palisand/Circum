@@ -26,9 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>global.current_level = 0;
+global.levels_unlocked = 0;
 
 //settings that can be controlled by the player
 global.player_color = c_lime;
+global.color_index = 0;
 //global.speed_scale = 1.0;
 
 //do we show the orbits?

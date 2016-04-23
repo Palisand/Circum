@@ -5,6 +5,7 @@ current_orb.halt = true;
 
 // Tether Orbit
 if (!current_orb.captured) {
+	global.pre_fix_trail = true;
     // home in on orb
     dist_to_nearest -= homing_speed;
     // visuals
@@ -22,6 +23,9 @@ if (!current_orb.captured) {
     part_type_scale(p_type, 1, 1);
     part_emitter_region(global.p_system, p_emitter, x, x, y, y, ps_shape_line, ps_distr_linear);
     part_emitter_burst(global.p_system, p_emitter, p_type, 5);
+}
+else {
+    global.pre_fix_trail = false;
 }
 
 var tether_orbit_speed = sign(orbit_speed) * (launch_speed * room_speed) / dist_to_nearest;
