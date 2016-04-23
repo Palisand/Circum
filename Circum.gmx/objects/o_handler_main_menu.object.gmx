@@ -65,14 +65,20 @@ current_item = 0;
 
 //testing out fonts
 font_index = 0;
-num_fonts = 2;
 
 big_fonts[0] = font_title;
-big_fonts[1] = quicksand_bold;
+big_fonts[1] = quicksand_bold_title;
+big_fonts[2] = quicksand_book_title;
+big_fonts[3] = quicksand_light_title;
+num_big = array_length_1d(big_fonts);
 
 small_fonts[0] = font_main;
-small_fonts[1] = quicksand_book;
+small_fonts[1] = quicksand_bold_main;
+small_fonts[2] = quicksand_book_main;
+small_fonts[3] = quicksand_light_main;
+num_small = array_length_1d(small_fonts);
 
+font_combos = num_big*num_small;
 </string>
           </argument>
         </arguments>
@@ -151,7 +157,7 @@ play_background();
             <string>/// Menu Interact
 
 if (keyboard_check_pressed(ord("F"))) {
-    font_index = (font_index+1) % num_fonts;
+    font_index = (font_index+1) % font_combos;
 }
 
 if (keyboard_check_pressed(vk_down)) {
@@ -207,13 +213,13 @@ if (keyboard_check_pressed(vk_space)) {
 draw_set_colour(c_white);
 draw_set_halign(fa_center);
 
-draw_set_font(big_fonts[font_index]);
+draw_set_font(big_fonts[font_index / num_big]);
 draw_text(room_width/2, 512, "CIRCUM");
 
 var menu_start = 734;
 var menu_spacing = 64; 
 
-draw_set_font(small_fonts[font_index]);
+draw_set_font(small_fonts[font_index % num_big]);
 draw_set_valign(fa_center);
 for (var i = 0; i &lt; num_menu_item; i++) {
     if (current_item == i) {
