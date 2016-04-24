@@ -187,38 +187,11 @@ switch (global.current_level) {
                     case 1:
                         // So we want 3 rings?
                         
-                        // Tons of repeated code, please turn into a function for me ... thx!
-                        var speed_mod = irandom (80) - 40;
-                        speed_mod = (speed_mod / 100);
-                        if (speed_mod > 0){
-                            speed_mod += 0.2;
-                        }
-                        else {
-                            speed_mod -= 0.2;
-                        }
-                        
+                        speed_mod = get_speed_mod();
                         spawn_orbs (true, room_width/7, speed_mod, irandom(180), 3 + irandom(6));
-                        
-                        speed_mod = irandom (80) - 40;
-                        speed_mod = (speed_mod / 100);
-                        if (speed_mod > 0){
-                            speed_mod += 0.2;
-                        }
-                        else {
-                            speed_mod -= 0.2;
-                        }
-                        
+                        speed_mod = get_speed_mod();
                         spawn_orbs (true, room_width/4, speed_mod, irandom(180), 2 + irandom(6));
-                        
-                        speed_mod = irandom (80) - 40;
-                        speed_mod = (speed_mod / 100);
-                        if (speed_mod > 0){
-                            speed_mod += 0.2;
-                        }
-                        else {
-                            speed_mod -= 0.2;
-                        }
-                        
+                        speed_mod = get_speed_mod();
                         spawn_orbs (true, room_width/2.5, speed_mod, irandom(180), 2 + irandom(6));
                                
                         break;

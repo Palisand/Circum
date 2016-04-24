@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>global.current_level = 0;
 global.levels_unlocked = 0;
+global.max_levels = 25;
 
 //settings that can be controlled by the player
 global.player_color = c_lime;
