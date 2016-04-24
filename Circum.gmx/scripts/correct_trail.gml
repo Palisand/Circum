@@ -37,22 +37,8 @@ if ((orbiting || tethered)
             newX = prevX + 0.7*(oldX - prevX);
             newY = prevY + 0.7*(oldY - prevY);
 
-            //is the point being pulled through the orb?
-            if (orbiting &&
-                (
-                point_distance(newX,newY,ox,oy) < orad ||
-                (trail_tethered[i] == current_orb && point_distance(oldX,oldY,ox,oy) > orad)
-                )
-                ) {
-                //push it out
-                 var dir = point_direction(ox,oy,newX,newY);
-                 newX = ox + lengthdir_x(orad,dir);
-                 newY = oy + lengthdir_y(orad,dir);
-                 trail_id[i] = latch_time;
-            }
-            
             //check if orbit/tether radius has been reached
-            else if (point_distance(newX,newY,ox,oy) == orad) { trail_id[i] = latch_time; }            
+            if (point_distance(newX,newY,ox,oy) == orad) { trail_id[i] = latch_time; }            
             
         }
         
