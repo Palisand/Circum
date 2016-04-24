@@ -10,7 +10,7 @@
     
     5 Levels for each difficulty tier increase?
 */
-global.current_level = 27;
+//global.current_level = 27;
 switch (global.current_level) {
     // 1. Stationary Orb Levels
     case 0:     // Easiest level, 1 stationary orb (1)
@@ -126,35 +126,111 @@ switch (global.current_level) {
     case 23:    // More randoms ? (9)
         spawn_orbs (false, room_width/2.5, 0, 0, 10);
         break;
-    case 24:    // Final Boss Battle!! (24)
-        spawn_orbs (true, room_width/9, 0.25, 0, 4);
-        spawn_orbs (true, room_width/5.5, 0, 0, 8);
-        spawn_orbs (true, room_width/4, 0, 25, 8);
-        spawn_orbs (false, room_width/3, 0, 0, 4); 
-        break;
-    case 25:    // Feels like a Boss Battle Round II (24) 
+    case 24:    // Pre-Final Boss Battle! (24) 
         spawn_orbs (true, room_width/7, 0.3, 0, 4);
         spawn_orbs (true, room_width/4, 0, 45, 8);
         spawn_orbs (true, room_width/3, -0.3, 0, 4);
         spawn_orbs (true, room_width/2.5, 0, 45, 8);
+        break;
+    case 25:    // Final Boss Battle!! (24)
+        spawn_orbs (true, room_width/9, 0.25, 0, 4);
+        spawn_orbs (true, room_width/5.5, 0, 0, 8);
+        spawn_orbs (true, room_width/4, 0, 25, 8);
+        spawn_orbs (false, room_width/3, 0, 0, 4); 
         break;
     // 6. To infinitum, generate random maps with stationary, fixed-orbits, and random movements
     // Include any prebuilts that you want down below! (Just make a new case statement)
     default:
         // This will change to implement the function described in progression stage 6. "To infinitum"
         // For now, this will have to do... for now...
-        /* Will come back to this
+
         var spawning_type = irandom (S_RANDOM);
+        //spawning_type = S_FIXED_PREBUILT;
         switch (spawning_type) {
             case S_FIXED_PREBUILT:
+                // Feel free to add prebuilt templates in here ?
+                
+                // Mixing Stationary and Randoms
+                // 2 Rings of Stationary & Randoms outside (based on The Cage)
+                spawn_orbs (true, room_width/9, 0, irandom(180), 4 + irandom (5));
+                spawn_orbs (true, room_width/5, 0, irandom(180), 4 + irandom(5));
+                spawn_orbs (false, room_width/3, 0, 0, 2 + irandom (7));
+                
                 break;
             case S_FIXED_RANDOM:
+                // 2 or 3 rings
+                var add_rings = irandom (1);
+                //add_rings = 1;
+                switch (add_rings) {
+                    
+                    case 0:
+                        // So we want 2 rings?
+                        
+                        // First, make a speed; This should be in a function somewhere...
+                        var speed_mod = irandom (40);
+                        speed_mod = (speed_mod / 100) + 0.2;    
+                        
+                        // First Radius: 
+                        var rad_div = 5.75 + random (6) - 3;
+                        
+                        // Generate the rings
+                        spawn_orbs (true, room_width/rad_div, speed_mod, 0, 3 + irandom (5) );
+                        
+                        if (rad_div > 5.75) {
+                            spawn_orbs (true, room_width/ ( (rad_div / 2.0) - random(0.5)), speed_mod, irandom(180), 3 + irandom (6) );
+                        }      
+                        else {
+                            spawn_orbs (true, room_width/ (rad_div * 1.5 ), -1 * speed_mod, irandom(180), 3 + irandom (6) );
+                        }
+                        
+                        break;
+                    case 1:
+                        // So we want 3 rings?
+                        
+                        // Tons of repeated code, please turn into a function for me ... thx!
+                        var speed_mod = irandom (80) - 40;
+                        speed_mod = (speed_mod / 100);
+                        if (speed_mod > 0){
+                            speed_mod += 0.2;
+                        }
+                        else {
+                            speed_mod -= 0.2;
+                        }
+                        
+                        spawn_orbs (true, room_width/7, speed_mod, irandom(180), 3 + irandom(6));
+                        
+                        speed_mod = irandom (80) - 40;
+                        speed_mod = (speed_mod / 100);
+                        if (speed_mod > 0){
+                            speed_mod += 0.2;
+                        }
+                        else {
+                            speed_mod -= 0.2;
+                        }
+                        
+                        spawn_orbs (true, room_width/4, speed_mod, irandom(180), 2 + irandom(6));
+                        
+                        speed_mod = irandom (80) - 40;
+                        speed_mod = (speed_mod / 100);
+                        if (speed_mod > 0){
+                            speed_mod += 0.2;
+                        }
+                        else {
+                            speed_mod -= 0.2;
+                        }
+                        
+                        spawn_orbs (true, room_width/2.5, speed_mod, irandom(180), 2 + irandom(6));
+                               
+                        break;
+                }
                 break;
             case S_RANDOM:
+                // There will be a minimum of 6 orbs and a possible max of 20
+                var max_orbs = 20;
+                var min_orbs = 6;
+                spawn_orbs (false, room_width/3, 0, 0, min_orbs);
+                spawn_orbs (false, room_width/5, 0, 0, irandom ( max_orbs - min_orbs ));
                 break;
         }
-        */
-        spawn_orbs (false, room_width/4, 0, 0, 10);
-
         break;
 }
