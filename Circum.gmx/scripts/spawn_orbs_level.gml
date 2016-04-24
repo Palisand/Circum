@@ -10,7 +10,7 @@
     
     5 Levels for each difficulty tier increase?
 */
-//global.current_level = 27;
+//global.current_level = 25;
 switch (global.current_level) {
     // 1. Stationary Orb Levels
     case 0:     // Easiest level, 1 stationary orb (1)
@@ -132,11 +132,11 @@ switch (global.current_level) {
         spawn_orbs (true, room_width/3, -0.3, 0, 4);
         spawn_orbs (true, room_width/2.5, 0, 45, 8);
         break;
-    case 25:    // Final Boss Battle!! (24)
+    case 25:    // Final Boss Battle!! (26)
         spawn_orbs (true, room_width/9, 0.25, 0, 4);
-        spawn_orbs (true, room_width/5.5, 0, 0, 8);
-        spawn_orbs (true, room_width/4, 0, 25, 8);
-        spawn_orbs (false, room_width/3, 0, 0, 4); 
+        spawn_orbs (true, room_width/5.5, 0, 0, 12);
+        spawn_orbs (true, room_width/4, 0, 0, 6);
+        spawn_orbs (false, room_width/2.5, 0, 0, 4); 
         break;
     // 6. To infinitum, generate random maps with stationary, fixed-orbits, and random movements
     // Include any prebuilts that you want down below! (Just make a new case statement)
