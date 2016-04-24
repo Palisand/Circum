@@ -1,6 +1,5 @@
 /// spawn_orbs_level()
 
-// TODO: One gigantic switch statement on 'global.current_level' to deal with each level
 /* 
     Difficulty progression as noted in the guide:
     1.  Stationary
@@ -11,7 +10,7 @@
     
     5 Levels for each difficulty tier increase?
 */
-//global.current_level = 25;
+global.current_level = 27;
 switch (global.current_level) {
     // 1. Stationary Orb Levels
     case 0:     // Easiest level, 1 stationary orb (1)
@@ -121,25 +120,41 @@ switch (global.current_level) {
     case 21:    // Introduce just randoms! (6)
         spawn_orbs (false, room_width/6, 0, 0, 6);
         break;
-    case 22:    // More randoms ? (7)
-        spawn_orbs (false, room_width/3, 0, 0, 7);
-        break;
-    case 23:    // More randoms ? (8)
+    case 22:    // More randoms ? (8)
         spawn_orbs (false, room_width/5, 0, 0, 8);
         break;
-    case 24:    // More randoms ? (9)
-        spawn_orbs (false, room_width/2.5, 0, 0, 9);
+    case 23:    // More randoms ? (9)
+        spawn_orbs (false, room_width/2.5, 0, 0, 10);
         break;
-    case 25:    // Final Boss Battle!! (24)
+    case 24:    // Final Boss Battle!! (24)
         spawn_orbs (true, room_width/9, 0.25, 0, 4);
         spawn_orbs (true, room_width/5.5, 0, 0, 8);
         spawn_orbs (true, room_width/4, 0, 25, 8);
         spawn_orbs (false, room_width/3, 0, 0, 4); 
         break;
+    case 25:    // Feels like a Boss Battle Round II (24) 
+        spawn_orbs (true, room_width/7, 0.3, 0, 4);
+        spawn_orbs (true, room_width/4, 0, 45, 8);
+        spawn_orbs (true, room_width/3, -0.3, 0, 4);
+        spawn_orbs (true, room_width/2.5, 0, 45, 8);
+        break;
     // 6. To infinitum, generate random maps with stationary, fixed-orbits, and random movements
+    // Include any prebuilts that you want down below! (Just make a new case statement)
     default:
         // This will change to implement the function described in progression stage 6. "To infinitum"
         // For now, this will have to do... for now...
-        spawn_orbs (false, room_width/3, 0, 0, 10);
+        /* Will come back to this
+        var spawning_type = irandom (S_RANDOM);
+        switch (spawning_type) {
+            case S_FIXED_PREBUILT:
+                break;
+            case S_FIXED_RANDOM:
+                break;
+            case S_RANDOM:
+                break;
+        }
+        */
+        spawn_orbs (false, room_width/4, 0, 0, 10);
+
         break;
 }
