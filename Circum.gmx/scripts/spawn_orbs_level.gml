@@ -11,7 +11,7 @@
     
     5 Levels for each difficulty tier increase?
 */
-//global.current_level = 18;
+//global.current_level = 25;
 switch (global.current_level) {
     // 1. Stationary Orb Levels
     case 0:     // Easiest level, 1 stationary orb (1)
@@ -103,7 +103,39 @@ switch (global.current_level) {
         spawn_orbs (true, room_width/6, 0, 0, 4);
         spawn_orbs (false, room_width/2, 0, 0, 5);
         break;
+    case 19:    // Path of Stars (12)
+        spawn_orbs (true, room_width/7, 0, 30, 2);
+        spawn_orbs (true, room_width/5, 0, 60, 2);
+        spawn_orbs (true, room_width/3, 0, 90, 2);
+        spawn_orbs (true, room_width/2.25, 0, 120, 2);
+        spawn_orbs (false, room_width/6, 0, 0, 4);
+        break;
+    case 20:    // Boss Battle!! (14)
+        spawn_orbs (true, room_width/7, 0, 40, 2);
+        spawn_orbs (true, room_width/5, 0, 80, 2);
+        spawn_orbs (true, room_width/3, 0, 120, 4);
+        spawn_orbs (true, room_width/2.25, 0, 160, 2);
+        spawn_orbs (false, room_width/6, 0, 0, 4);
+        break;
     // 5. Random Maps
+    case 21:    // Introduce just randoms! (6)
+        spawn_orbs (false, room_width/6, 0, 0, 6);
+        break;
+    case 22:    // More randoms ? (7)
+        spawn_orbs (false, room_width/3, 0, 0, 7);
+        break;
+    case 23:    // More randoms ? (8)
+        spawn_orbs (false, room_width/5, 0, 0, 8);
+        break;
+    case 24:    // More randoms ? (9)
+        spawn_orbs (false, room_width/2.5, 0, 0, 9);
+        break;
+    case 25:    // Final Boss Battle!! (24)
+        spawn_orbs (true, room_width/9, 0.25, 0, 4);
+        spawn_orbs (true, room_width/5.5, 0, 0, 8);
+        spawn_orbs (true, room_width/4, 0, 25, 8);
+        spawn_orbs (false, room_width/3, 0, 0, 4); 
+        break;
     // 6. To infinitum, generate random maps with stationary, fixed-orbits, and random movements
     default:
         // This will change to implement the function described in progression stage 6. "To infinitum"
