@@ -20,6 +20,8 @@
     <sound>sound\snd_release</sound>
     <sound>sound\snd_key</sound>
     <sound>sound\snd_unlock</sound>
+    <sound>sound\snd_win_2</sound>
+    <sound>sound\snd_win_3</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_ring</sprite>
@@ -41,6 +43,7 @@
       <script>scripts\master_orb_particles.gml</script>
       <script>scripts\play_background.gml</script>
       <script>scripts\tether_volume.gml</script>
+      <script>scripts\play_win.gml</script>
     </scripts>
     <scripts name="Visuals">
       <script>scripts\orb_visuals.gml</script>

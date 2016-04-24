@@ -22,4 +22,4 @@ if (orb.capturer == self.id) { num_orb_captured--; }
 orb.captured = false;
 orb.capturer = -1;
 orb.color = c_white;
-audio_sound_pitch(audio_play_sound(snd_release, 0, 0), 4/3);
+audio_sound_pitch(audio_play_sound(snd_release, 0, 0), 2/3);

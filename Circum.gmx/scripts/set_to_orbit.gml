@@ -37,6 +37,6 @@ if (capture_streak > -1){
     }
     else {
         // If capture_streak is > 8, return to the bottom of the scale
-        audio_sound_pitch(s_engine, scale_capture[capture_streak % 8]);
+        audio_sound_pitch(s_engine, scale_capture[7]);
     }
 }
