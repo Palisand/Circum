@@ -4,8 +4,8 @@ level_text_alpha = 0;
 level_text = "";
 
 // Spawn Orbs
-//spawn_orbs_level();
-spawn_test_orbs();
+spawn_orbs_level();
+//spawn_test_orbs();
 
 // Spawn Starting Orb
 var start_orb = instance_create(SCREEN_RADIUS, SCREEN_RADIUS, o_orb);

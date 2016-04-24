@@ -296,7 +296,7 @@ if (instance_exists(o_player)) {
         //prepare for fade-in
         alpha_transition = 1;
         
-        if (global.current_level == global.levels_unlocked) {
+        if (global.current_level == global.levels_unlocked || global.current_level == global.max_levels + 1) {
             global.levels_unlocked++;
         }
         global.current_level++;

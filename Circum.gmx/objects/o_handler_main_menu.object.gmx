@@ -201,7 +201,7 @@ if (keyboard_check_pressed(vk_space)) {
 
 // Level Select
 if (current_item == 1) {
-    if (keyboard_check_pressed(vk_right) &amp;&amp; global.current_level &lt; global.levels_unlocked) {
+    if (keyboard_check_pressed(vk_right) &amp;&amp; global.current_level &lt; global.levels_unlocked &amp;&amp; global.current_level &lt; global.max_levels + 1) {
         global.current_level++;
     }
     else if (keyboard_check_pressed(vk_left) &amp;&amp; global.current_level &gt; 0) {
@@ -267,7 +267,14 @@ for (var i = 0; i &lt; num_menu_item; i++) {
         var text_y = menu_start + (menu_spacing * i * 2);
         
         if (current_item == 1) {  // level select
-            draw_text_transformed(text_x, text_y, global.current_level,  menu_items[i, 1], menu_items[i, 1], 0);
+            var current_level;
+            if (global.current_level == global.max_levels + 1) {
+                current_level = "?";
+            }
+            else {
+                current_level = global.current_level;
+            }
+            draw_text_transformed(text_x, text_y, current_level,  menu_items[i, 1], menu_items[i, 1], 0);
             if (global.current_level &gt; 0) {
                 draw_text_transformed(text_x-256, text_y, global.current_level - 1, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
             }
@@ -275,7 +282,16 @@ for (var i = 0; i &lt; num_menu_item; i++) {
                 draw_set_alpha(0.5);
                 draw_set_color(c_white);
             }
-            draw_text_transformed(text_x+256, text_y, global.current_level + 1, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+            var next_level;
+            if (global.current_level == global.max_levels) {
+                next_level = "?";  // random
+            }
+            else {
+                next_level = global.current_level + 1;
+            }
+            if (global.current_level &lt; global.max_levels + 1) {
+                draw_text_transformed(text_x+256, text_y, next_level, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+            }
         }
         else if (current_item == 2) {  // color select
             draw_text_transformed(text_x, text_y, color_text[global.color_index], menu_items[i, 1], menu_items[i, 1], 0);
@@ -293,7 +309,12 @@ for (var i = 0; i &lt; num_menu_item; i++) {
             menu_items[i, 1] -= 0.05;
         }
         draw_set_colour(c_white);
-        draw_text_transformed(room_width/2, menu_start + (menu_spacing * i * 2), menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
+        if (i == 1 &amp;&amp; global.current_level == global.max_levels + 1) {
+            draw_text_transformed(room_width/2, menu_start + (menu_spacing * i * 2), "LEVEL : ?", menu_items[i, 1], menu_items[i, 1], 0);
+        }
+        else {
+            draw_text_transformed(room_width/2, menu_start + (menu_spacing * i * 2), menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
+        }
     }
 }
 </string>
