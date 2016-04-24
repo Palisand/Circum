@@ -159,14 +159,18 @@ if (keyboard_check_pressed(ord("R")) ||
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Toggles (visuals, trail)
+            <string>/// Toggles (visuals V, trail P, tether T)
 
 if (keyboard_check_pressed(ord("V"))) {
     global.tmp_visuals_on = !global.tmp_visuals_on;
 }
 
-if (keyboard_check_pressed(ord("T"))) {
+if (keyboard_check_pressed(ord("P"))) {
     global.pre_fix_trail = !global.pre_fix_trail;
+}
+
+if (keyboard_check_pressed(ord("T"))) {
+    global.tap_tether = !global.tap_tether;
 }
 </string>
           </argument>
@@ -291,7 +295,10 @@ if (instance_exists(o_player)) {
         
         //prepare for fade-in
         alpha_transition = 1;
-
+        
+        if (global.current_level == global.levels_unlocked) {
+            global.levels_unlocked++;
+        }
         global.current_level++;
         kill_everything();
         level_create(false);

@@ -1,5 +1,8 @@
 /// player_create()
 
+p_emitter = part_emitter_create(global.p_system);
+p_type = part_type_create();
+
 // Set in o_handler Create Event
 color = c_white;
 action_key = vk_shift;
@@ -15,6 +18,7 @@ direction = choose(1, -1); // randomly begin with a clockwise or counter-clockwi
 orbit = 0;
 orbit_speed = 0;
 orbit_speed_set = 4;
+holding_button = false;
 //flags for state
 orbiting = false;
 tethered = false;

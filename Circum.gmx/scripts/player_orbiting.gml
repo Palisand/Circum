@@ -6,6 +6,8 @@
 var player_obj = argument0;
 var orb_obj = argument1;
 
+global.pre_fix_trail = false;
+
 // the orb being orbited is stationary
 current_orb.halt = true;
 

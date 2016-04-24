@@ -42,7 +42,7 @@ else {
 
 if (col_orb) {
     col_orb = false;
-    collision_hit_burst(col_orb_coords[0], col_orb_coords[1], 0, 360, color, 100, 20, p_emitter, p_type);
+    collision_hit_burst(col_orb_coords[0], col_orb_coords[1], 0, 360, color, 100, 30, p_emitter, p_type);
 }
 
 if (col_edge) {
