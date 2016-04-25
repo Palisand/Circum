@@ -164,7 +164,12 @@ play_background();
             <string>/// Menu Interact
 
 // Update items
-menu_items[1, 0] = "LEVEL : " + string(global.current_level);
+if (global.current_level &gt; global.max_levels) {
+    menu_items[1, 0] = "LEVEL : ?";
+}
+else {
+    menu_items[1, 0] = "LEVEL : " + string(global.current_level);
+}
 
 // Font Cycle
 if (keyboard_check_pressed(ord("F"))) {
@@ -205,7 +210,12 @@ if (current_item == 1) {
         global.current_level++;
     }
     else if (keyboard_check_pressed(vk_left) &amp;&amp; global.current_level &gt; 0) {
-        global.current_level--;
+        if (global.current_level &gt; global.max_levels) {
+            global.current_level = global.max_levels;
+        }
+        else {
+            global.current_level--;
+        }
     }
 }
 
@@ -268,16 +278,25 @@ for (var i = 0; i &lt; num_menu_item; i++) {
         
         if (current_item == 1) {  // level select
             var current_level;
-            if (global.current_level == global.max_levels + 1) {
+            if (global.current_level &gt; global.max_levels) {
                 current_level = "?";
             }
             else {
                 current_level = global.current_level;
             }
             draw_text_transformed(text_x, text_y, current_level,  menu_items[i, 1], menu_items[i, 1], 0);
-            if (global.current_level &gt; 0) {
-                draw_text_transformed(text_x-256, text_y, global.current_level - 1, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+            
+            var prev_level;
+            if (global.current_level &gt; global.max_levels) {
+                prev_level = global.max_levels;
             }
+            else {
+                prev_level = global.current_level - 1;
+            }
+            if (global.current_level &gt; 0) {
+                draw_text_transformed(text_x-256, text_y, prev_level, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+            }
+            
             if (global.current_level + 1 &gt; global.levels_unlocked) {
                 draw_set_alpha(0.5);
                 draw_set_color(c_white);
@@ -309,12 +328,7 @@ for (var i = 0; i &lt; num_menu_item; i++) {
             menu_items[i, 1] -= 0.05;
         }
         draw_set_colour(c_white);
-        if (i == 1 &amp;&amp; global.current_level == global.max_levels + 1) {
-            draw_text_transformed(room_width/2, menu_start + (menu_spacing * i * 2), "LEVEL : ?", menu_items[i, 1], menu_items[i, 1], 0);
-        }
-        else {
-            draw_text_transformed(room_width/2, menu_start + (menu_spacing * i * 2), menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
-        }
+        draw_text_transformed(room_width/2, menu_start + (menu_spacing * i * 2), menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
     }
 }
 </string>
