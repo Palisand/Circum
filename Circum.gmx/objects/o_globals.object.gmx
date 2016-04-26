@@ -62,6 +62,7 @@ global.menu_opened = false;
 //who won
 global.winner = -1;
 global.snd_win_played = false;
+global.prev_snd_win = choose(snd_win, snd_win_2, snd_win_3);
 
 //global particle system (the only one that should be used)
 global.p_system = part_system_create();
