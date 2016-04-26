@@ -1,11 +1,10 @@
-var i = irandom(3);
+// play_win()
 
-if (i == 0) {
-    audio_play_sound(snd_win, 0, 0);
-}
-else if (i == 1) {
-    audio_play_sound(snd_win_2, 0, 0);
-}
-else {
-    audio_play_sound(snd_win_3, 0, 0);
-}
+var snd_win_chosen;
+
+do {
+    snd_win_chosen = choose(snd_win, snd_win_2, snd_win_3);
+} until (global.prev_snd_win != snd_win_chosen);
+
+global.prev_snd_win = snd_win_chosen;
+audio_play_sound(snd_win_chosen, 0, 0);
