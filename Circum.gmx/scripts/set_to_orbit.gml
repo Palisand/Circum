@@ -27,16 +27,16 @@ current_orb.halt = true;
 // reset ricochet streak
 ricochet_streak = -1;
                         
-// Play capture sound
-var s_engine = audio_play_sound(snd_capture, 0, 0);
 
-// Modify the capture sound to reflect the value of capture_streak
-if (capture_streak > -1){
+// Play capture sound
+if (capture_streak > -1) {
+    var s_engine = audio_play_sound(snd_capture, 0, 0);
+    // Modify the capture sound to reflect the value of capture_streak
     if (capture_streak < 8) {
         audio_sound_pitch(s_engine, scale_capture[capture_streak]);
     }
     else {
-        // If capture_streak is > 8, return to the bottom of the scale
+        // If capture_streak is > 8, maintain the highest note in the scale
         audio_sound_pitch(s_engine, scale_capture[7]);
     }
 }
