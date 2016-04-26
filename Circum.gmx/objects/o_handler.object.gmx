@@ -326,10 +326,13 @@ if (instance_exists(o_player)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Framerate &amp; speed scale
+            <string>/// Framerate &amp; Levels
 if (global.tmp_visuals_on) {
     debug_text = ("Framerate: " + string(fps));
     debug_text += ("#Actual Framerate: " + string(fps_real));
+    debug_text += ("#");
+    debug_text += ("#Current Level: " + string(global.current_level));
+    debug_text += ("#Levels unlocked: " + string(global.levels_unlocked));
     draw_set_alpha(1);
     draw_set_color(c_white);
     draw_set_halign(fa_left);
