@@ -89,7 +89,7 @@ if (global.winner &lt; 0) {
 // If you won, drop this sick jam
 if (global.winner == self.id &amp;&amp; !global.snd_win_played) {
     global.snd_win_played = true;
-    audio_play_sound(snd_win, 0, 0);
+    play_win();
 }
 
 // If you won, consume the entire screen

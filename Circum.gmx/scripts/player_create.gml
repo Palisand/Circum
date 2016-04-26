@@ -58,21 +58,12 @@ scale[4] = 1/1;
 scale[5] = 9/8;
 scale[6] = 5/4;
 scale[7] = 4/3;
-/*
-scale_capture[0] = 4/3;
-scale_capture[1] = 3/2;
-scale_capture[2] = 5/3;
-scale_capture[3] = 7/4;
-scale_capture[4] = 2/1;
-scale_capture[5] = 18/8;
-scale_capture[6] = 10/4;
-scale_capture[7] = 8/3;
-*/
-scale_capture[0] = 1;
-scale_capture[1] = 9/8;
-scale_capture[2] = 5/4;
-scale_capture[3] = 4/3;
-scale_capture[4] = 3/2;
-scale_capture[5] = 5/3;
-scale_capture[6] = 15/8;
-scale_capture[7] = 2;
+
+scale_capture[0] = 2/3;
+scale_capture[1] = 3/4;
+scale_capture[2] = 5/6;
+scale_capture[3] = 8/9;
+scale_capture[4] = 1/1;
+scale_capture[5] = 9/8;
+scale_capture[6] = 5/4;
+scale_capture[7] = 4/3;
