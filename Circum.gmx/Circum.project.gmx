@@ -22,6 +22,7 @@
     <sound>sound\snd_unlock</sound>
     <sound>sound\snd_win_2</sound>
     <sound>sound\snd_win_3</sound>
+    <sound>sound\snd_menu_nav</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_ring</sprite>
