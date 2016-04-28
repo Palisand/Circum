@@ -167,6 +167,9 @@ play_background();
             <kind>1</kind>
             <string>/// Menu Interact
 
+// Update Level Shown
+menu_items[MENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
+
 // Font Cycle
 if (keyboard_check_pressed(ord("F"))) {
     font_index = (font_index+1) % font_combos;
