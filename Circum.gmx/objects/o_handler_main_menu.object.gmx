@@ -45,6 +45,9 @@ drawn_to_surface = false;
 /// Menu
 // TODO: levels and color selection should be loaded from file
 
+num_menu_item = MENU_EXIT+1;
+current_item = 0;
+
 // colors
 color[0] = c_lime;
 color_text[0] = "LIME";
@@ -56,19 +59,16 @@ color[3] = c_yellow;
 color_text[3] = "GOLD";
 
 // text
-menu_items[0, 0] = "PLAY";
-menu_items[1, 0] = "LEVEL : " + string(global.current_level);
-menu_items[2, 0] = "COLOR";
-menu_items[3, 0] = "EXIT";
+menu_items[MENU_PLAY, 0] = "PLAY";
+menu_items[MENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
+menu_items[MENU_RANDOM, 0] = "RANDOM";
+menu_items[MENU_COLOR, 0] = "COLOR";
+menu_items[MENU_EXIT, 0] = "EXIT";
 
 // scales
-menu_items[0, 1] = 1;
-menu_items[1, 1] = 1;
-menu_items[2, 1] = 1;
-menu_items[3, 1] = 1;
-
-num_menu_item = 4;
-current_item = 0;
+for(var i = 0; i &lt; num_menu_item i++){
+    menu_items[i, 1] = 1;
+}
 
 //testing out fonts
 big_fonts[0] = font_title;
@@ -83,7 +83,7 @@ small_fonts[2] = quicksand_book_main;
 small_fonts[3] = quicksand_light_main;
 num_small = array_length_1d(small_fonts);
 
-font_index = 2*num_big + 1;//third big font, second small font
+font_index = 2*num_big + 1;//3rd big (Quicksand book), 2nd small (Quicksand bold)
 
 font_combos = num_big*num_small;
 </string>
@@ -179,36 +179,46 @@ if (keyboard_check_pressed(ord("F"))) {
 // Item Select
 if (keyboard_check_pressed(vk_down)) {
     audio_play_sound(snd_menu_nav, 0, 0);
+    current_item = (current_item + 1) % num_menu_item;
+    /*
     if (++current_item &gt; num_menu_item - 1) {
         current_item = 0;
     } 
+    */
 }
 if (keyboard_check_pressed(vk_up)) {
     audio_play_sound(snd_menu_nav, 0, 0);
+    current_item = (current_item + num_menu_item - 1) % num_menu_item;
+    /*
     if (--current_item &lt; 0) {
         current_item = num_menu_item - 1;
     } 
+    */
 }
 if (keyboard_check_pressed(vk_space)) {
     audio_play_sound(snd_menu_nav, 0, 0);
     switch(current_item) {
-        case 0: // Play
+        case MENU_PLAY: // Play
             room_goto(rm_play);
             break;
-        case 2: // Color Select
+            
+        //Do we want space to move you forward?
+        case MENU_COLOR: // Color Select
             global.color_index = (global.color_index + 1) % 4;
             global.player_color = color[global.color_index];
             break;
-        case 3:
+            
+        case MENU_EXIT:
             menu_reveal_radius = room_width/2;
             game_exit = true;
+            
         default:
             break;
     }
 }
 
 // Level Select
-if (current_item == 1) {
+if (current_item == MENU_LEVEL) {
     if (keyboard_check_pressed(vk_right) &amp;&amp; global.current_level &lt; global.levels_unlocked &amp;&amp; global.current_level &lt; global.max_levels + 1) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.current_level++;
@@ -225,7 +235,7 @@ if (current_item == 1) {
 }
 
 // Color Select
-if (current_item == 2) {
+if (current_item == MENU_COLOR) {
     if (keyboard_check_pressed(vk_right)) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.color_index = (global.color_index + 1) % 4;
@@ -275,68 +285,74 @@ draw_set_valign(fa_center);
 for (var i = 0; i &lt; num_menu_item; i++) {
     draw_set_alpha(1);
     
-    if (current_item == i) {
-        if (menu_items[i, 1] &lt; 1.5) {
-            menu_items[i, 1] += 0.1;
-        }
-        draw_set_colour(global.player_color);
-        var text_x = room_width/2;
-        var text_y = menu_start + (menu_spacing * i * 2);
-        
-        if (current_item == 1) {  // level select
-            var current_level;
-            if (global.current_level &gt; global.max_levels) {
-                current_level = "?";
-            }
-            else {
-                current_level = global.current_level;
-            }
-            draw_text_transformed(text_x, text_y, current_level,  menu_items[i, 1], menu_items[i, 1], 0);
-            
-            var prev_level;
-            if (global.current_level &gt; global.max_levels) {
-                prev_level = global.max_levels;
-            }
-            else {
-                prev_level = global.current_level - 1;
-            }
-            if (global.current_level &gt; 0) {
-                draw_text_transformed(text_x-256, text_y, prev_level, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
-            }
-            
-            if (global.current_level + 1 &gt; global.levels_unlocked) {
-                draw_set_alpha(0.5);
-                draw_set_color(c_white);
-            }
-            var next_level;
-            if (global.current_level == global.max_levels) {
-                next_level = "?";  // random
-            }
-            else {
-                next_level = global.current_level + 1;
-            }
-            if (global.current_level &lt; global.max_levels + 1) {
-                draw_text_transformed(text_x+256, text_y, next_level, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
-            }
-        }
-        else if (current_item == 2) {  // color select
-            draw_text_transformed(text_x, text_y, color_text[global.color_index], menu_items[i, 1], menu_items[i, 1], 0);
-            draw_set_alpha(0.5);
-            draw_set_color(c_white);
-            draw_text_transformed(text_x+256, text_y, color_text[(global.color_index+1)%4], menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
-            draw_text_transformed(text_x-256, text_y, color_text[(global.color_index+3)%4], menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
-        }
-        else {
-            draw_text_transformed(text_x, text_y, menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
-        }
-    }
-    else {
+    //not the current selection
+    if (current_item != i) {
         if (menu_items[i, 1] &gt; 1) {
             menu_items[i, 1] -= 0.05;
         }
         draw_set_colour(c_white);
-        draw_text_transformed(room_width/2, menu_start + (menu_spacing * i * 2), menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
+        draw_text_transformed(room_width/2, menu_start + (menu_spacing * i * 2),
+        menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
+        continue;
     }
+    
+    //the current selection
+    if (menu_items[i, 1] &lt; 1.5) {
+        menu_items[i, 1] += 0.1;
+    }
+    draw_set_colour(global.player_color);
+    var text_x = room_width/2;
+    var text_y = menu_start + (menu_spacing * i * 2);
+    
+    if (current_item == MENU_LEVEL) {  // level select
+        var current_level;
+        if (global.current_level &gt; global.max_levels) {
+            current_level = "?";
+        }
+        else {
+            current_level = global.current_level;
+        }
+        draw_text_transformed(text_x, text_y, current_level,  menu_items[i, 1], menu_items[i, 1], 0);
+        
+        var prev_level;
+        if (global.current_level &gt; global.max_levels) {
+            prev_level = global.max_levels;
+        }
+        else {
+            prev_level = global.current_level - 1;
+        }
+        if (global.current_level &gt; 0) {
+            draw_text_transformed(text_x-256, text_y, prev_level, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+        }
+        
+        if (global.current_level + 1 &gt; global.levels_unlocked) {
+            draw_set_alpha(0.5);
+            draw_set_color(c_white);
+        }
+        var next_level;
+        if (global.current_level == global.max_levels) {
+            next_level = "?";  // random
+        }
+        else {
+            next_level = global.current_level + 1;
+        }
+        if (global.current_level &lt; global.max_levels + 1) {
+            draw_text_transformed(text_x+256, text_y, next_level, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+        }
+    }
+    
+    else if (current_item == MENU_COLOR) {  // color select
+        draw_text_transformed(text_x, text_y, color_text[global.color_index], menu_items[i, 1], menu_items[i, 1], 0);
+        draw_set_alpha(0.5);
+        draw_set_color(c_white);
+        draw_text_transformed(text_x+256, text_y, color_text[(global.color_index+1)%4], menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+        draw_text_transformed(text_x-256, text_y, color_text[(global.color_index+3)%4], menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+    }
+    
+    else {
+        draw_text_transformed(text_x, text_y, menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
+    }
+    
 }
 </string>
           </argument>
