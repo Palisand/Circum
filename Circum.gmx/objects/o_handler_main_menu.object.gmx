@@ -35,7 +35,7 @@ if (!instance_exists(o_globals)) {
 }
 
 if (global.current_level == RANDOM_LEVEL) {
-    global.current_level = global.levels_unlocked; 
+    global.current_level = global.max_level_unlocked; 
 }
 
 // Particles
@@ -212,7 +212,7 @@ if (keyboard_check_pressed(vk_space)) {
 if (current_item == MENU_LEVEL) {
 
     if (keyboard_check_pressed(vk_right)
-        &amp;&amp; global.current_level &lt; global.levels_unlocked
+        &amp;&amp; global.current_level &lt; global.max_level_unlocked
         ) {
         
         audio_play_sound(snd_menu_nav, 0, 0);
@@ -312,7 +312,7 @@ for (var i = 0; i &lt; num_menu_item; i++) {
         //next
         if (global.current_level &lt; global.max_level) {
             
-            if (global.current_level == global.levels_unlocked) {
+            if (global.current_level == global.max_level_unlocked) {
                 draw_set_alpha(0.5);
                 draw_set_color(c_white);
             }
