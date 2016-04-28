@@ -34,6 +34,9 @@ if (!instance_exists(o_globals)) {
     instance_create(0, 0, o_globals);
 }
 
+if (global.current_level == RANDOM_LEVEL)
+    { global.current_level = global.unlocked_max; }
+
 // Particles
 p_emitter = part_emitter_create(global.p_system);
 p_type = part_type_create();
@@ -201,6 +204,11 @@ if (keyboard_check_pressed(vk_space)) {
     audio_play_sound(snd_menu_nav, 0, 0);
     switch(current_item) {
         case MENU_PLAY: // Play
+            room_goto(rm_play);
+            break;
+            
+        case MENU_RANDOM:
+            global.current_level = RANDOM_LEVEL;
             room_goto(rm_play);
             break;
             

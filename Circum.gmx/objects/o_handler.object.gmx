@@ -119,43 +119,6 @@ surface_free(screen);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// End, Restart
-
-if (keyboard_check_pressed(vk_escape)) {
-    room_goto(rm_main_menu);
-}
-
-// RESTART CURRENT LEVEL
-if (keyboard_check_pressed(ord("R")) ||
-    //you died and...
-    (!instance_exists(o_player) &amp;&amp;
-        //you pressed space OR the music stopped
-        (keyboard_check_pressed(vk_space) || !audio_is_playing(snd_game_over)))
-    ){
-    has_launched = false;
-    kill_everything();
-    level_create(true);
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
             <string>/// Toggles (visuals V, trail P, tether T)
 
 if (keyboard_check_pressed(ord("V"))) {
@@ -312,13 +275,50 @@ if (instance_exists(o_player)) {
                 global.unlocked_max++;
             }
             
-            //move to the next level
-            global.current_level++;
+            //move to the next level (if not random)
+            if (global.current_level != RANDOM_LEVEL) { global.current_level++; }
             
             level_create(false);
         }
         
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// End, Restart
+
+if (keyboard_check_pressed(vk_escape)) {
+    room_goto(rm_main_menu);
+}
+
+// RESTART CURRENT LEVEL
+if (keyboard_check_pressed(ord("R")) ||
+    //you died and...
+    (!instance_exists(o_player) &amp;&amp;
+        //you pressed space OR the music stopped
+        (keyboard_check_pressed(vk_space) || !audio_is_playing(snd_game_over)))
+    ){
+    has_launched = false;
+    kill_everything();
+    level_create(true);
 }
 </string>
           </argument>

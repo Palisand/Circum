@@ -28,7 +28,7 @@
             <string>global.max_level = 25;
 
 //read this variable from save file
-global.unlocked_max = 25;
+global.unlocked_max = 0;
 
 //player probably wants to continue where they left off
 global.current_level = global.unlocked_max;
