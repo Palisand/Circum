@@ -25,9 +25,13 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.current_level = 0;
-global.levels_unlocked = 0;
-global.max_levels = 25;
+            <string>global.max_level = 25;
+
+//read this variable from save file
+global.unlocked_max = 25;
+
+//player probably wants to continue where they left off
+global.current_level = global.unlocked_max;
 
 //settings that can be controlled by the player
 global.player_color = c_lime;
@@ -58,6 +62,9 @@ global.pre_fix_trail = false;
 
 //first time in main menu
 global.menu_opened = false;
+
+//finished a level = transition
+global.alpha_transition = 0;
 
 //who won
 global.winner = -1;

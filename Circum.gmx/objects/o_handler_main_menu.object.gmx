@@ -164,12 +164,14 @@ play_background();
             <string>/// Menu Interact
 
 // Update items
-if (global.current_level &gt; global.max_levels) {
+/*
+if (global.current_level &gt; global.max_level) {
     menu_items[1, 0] = "LEVEL : ?";
 }
 else {
     menu_items[1, 0] = "LEVEL : " + string(global.current_level);
-}
+}*/
+
 
 // Font Cycle
 if (keyboard_check_pressed(ord("F"))) {
@@ -219,18 +221,29 @@ if (keyboard_check_pressed(vk_space)) {
 
 // Level Select
 if (current_item == MENU_LEVEL) {
-    if (keyboard_check_pressed(vk_right) &amp;&amp; global.current_level &lt; global.levels_unlocked &amp;&amp; global.current_level &lt; global.max_levels + 1) {
+
+    if (keyboard_check_pressed(vk_right)
+        &amp;&amp; global.current_level &lt; global.unlocked_max
+        //&amp;&amp; global.current_level &lt; global.max_levels + 1
+        ) {
+        
         audio_play_sound(snd_menu_nav, 0, 0);
         global.current_level++;
+        menu_items[1, 0] = "LEVEL : " + string(global.current_level);
     }
+    
     else if (keyboard_check_pressed(vk_left) &amp;&amp; global.current_level &gt; 0) {
         audio_play_sound(snd_menu_nav, 0, 0);
+        global.current_level--;
+        /*
         if (global.current_level &gt; global.max_levels) {
             global.current_level = global.max_levels;
         }
         else {
             global.current_level--;
         }
+        */
+        menu_items[1, 0] = "LEVEL : " + string(global.current_level);
     }
 }
 
@@ -305,6 +318,30 @@ for (var i = 0; i &lt; num_menu_item; i++) {
     var text_y = menu_start + (menu_spacing * i * 2);
     
     if (current_item == MENU_LEVEL) {  // level select
+    
+        //current
+        draw_text_transformed(text_x, text_y, global.current_level,
+                                menu_items[i, 1], menu_items[i, 1], 0);
+
+        //previous
+        if (global.current_level &gt; 0) {
+            draw_text_transformed(text_x-256, text_y, global.current_level-1,
+                                    menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+        }
+        
+        //next
+        if (global.current_level &lt; global.max_level) {
+            
+            if (global.current_level == global.unlocked_max) {
+                draw_set_alpha(0.5);
+                draw_set_color(c_white);
+            }
+            
+            draw_text_transformed(text_x+256, text_y, global.current_level+1,
+                                    menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
+        }
+        
+    /*
         var current_level;
         if (global.current_level &gt; global.max_levels) {
             current_level = "?";
@@ -339,6 +376,7 @@ for (var i = 0; i &lt; num_menu_item; i++) {
         if (global.current_level &lt; global.max_levels + 1) {
             draw_text_transformed(text_x+256, text_y, next_level, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
         }
+        */
     }
     
     else if (current_item == MENU_COLOR) {  // color select
@@ -353,6 +391,34 @@ for (var i = 0; i &lt; num_menu_item; i++) {
         draw_text_transformed(text_x, text_y, menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
     }
     
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Fade-in
+if (global.alpha_transition &gt; 0.001) {
+    draw_set_alpha(global.alpha_transition);
+    global.alpha_transition = lerp(global.alpha_transition,0,0.1);
+    draw_set_color(global.player_color);
+    draw_circle(SCREEN_RADIUS,SCREEN_RADIUS,SCREEN_RADIUS,false);
+    draw_set_alpha(1);
 }
 </string>
           </argument>
