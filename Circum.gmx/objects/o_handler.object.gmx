@@ -257,12 +257,6 @@ if (instance_exists(o_player)) {
         global.alpha_transition = 1;
         
         kill_everything();
-        /*
-        if (global.current_level == global.levels_unlocked || global.current_level == global.max_levels + 1) {
-            global.levels_unlocked++;
-        }
-        global.current_level++;
-        */
         
         //if we finished the last level
         if (global.current_level == global.max_level){
@@ -271,8 +265,8 @@ if (instance_exists(o_player)) {
         
         else {
             //push the boundary if necessary
-            if (global.current_level == global.unlocked_max){
-                global.unlocked_max++;
+            if (global.current_level == global.max_level_unlocked){
+                global.max_level_unlocked++;
             }
             
             //move to the next level (if not random)
@@ -348,7 +342,7 @@ if (global.tmp_visuals_on) {
     debug_text += ("#Actual Framerate: " + string(fps_real));
     debug_text += ("#");
     debug_text += ("#Current Level: " + string(global.current_level));
-    debug_text += ("#Levels unlocked: " + string(global.unlocked_max));
+    debug_text += ("#Levels unlocked: " + string(global.max_level_unlocked));
     draw_set_alpha(1);
     draw_set_color(c_white);
     draw_set_halign(fa_left);

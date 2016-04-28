@@ -28,10 +28,10 @@
             <string>global.max_level = 25;
 
 //read this variable from save file
-global.unlocked_max = 0;
+global.max_level_unlocked = 0;
 
 //player probably wants to continue where they left off
-global.current_level = global.unlocked_max;
+global.current_level = global.max_level_unlocked;
 
 //settings that can be controlled by the player
 global.player_color = c_lime;

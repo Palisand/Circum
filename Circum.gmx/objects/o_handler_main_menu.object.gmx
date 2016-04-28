@@ -34,8 +34,9 @@ if (!instance_exists(o_globals)) {
     instance_create(0, 0, o_globals);
 }
 
-if (global.current_level == RANDOM_LEVEL)
-    { global.current_level = global.unlocked_max; }
+if (global.current_level == RANDOM_LEVEL) {
+    global.current_level = global.levels_unlocked; 
+}
 
 // Particles
 p_emitter = part_emitter_create(global.p_system);
@@ -166,16 +167,6 @@ play_background();
             <kind>1</kind>
             <string>/// Menu Interact
 
-// Update items
-/*
-if (global.current_level &gt; global.max_level) {
-    menu_items[1, 0] = "LEVEL : ?";
-}
-else {
-    menu_items[1, 0] = "LEVEL : " + string(global.current_level);
-}*/
-
-
 // Font Cycle
 if (keyboard_check_pressed(ord("F"))) {
     font_index = (font_index+1) % font_combos;
@@ -185,25 +176,15 @@ if (keyboard_check_pressed(ord("F"))) {
 if (keyboard_check_pressed(vk_down)) {
     audio_play_sound(snd_menu_nav, 0, 0);
     current_item = (current_item + 1) % num_menu_item;
-    /*
-    if (++current_item &gt; num_menu_item - 1) {
-        current_item = 0;
-    } 
-    */
 }
 if (keyboard_check_pressed(vk_up)) {
     audio_play_sound(snd_menu_nav, 0, 0);
     current_item = (current_item + num_menu_item - 1) % num_menu_item;
-    /*
-    if (--current_item &lt; 0) {
-        current_item = num_menu_item - 1;
-    } 
-    */
 }
 if (keyboard_check_pressed(vk_space)) {
     audio_play_sound(snd_menu_nav, 0, 0);
     switch(current_item) {
-        case MENU_PLAY: // Play
+        case MENU_PLAY:
             room_goto(rm_play);
             break;
             
@@ -231,8 +212,7 @@ if (keyboard_check_pressed(vk_space)) {
 if (current_item == MENU_LEVEL) {
 
     if (keyboard_check_pressed(vk_right)
-        &amp;&amp; global.current_level &lt; global.unlocked_max
-        //&amp;&amp; global.current_level &lt; global.max_levels + 1
+        &amp;&amp; global.current_level &lt; global.levels_unlocked
         ) {
         
         audio_play_sound(snd_menu_nav, 0, 0);
@@ -243,14 +223,6 @@ if (current_item == MENU_LEVEL) {
     else if (keyboard_check_pressed(vk_left) &amp;&amp; global.current_level &gt; 0) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.current_level--;
-        /*
-        if (global.current_level &gt; global.max_levels) {
-            global.current_level = global.max_levels;
-        }
-        else {
-            global.current_level--;
-        }
-        */
         menu_items[1, 0] = "LEVEL : " + string(global.current_level);
     }
 }
@@ -340,7 +312,7 @@ for (var i = 0; i &lt; num_menu_item; i++) {
         //next
         if (global.current_level &lt; global.max_level) {
             
-            if (global.current_level == global.unlocked_max) {
+            if (global.current_level == global.levels_unlocked) {
                 draw_set_alpha(0.5);
                 draw_set_color(c_white);
             }
@@ -349,42 +321,6 @@ for (var i = 0; i &lt; num_menu_item; i++) {
                                     menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
         }
         
-    /*
-        var current_level;
-        if (global.current_level &gt; global.max_levels) {
-            current_level = "?";
-        }
-        else {
-            current_level = global.current_level;
-        }
-        draw_text_transformed(text_x, text_y, current_level,  menu_items[i, 1], menu_items[i, 1], 0);
-        
-        var prev_level;
-        if (global.current_level &gt; global.max_levels) {
-            prev_level = global.max_levels;
-        }
-        else {
-            prev_level = global.current_level - 1;
-        }
-        if (global.current_level &gt; 0) {
-            draw_text_transformed(text_x-256, text_y, prev_level, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
-        }
-        
-        if (global.current_level + 1 &gt; global.levels_unlocked) {
-            draw_set_alpha(0.5);
-            draw_set_color(c_white);
-        }
-        var next_level;
-        if (global.current_level == global.max_levels) {
-            next_level = "?";  // random
-        }
-        else {
-            next_level = global.current_level + 1;
-        }
-        if (global.current_level &lt; global.max_levels + 1) {
-            draw_text_transformed(text_x+256, text_y, next_level, menu_items[i, 1] / 2, menu_items[i, 1] / 2, 0);
-        }
-        */
     }
     
     else if (current_item == MENU_COLOR) {  // color select
