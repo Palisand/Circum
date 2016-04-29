@@ -8,6 +8,9 @@ fixed = false;
 fixed_orbit = 0;
 fixed_orbit_speed = 0;
 fixed_orbit_radius = 0;
+fixed_origin_dist = 0;
+fixed_origin_dir = 0;
+fixed_origin_speed = 0;
 
 // for capture streaks
 guarder = -1;

@@ -1,18 +1,14 @@
 ///spawn_test_orbs()
 
-switch(irandom(3)){
+switch(irandom(1)) {
     case 0:
-        spawn_orbs(true, room_width/5, -0.25, 0, 4);
+        spawn_orbs(true, 200, 1, 0, 3, 600, 0, 0.5);
+        spawn_orbs(true, 200, 1, 0, 3, 600, 180, 0.5);
         break;
     case 1:
-        spawn_orbs(false, room_width/5, -0.25, 0, 4);
-        break;
-    case 2:
-        spawn_orbs(true, room_width/7, -0.25, 0, 4);
-        spawn_orbs(true, room_width/4, -0.25, 0, 4);
-        break;
-    case 3:
-        spawn_orbs(false, room_width/7, -0.25, 0, 4);
-        spawn_orbs(false, room_width/4, -0.25, 0, 4);
+        spawn_orbs(true, 300, 1, 0, 5, 600, 0, 0);
+        spawn_orbs(true, 300, -1, 0, 5, 600, 90, 0);
+        spawn_orbs(true, 300, 1, 0, 5, 600, 180, 0);
+        spawn_orbs(true, 300, -1, 0, 5, 600, 270, 0);
         break;
 }
