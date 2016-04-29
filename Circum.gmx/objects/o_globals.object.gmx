@@ -28,6 +28,7 @@
             <string>global.max_level = 25;
 
 //read this variable from save file
+//biggest level that you can play
 global.max_level_unlocked = 0;
 
 //player probably wants to continue where they left off
