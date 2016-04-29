@@ -142,7 +142,7 @@
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="17">
+  <constants number="22">
     <constant name="MENU_PLAY">0</constant>
     <constant name="SUBMENU_LEVEL">1</constant>
     <constant name="SUBMENU_RANDOM">2</constant>
@@ -160,6 +160,11 @@
     <constant name="S_FIXED_RANDOM">1</constant>
     <constant name="S_RANDOM">2</constant>
     <constant name="S_MAX_LANES">2</constant>
+    <constant name="CENTER">room_width/2</constant>
+    <constant name="LEFT">room_width/2 - 256</constant>
+    <constant name="RIGHT">room_width/2 + 256</constant>
+    <constant name="SCALE">0</constant>
+    <constant name="POS">1</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
