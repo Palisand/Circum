@@ -142,12 +142,18 @@
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="11">
+  <constants number="17">
     <constant name="MENU_PLAY">0</constant>
-    <constant name="MENU_LEVEL">1</constant>
-    <constant name="MENU_RANDOM">2</constant>
-    <constant name="MENU_COLOR">3</constant>
-    <constant name="MENU_EXIT">4</constant>
+    <constant name="SUBMENU_LEVEL">1</constant>
+    <constant name="SUBMENU_RANDOM">2</constant>
+    <constant name="MENU_OPTIONS">3</constant>
+    <constant name="SUBMENU_COLOR">4</constant>
+    <constant name="MENU_EXIT">5</constant>
+    <constant name="CLOSED_SUBMENU">0</constant>
+    <constant name="OPEN_PLAY">1</constant>
+    <constant name="OPEN_OPTIONS">2</constant>
+    <constant name="DOWN_ARROW">0</constant>
+    <constant name="UP_ARROW">1</constant>
     <constant name="RANDOM_LEVEL">-1</constant>
     <constant name="SCREEN_RADIUS">room_width/2</constant>
     <constant name="S_FIXED_PREBUILT">0</constant>

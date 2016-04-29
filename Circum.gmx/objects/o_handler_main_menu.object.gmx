@@ -64,14 +64,37 @@ color_text[3] = "GOLD";
 
 // text
 menu_items[MENU_PLAY, 0] = "PLAY";
-menu_items[MENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
-menu_items[MENU_RANDOM, 0] = "RANDOM";
-menu_items[MENU_COLOR, 0] = "COLOR";
+menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
+menu_items[SUBMENU_RANDOM, 0] = "RANDOM";
+menu_items[MENU_OPTIONS, 0] = "OPTIONS";
+menu_items[SUBMENU_COLOR, 0] = "COLOR";
 menu_items[MENU_EXIT, 0] = "EXIT";
 
+//which submenu, if any is open
+submenu_state = CLOSED_SUBMENU;
+
+//transition functions!
+                                        //downward
+closed_submenu_transition = build_array(MENU_OPTIONS,-1,-1,MENU_EXIT,-1,MENU_PLAY,
+                                        //upward
+                                        MENU_EXIT,-1,-1,MENU_PLAY,-1,MENU_OPTIONS);
+                                        
+                                    //downward
+open_play_transition = build_array(SUBMENU_LEVEL,SUBMENU_RANDOM,MENU_OPTIONS,MENU_EXIT,-1,MENU_PLAY,
+                                    //upward
+                                    MENU_EXIT,MENU_PLAY,SUBMENU_LEVEL,SUBMENU_RANDOM,-1,MENU_OPTIONS);
+
+                                        //downward
+open_options_transition = build_array(MENU_OPTIONS,-1,-1,SUBMENU_COLOR,MENU_EXIT,MENU_PLAY,
+                                        //upward
+                                        MENU_EXIT,-1,-1,MENU_PLAY,MENU_OPTIONS,SUBMENU_COLOR);
+
 // scales
-for(var i = 0; i &lt; num_menu_item i++){
-    menu_items[i, 1] = 1;
+for(var i = 0; i &lt; num_menu_item; i++){
+    menu_items[i, 1] = 0;
+    if (i == MENU_PLAY || i == MENU_OPTIONS || i == MENU_EXIT) {
+        menu_items[i, 1] = 1;
+    }
 }
 
 //testing out fonts
@@ -168,7 +191,7 @@ play_background();
             <string>/// Menu Interact
 
 // Update Level Shown
-menu_items[MENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
+menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
 
 // Font Cycle
 if (keyboard_check_pressed(ord("F"))) {
@@ -178,30 +201,68 @@ if (keyboard_check_pressed(ord("F"))) {
 // Item Select
 if (keyboard_check_pressed(vk_down)) {
     audio_play_sound(snd_menu_nav, 0, 0);
-    current_item = (current_item + 1) % num_menu_item;
+    switch(submenu_state){
+    case CLOSED_SUBMENU:
+        current_item = closed_submenu_transition[current_item];
+        break;
+    case OPEN_PLAY:
+        current_item = open_play_transition[current_item];
+        if (current_item == MENU_OPTIONS) { submenu_state = CLOSED_SUBMENU; }
+        break;
+    case OPEN_OPTIONS:
+        current_item = open_options_transition[current_item];
+        if (current_item == MENU_EXIT) { submenu_state = CLOSED_SUBMENU; }
+        break;
+    }
+    
 }
+
 if (keyboard_check_pressed(vk_up)) {
     audio_play_sound(snd_menu_nav, 0, 0);
-    current_item = (current_item + num_menu_item - 1) % num_menu_item;
+    switch(submenu_state){
+    case CLOSED_SUBMENU:
+        current_item = closed_submenu_transition[current_item+num_menu_item];
+        break;
+    case OPEN_PLAY:
+        current_item = open_play_transition[current_item+num_menu_item];
+        if (current_item == MENU_PLAY) { submenu_state = CLOSED_SUBMENU; }
+        break;
+    case OPEN_OPTIONS:
+        current_item = open_options_transition[current_item+num_menu_item];
+        if (current_item == MENU_OPTIONS) { submenu_state = CLOSED_SUBMENU; }
+        break;
+    }
 }
+
+//change submenu state or go to different room
 if (keyboard_check_pressed(vk_space)) {
     audio_play_sound(snd_menu_nav, 0, 0);
     switch(current_item) {
         case MENU_PLAY:
+            if (submenu_state != OPEN_PLAY) {
+                submenu_state = OPEN_PLAY;
+                current_item = SUBMENU_LEVEL;
+            }
+            else { submenu_state = CLOSED_SUBMENU; }
+            break;
+        
+        case SUBMENU_LEVEL:
             room_goto(rm_play);
             break;
             
-        case MENU_RANDOM:
+        case SUBMENU_RANDOM:
             global.current_level = RANDOM_LEVEL;
             room_goto(rm_play);
             break;
             
-        //Do we want space to move you forward?
-        case MENU_COLOR: // Color Select
-            global.color_index = (global.color_index + 1) % 4;
-            global.player_color = color[global.color_index];
+        case MENU_OPTIONS:
+            if (submenu_state != OPEN_OPTIONS) {
+                submenu_state = OPEN_OPTIONS;
+                current_item = SUBMENU_COLOR;
+            }
+            else { submenu_state = CLOSED_SUBMENU; }
             break;
-            
+                        
         case MENU_EXIT:
             menu_reveal_radius = room_width/2;
             game_exit = true;
@@ -212,23 +273,23 @@ if (keyboard_check_pressed(vk_space)) {
 }
 
 // Level Select
-if (current_item == MENU_LEVEL) {
+if (current_item == SUBMENU_LEVEL) {
     if (keyboard_check_pressed(vk_right)
         &amp;&amp; global.current_level &lt; global.max_level_unlocked
         ) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.current_level++;
-        menu_items[1, 0] = "LEVEL : " + string(global.current_level);
+        menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
     }
     else if (keyboard_check_pressed(vk_left) &amp;&amp; global.current_level &gt; 0) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.current_level--;
-        menu_items[1, 0] = "LEVEL : " + string(global.current_level);
+        menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
     }
 }
 
 // Color Select
-if (current_item == MENU_COLOR) {
+if (current_item == SUBMENU_COLOR) {
     if (keyboard_check_pressed(vk_right)) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.color_index = (global.color_index + 1) % 4;
@@ -312,10 +373,36 @@ for (var i = 0; i &lt; num_menu_item; i++) {
     
     //not the current selection
     if (current_item != i) {
+        draw_set_colour(c_white);
+    
+        switch(submenu_state){
+        case CLOSED_SUBMENU:
+            menu_items[SUBMENU_COLOR, 1] = lerp(menu_items[SUBMENU_COLOR, 1], 0, 0.05);
+            menu_items[SUBMENU_LEVEL, 1] = lerp(menu_items[SUBMENU_LEVEL, 1], 0, 0.05);
+            menu_items[SUBMENU_RANDOM, 1] = lerp(menu_items[SUBMENU_RANDOM, 1], 0, 0.05);
+            break;
+        case OPEN_PLAY:
+            menu_items[SUBMENU_COLOR, 1] = lerp(menu_items[SUBMENU_COLOR, 1], 0, 0.05);
+            menu_items[SUBMENU_LEVEL, 1] = lerp(menu_items[SUBMENU_LEVEL, 1], 1, 0.05);
+            menu_items[SUBMENU_RANDOM, 1] = lerp(menu_items[SUBMENU_RANDOM, 1], 1, 0.05);
+            if (i == MENU_PLAY || i == MENU_OPTIONS || i == MENU_EXIT) {
+                draw_set_alpha(0.1);
+            }
+            break;
+        case OPEN_OPTIONS:
+            menu_items[SUBMENU_COLOR, 1] = lerp(menu_items[SUBMENU_COLOR, 1], 1, 0.05);
+            menu_items[SUBMENU_LEVEL, 1] = lerp(menu_items[SUBMENU_LEVEL, 1], 0, 0.05);
+            menu_items[SUBMENU_RANDOM, 1] = lerp(menu_items[SUBMENU_RANDOM, 1], 0, 0.05);
+            if (i == MENU_PLAY || i == MENU_OPTIONS || i == MENU_EXIT) {
+                draw_set_alpha(0.1);
+            }
+            break;
+        }
+
         if (menu_items[i, 1] &gt; 1) {
             menu_items[i, 1] -= 0.05;
         }
-        draw_set_colour(c_white);
+        
         draw_text_transformed(room_width/2, menu_start + (menu_spacing * i * 2),
         menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
         continue;
@@ -329,7 +416,7 @@ for (var i = 0; i &lt; num_menu_item; i++) {
     var text_x = room_width/2;
     var text_y = menu_start + (menu_spacing * i * 2);
     
-    if (current_item == MENU_LEVEL) {  // level select
+    if (current_item == SUBMENU_LEVEL) {  // level select
     
         //current
         draw_text_transformed(text_x, text_y, global.current_level,
@@ -355,7 +442,7 @@ for (var i = 0; i &lt; num_menu_item; i++) {
         
     }
     
-    else if (current_item == MENU_COLOR) {  // color select
+    else if (current_item == SUBMENU_COLOR) {  // color select
         draw_text_transformed(text_x, text_y, color_text[global.color_index], menu_items[i, 1], menu_items[i, 1], 0);
         draw_set_alpha(0.5);
         draw_set_color(c_white);
@@ -466,6 +553,7 @@ if (game_exit) {
 
 // Draw to surface
 if (surface_exists(screen)) {
+    draw_set_alpha(1);
     draw_surface(screen, 0, 0);
 }
 else {
