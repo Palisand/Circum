@@ -77,26 +77,24 @@ menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
 menu_items[SUBMENU_RANDOM, 0] = "RANDOM";
 menu_items[MENU_OPTIONS, 0] = "OPTIONS";
 menu_items[SUBMENU_COLOR, 0] = "COLOR";
+menu_items[SUBMENU_ARROW, 0] = "ARROW";
 menu_items[MENU_EXIT, 0] = "EXIT";
 
 //which submenu, if any is open
 submenu_state = CLOSED_SUBMENU;
 
 //transition functions!
-                                        //downward
-closed_submenu_transition = build_array(MENU_OPTIONS,-1,-1,MENU_EXIT,-1,MENU_PLAY,
-                                        //upward
-                                        MENU_EXIT,-1,-1,MENU_PLAY,-1,MENU_OPTIONS);
-                                        
-                                    //downward
-open_play_transition = build_array(SUBMENU_LEVEL,SUBMENU_RANDOM,MENU_OPTIONS,MENU_EXIT,-1,MENU_PLAY,
-                                    //upward
-                                    MENU_EXIT,MENU_PLAY,SUBMENU_LEVEL,SUBMENU_RANDOM,-1,MENU_OPTIONS);
+closed_submenu_transition = ds_grid_create(2,num_menu_item);
+fill_grid_row(closed_submenu_transition, DOWN_ARROW, MENU_OPTIONS,-1,-1,MENU_EXIT,-1,-1,MENU_PLAY);
+fill_grid_row(closed_submenu_transition, UP_ARROW, MENU_EXIT,-1,-1,MENU_PLAY,-1,-1,MENU_OPTIONS);
 
-                                        //downward
-open_options_transition = build_array(MENU_OPTIONS,-1,-1,SUBMENU_COLOR,MENU_EXIT,MENU_PLAY,
-                                        //upward
-                                        MENU_EXIT,-1,-1,MENU_PLAY,MENU_OPTIONS,SUBMENU_COLOR);
+open_play_transition = ds_grid_create(2,num_menu_item);
+fill_grid_row(open_play_transition, DOWN_ARROW, SUBMENU_LEVEL,SUBMENU_RANDOM,MENU_OPTIONS,MENU_EXIT,-1,-1,MENU_PLAY);
+fill_grid_row(open_play_transition, UP_ARROW, MENU_EXIT,MENU_PLAY,SUBMENU_LEVEL,SUBMENU_RANDOM,-1,-1,MENU_OPTIONS);
+
+open_options_transition = ds_grid_create(2,num_menu_item);
+fill_grid_row(open_options_transition, DOWN_ARROW, MENU_OPTIONS,-1,-1,SUBMENU_COLOR,SUBMENU_ARROW,MENU_EXIT,MENU_PLAY);
+fill_grid_row(open_options_transition, UP_ARROW, MENU_EXIT,-1,-1,MENU_PLAY,MENU_OPTIONS,SUBMENU_COLOR,SUBMENU_ARROW);
 
 // scales
 for(var i = 0; i &lt; num_menu_item; i++){
@@ -160,6 +158,10 @@ font_combos = num_big*num_small;
 part_emitter_destroy(global.p_system, p_emitter);
 part_type_destroy(p_type);
 
+ds_grid_destroy(closed_submenu_transition);
+ds_grid_destroy(open_play_transition);
+ds_grid_destroy(open_options_transition);
+
 surface_free(screen);
 </string>
           </argument>
@@ -212,8 +214,10 @@ play_background();
 
 // Update Level Shown
 menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
+//update arrow status
 var guide_arrow_on;
-if (global.draw_guide_arrow) { guide_arrow_on = "YES"; } else { guide_arrow_on = "NO"; }
+if (global.draw_guide_arrow) { guide_arrow_on = "YES"; }
+else { guide_arrow_on = "NO"; }
 menu_items[SUBMENU_ARROW, 0] = "Guide Arrow On : " + guide_arrow_on;
 
 // Font Cycle
@@ -226,14 +230,14 @@ if (keyboard_check_pressed(vk_down)) {
     audio_play_sound(snd_menu_nav, 0, 0);
     switch(submenu_state){
     case CLOSED_SUBMENU:
-        current_item = closed_submenu_transition[current_item];
+        current_item = ds_grid_get(closed_submenu_transition, DOWN_ARROW,current_item);
         break;
     case OPEN_PLAY:
-        current_item = open_play_transition[current_item];
+        current_item = ds_grid_get(open_play_transition, DOWN_ARROW,current_item);
         if (current_item == MENU_OPTIONS) { submenu_state = CLOSED_SUBMENU; }
         break;
     case OPEN_OPTIONS:
-        current_item = open_options_transition[current_item];
+        current_item = ds_grid_get(open_options_transition, DOWN_ARROW,current_item);
         if (current_item == MENU_EXIT) { submenu_state = CLOSED_SUBMENU; }
         break;
     }
@@ -244,14 +248,17 @@ if (keyboard_check_pressed(vk_up)) {
     audio_play_sound(snd_menu_nav, 0, 0);
     switch(submenu_state){
     case CLOSED_SUBMENU:
-        current_item = closed_submenu_transition[current_item+num_menu_item];
+        //current_item = closed_submenu_transition[current_item+num_menu_item];
+        current_item = ds_grid_get(closed_submenu_transition, UP_ARROW,current_item);
         break;
     case OPEN_PLAY:
-        current_item = open_play_transition[current_item+num_menu_item];
+        //current_item = open_play_transition[current_item+num_menu_item];
+        current_item = ds_grid_get(open_play_transition, UP_ARROW,current_item);
         if (current_item == MENU_PLAY) { submenu_state = CLOSED_SUBMENU; }
         break;
     case OPEN_OPTIONS:
-        current_item = open_options_transition[current_item+num_menu_item];
+        //current_item = open_options_transition[current_item+num_menu_item];
+        current_item = ds_grid_get(open_options_transition, UP_ARROW,current_item);
         if (current_item == MENU_OPTIONS) { submenu_state = CLOSED_SUBMENU; }
         break;
     }
@@ -412,7 +419,7 @@ for (var i = 0; i &lt; num_menu_item; i++) {
     
     if (submenu_state == OPEN_PLAY) {
         option_yval = lerp(option_yval,option_yval_play,0.05);
-        exit_yval = option_yval + 2*menu_spacing;
+        exit_yval = option_yval + (MENU_EXIT-MENU_OPTIONS)*2*menu_spacing;
     }
     else {
         option_yval = lerp(option_yval,option_yval_default,0.05);
@@ -430,6 +437,7 @@ for (var i = 0; i &lt; num_menu_item; i++) {
         var color_to = 0;
         var level_to = 0;
         var random_to = 0;
+        var arrow_to = 0;
         
         switch(submenu_state){
         case CLOSED_SUBMENU:
@@ -443,15 +451,17 @@ for (var i = 0; i &lt; num_menu_item; i++) {
             break;
         case OPEN_OPTIONS:
             color_to = 1;
+            arrow_to = 1;
             if (i == MENU_PLAY || i == MENU_OPTIONS || i == MENU_EXIT) {
                 draw_set_alpha(0.1);
             }
             break;
         }
-        menu_items[SUBMENU_COLOR, 1] = lerp(menu_items[SUBMENU_COLOR, 1], color_to, 0.05);
         menu_items[SUBMENU_LEVEL, 1] = lerp(menu_items[SUBMENU_LEVEL, 1], level_to, 0.05);
         menu_items[SUBMENU_RANDOM, 1] = lerp(menu_items[SUBMENU_RANDOM, 1], random_to, 0.05);
-
+        menu_items[SUBMENU_COLOR, 1] = lerp(menu_items[SUBMENU_COLOR, 1], color_to, 0.05);
+        menu_items[SUBMENU_ARROW, 1] = lerp(menu_items[SUBMENU_ARROW, 1], arrow_to, 0.05);
+        
         if (menu_items[i, 1] &gt; 1) {
             menu_items[i, 1] -= 0.05;
         }

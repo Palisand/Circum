@@ -91,6 +91,7 @@
       <script>scripts\build_array.gml</script>
       <script>scripts\kill_everything.gml</script>
       <script>scripts\get_speed_mod.gml</script>
+      <script>scripts\fill_grid_row.gml</script>
     </scripts>
     <scripts name="Essential Scripts">
       <scripts name="Approach Value">
@@ -152,8 +153,8 @@
     <constant name="SUBMENU_RANDOM">2</constant>
     <constant name="MENU_OPTIONS">3</constant>
     <constant name="SUBMENU_COLOR">4</constant>
-    <constant name="MENU_EXIT">5</constant>
-    <constant name="SUBMENU_ARROW">6</constant>
+    <constant name="SUBMENU_ARROW">5</constant>
+    <constant name="MENU_EXIT">6</constant>
     <constant name="CLOSED_SUBMENU">0</constant>
     <constant name="OPEN_PLAY">1</constant>
     <constant name="OPEN_OPTIONS">2</constant>
