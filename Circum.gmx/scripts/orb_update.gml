@@ -13,8 +13,9 @@ else {
 if (fixed) {
     initial_speed = 0;
     fixed_orbit += fixed_orbit_speed;
-    x = room_width/2 - cos(degtorad(fixed_orbit)) * fixed_orbit_radius;
-    y = room_height/2 + sin(degtorad(fixed_orbit)) * fixed_orbit_radius;
+    fixed_origin_dir += fixed_origin_speed;
+    x = SCREEN_RADIUS + lengthdir_x(fixed_origin_dist, fixed_origin_dir) - cos(degtorad(fixed_orbit)) * fixed_orbit_radius;
+    y = SCREEN_RADIUS + lengthdir_y(fixed_origin_dist, fixed_origin_dir) + sin(degtorad(fixed_orbit)) * fixed_orbit_radius;
 }
 
 // bounce off the screen's edge
