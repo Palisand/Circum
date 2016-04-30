@@ -142,7 +142,10 @@
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="22">
+  <constants number="25">
+    <constant name="RAD_SMALL">50</constant>
+    <constant name="RAD_AVRG">75</constant>
+    <constant name="RAD_LARGE">100</constant>
     <constant name="MENU_PLAY">0</constant>
     <constant name="SUBMENU_LEVEL">1</constant>
     <constant name="SUBMENU_RANDOM">2</constant>
