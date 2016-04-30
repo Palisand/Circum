@@ -28,6 +28,7 @@
     <sprite>sprites\s_ring</sprite>
     <sprite>sprites\s_line</sprite>
     <sprite>sprites\s_flare</sprite>
+    <sprite>sprites\s_arrow</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -142,7 +143,7 @@
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="25">
+  <constants number="26">
     <constant name="RAD_SMALL">50</constant>
     <constant name="RAD_AVRG">75</constant>
     <constant name="RAD_LARGE">100</constant>
@@ -152,6 +153,7 @@
     <constant name="MENU_OPTIONS">3</constant>
     <constant name="SUBMENU_COLOR">4</constant>
     <constant name="MENU_EXIT">5</constant>
+    <constant name="SUBMENU_ARROW">6</constant>
     <constant name="CLOSED_SUBMENU">0</constant>
     <constant name="OPEN_PLAY">1</constant>
     <constant name="OPEN_OPTIONS">2</constant>

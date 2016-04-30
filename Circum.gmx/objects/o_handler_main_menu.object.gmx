@@ -212,6 +212,9 @@ play_background();
 
 // Update Level Shown
 menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
+var guide_arrow_on;
+if (global.draw_guide_arrow) { guide_arrow_on = "YES"; } else { guide_arrow_on = "NO"; }
+menu_items[SUBMENU_ARROW, 0] = "Guide Arrow On : " + guide_arrow_on;
 
 // Font Cycle
 if (keyboard_check_pressed(ord("F"))) {
@@ -327,6 +330,14 @@ if (current_item == SUBMENU_COLOR) {
         side_index = (side_index + 3) % 4;
         press_dir = LEFT;
         global.player_color = color[global.color_index];
+    }
+}
+
+// Guide Arrow Toggle
+if (current_item == SUBMENU_ARROW) {
+    if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(vk_left) || keyboard_check_pressed(vk_space)) {
+        audio_play_sound(snd_menu_nav, 0, 0);
+        global.draw_guide_arrow = !global.draw_guide_arrow;
     }
 }
 </string>
