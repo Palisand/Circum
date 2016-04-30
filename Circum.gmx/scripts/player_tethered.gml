@@ -5,7 +5,7 @@ current_orb.halt = true;
 
 // Tether Orbit
 if (!current_orb.captured) {
-	global.pre_fix_trail = true;
+    global.pre_fix_trail = true;
     // home in on orb
     dist_to_nearest -= homing_speed;
     // visuals

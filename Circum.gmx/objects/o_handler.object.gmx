@@ -25,29 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Pre-Spawn Initialization
+            <string>/// Initial Player and Orb Spawns
 
-window_set_cursor(cr_none);  // not changed in global game settings because of debug room
-
-// init global vars
-if (!instance_exists(o_globals)) {
-    instance_create(0, 0, o_globals);
-}
-
-// Particles
-p_emitter = part_emitter_create(global.p_system);
-p_type = part_type_create();
-
-// Screen (Circular)
-screen = surface_create(room_width, room_height);
-drawn_to_surface = false;
-
-// alpha_transition
-alpha_transition = 0;
-
-// for slow motion
-restoring_speed = false;
-tween_time = 0;
+randomize();
+level_create(false);
 </string>
           </argument>
         </arguments>
@@ -68,10 +49,26 @@ tween_time = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Initial Player and Orb Spawns
+            <string>/// Pre-Spawn Initialization
 
-randomize();
-level_create(false);
+window_set_cursor(cr_none);  // not changed in global game settings because of debug room
+
+// init global vars
+if (!instance_exists(o_globals)) {
+    instance_create(0, 0, o_globals);
+}
+
+// Particles
+p_emitter = part_emitter_create(global.p_system);
+p_type = part_type_create();
+
+// Screen (Circular)
+screen = surface_create(room_width, room_height);
+drawn_to_surface = false;
+
+// for slow motion
+restoring_speed = false;
+tween_time = 0;
 </string>
           </argument>
         </arguments>
@@ -106,43 +103,6 @@ surface_free(screen);
       </action>
     </event>
     <event eventtype="3" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// End, Restart
-
-if (keyboard_check_pressed(vk_escape)) {
-    room_goto(rm_main_menu);
-}
-
-// RESTART CURRENT LEVEL
-if (keyboard_check_pressed(ord("R")) ||
-    //you died and...
-    (!instance_exists(o_player) &amp;&amp;
-        //you pressed space OR the music stopped
-        (keyboard_check_pressed(vk_space) || !audio_is_playing(snd_game_over)))
-    ){
-    has_launched = false;
-    kill_everything();
-    level_create(true);
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -294,15 +254,65 @@ if (instance_exists(o_player)) {
         spawned_tether_length_orb = false;
         
         //prepare for fade-in
-        alpha_transition = 1;
+        global.alpha_transition = 1;
         
-        if (global.current_level == global.levels_unlocked || global.current_level == global.max_levels + 1) {
-            global.levels_unlocked++;
-        }
-        global.current_level++;
         kill_everything();
-        level_create(false);
+        
+        //if we finished the last level
+        if (global.current_level == global.max_level){
+            room_goto(rm_main_menu);
+        }
+        
+        else {
+            //push the boundary if necessary
+            if (global.current_level == global.max_level_unlocked){
+                global.max_level_unlocked++;
+            }
+            
+            //move to the next level (if not random)
+            if (global.current_level != RANDOM_LEVEL) { global.current_level++; }
+            
+            level_create(false);
+        }
+        
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// End, Restart
+
+if (keyboard_check_pressed(vk_escape)) {
+    room_goto(rm_main_menu);
+}
+
+// RESTART CURRENT LEVEL
+if (keyboard_check_pressed(ord("R")) ||
+    //you died and...
+    (!instance_exists(o_player) &amp;&amp;
+        //you pressed space OR the music stopped
+        (keyboard_check_pressed(vk_space) || !audio_is_playing(snd_game_over)))
+    ){
+    has_launched = false;
+    kill_everything();
+    level_create(true);
 }
 </string>
           </argument>
@@ -332,7 +342,7 @@ if (global.tmp_visuals_on) {
     debug_text += ("#Actual Framerate: " + string(fps_real));
     debug_text += ("#");
     debug_text += ("#Current Level: " + string(global.current_level));
-    debug_text += ("#Levels unlocked: " + string(global.levels_unlocked));
+    debug_text += ("#Levels unlocked: " + string(global.max_level_unlocked));
     draw_set_alpha(1);
     draw_set_color(c_white);
     draw_set_halign(fa_left);
@@ -346,6 +356,67 @@ if (global.tmp_visuals_on) {
       </action>
     </event>
     <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Level text, if applicable
+if (level_text != "" &amp;&amp; (!has_launched || level_text_alpha &gt; 0.001)) {
+    draw_set_color(c_white);
+    draw_set_font(font_main);
+    draw_set_halign(fa_center);
+    draw_set_alpha(level_text_alpha);
+    draw_text(SCREEN_RADIUS, 128, level_text);
+    if (! has_launched) {
+        level_text_alpha = lerp(level_text_alpha,1,0.08);
+    }
+    else { level_text_alpha = lerp(level_text_alpha,0,0.04); }
+    draw_set_alpha(1);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Fade-in
+if (global.alpha_transition &gt; 0.001) {
+    draw_set_alpha(global.alpha_transition);
+    global.alpha_transition = lerp(global.alpha_transition,0,0.1);
+    draw_set_color(global.player_color);
+    draw_circle(SCREEN_RADIUS,SCREEN_RADIUS,SCREEN_RADIUS,false);
+    draw_set_alpha(1);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -384,67 +455,6 @@ else {
     screen = surface_create(room_width, room_height);
 }
 
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Fade-in
-if (alpha_transition &gt; 0.001) {
-    draw_set_alpha(alpha_transition);
-    alpha_transition = lerp(alpha_transition,0,0.1);
-    draw_set_color(global.player_color);
-    draw_circle(SCREEN_RADIUS,SCREEN_RADIUS,SCREEN_RADIUS,false);
-    draw_set_alpha(1);
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Level text, if applicable
-if (level_text != "" &amp;&amp; (!has_launched || level_text_alpha &gt; 0.001)) {
-    draw_set_color(c_white);
-    draw_set_font(font_main);
-    draw_set_halign(fa_center);
-    draw_set_alpha(level_text_alpha);
-    draw_text(SCREEN_RADIUS, 128, level_text);
-    if (! has_launched) {
-        level_text_alpha = lerp(level_text_alpha,1,0.08);
-    }
-    else { level_text_alpha = lerp(level_text_alpha,0,0.04); }
-    draw_set_alpha(1);
-}
 </string>
           </argument>
         </arguments>
