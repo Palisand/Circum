@@ -418,13 +418,13 @@ for (var i = 0; i &lt; num_menu_item; i++) {
     var text_x = room_width/2;
     
     if (submenu_state == OPEN_PLAY) {
-        option_yval = lerp(option_yval,option_yval_play,0.05);
-        exit_yval = option_yval + (MENU_EXIT-MENU_OPTIONS)*2*menu_spacing;
+        option_yval = lerp(option_yval,option_yval_play,MENU_VERT_SPD);
+        exit_yval = option_yval + 2*menu_spacing;
     }
     else {
-        option_yval = lerp(option_yval,option_yval_default,0.05);
-        if (submenu_state == OPEN_OPTIONS) { exit_yval = lerp(exit_yval,exit_yval_options,0.05); }
-        else { exit_yval = lerp(exit_yval,exit_yval_default,0.05); }
+        option_yval = lerp(option_yval,option_yval_default,MENU_VERT_SPD);
+        if (submenu_state == OPEN_OPTIONS) { exit_yval = lerp(exit_yval,exit_yval_options,MENU_VERT_SPD); }
+        else { exit_yval = lerp(exit_yval,exit_yval_default,MENU_VERT_SPD); }
     }
     
     var text_y = menu_start + (menu_spacing * i * 2);
@@ -457,10 +457,10 @@ for (var i = 0; i &lt; num_menu_item; i++) {
             }
             break;
         }
-        menu_items[SUBMENU_LEVEL, 1] = lerp(menu_items[SUBMENU_LEVEL, 1], level_to, 0.05);
-        menu_items[SUBMENU_RANDOM, 1] = lerp(menu_items[SUBMENU_RANDOM, 1], random_to, 0.05);
-        menu_items[SUBMENU_COLOR, 1] = lerp(menu_items[SUBMENU_COLOR, 1], color_to, 0.05);
-        menu_items[SUBMENU_ARROW, 1] = lerp(menu_items[SUBMENU_ARROW, 1], arrow_to, 0.05);
+        menu_items[SUBMENU_LEVEL, 1] = lerp(menu_items[SUBMENU_LEVEL, 1], level_to, MENU_HOR_SPD);
+        menu_items[SUBMENU_RANDOM, 1] = lerp(menu_items[SUBMENU_RANDOM, 1], random_to, MENU_HOR_SPD);
+        menu_items[SUBMENU_COLOR, 1] = lerp(menu_items[SUBMENU_COLOR, 1], color_to, MENU_HOR_SPD);
+        menu_items[SUBMENU_ARROW, 1] = lerp(menu_items[SUBMENU_ARROW, 1], arrow_to, MENU_HOR_SPD);
         
         if (menu_items[i, 1] &gt; 1) {
             menu_items[i, 1] -= 0.05;
@@ -487,8 +487,8 @@ for (var i = 0; i &lt; num_menu_item; i++) {
             var k = (side_index+j)%4;
             
             if (press_dir != CENTER){
-                side_desc_scale[j] = lerp(side_desc_scale[j], side_standard_scale[k], 0.05);
-                side_desc_pos[j] = lerp(side_desc_pos[j], side_standard_pos[k], 0.05);
+                side_desc_scale[j] = lerp(side_desc_scale[j], side_standard_scale[k], MENU_HOR_SPD);
+                side_desc_pos[j] = lerp(side_desc_pos[j], side_standard_pos[k], MENU_HOR_SPD);
             }
             
             var level_val = global.current_level;
@@ -539,8 +539,8 @@ for (var i = 0; i &lt; num_menu_item; i++) {
             var k = (side_index+j)%4;
             
             if (press_dir != CENTER){
-                side_desc_scale[j] = lerp(side_desc_scale[j], side_standard_scale[k], 0.05);
-                side_desc_pos[j] = lerp(side_desc_pos[j], side_standard_pos[k], 0.05);
+                side_desc_scale[j] = lerp(side_desc_scale[j], side_standard_scale[k], MENU_HOR_SPD);
+                side_desc_pos[j] = lerp(side_desc_pos[j], side_standard_pos[k], MENU_HOR_SPD);
             }
             
             if (j == global.color_index) {

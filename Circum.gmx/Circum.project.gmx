@@ -144,7 +144,7 @@
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="26">
+  <constants number="28">
     <constant name="RAD_SMALL">50</constant>
     <constant name="RAD_AVRG">75</constant>
     <constant name="RAD_LARGE">100</constant>
@@ -171,6 +171,8 @@
     <constant name="RIGHT">room_width/2 + 256</constant>
     <constant name="SCALE">0</constant>
     <constant name="POS">1</constant>
+    <constant name="MENU_VERT_SPD">0.05</constant>
+    <constant name="MENU_HOR_SPD">0.1</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
