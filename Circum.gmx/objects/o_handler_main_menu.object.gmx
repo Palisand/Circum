@@ -76,7 +76,7 @@ menu_items[MENU_PLAY, 0] = "PLAY";
 menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
 menu_items[SUBMENU_RANDOM, 0] = "RANDOM";
 menu_items[MENU_OPTIONS, 0] = "OPTIONS";
-menu_items[SUBMENU_COLOR, 0] = "COLOR";
+menu_items[SUBMENU_COLOR, 0] = "COLOR : " + color_text[global.color_index];
 menu_items[SUBMENU_ARROW, 0] = "ARROW";
 menu_items[MENU_EXIT, 0] = "EXIT";
 
@@ -214,6 +214,7 @@ play_background();
 
 // Update Level Shown
 menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
+menu_items[SUBMENU_COLOR, 0] = "COLOR : " + color_text[global.color_index];
 //update arrow status
 var guide_arrow_on;
 if (global.draw_guide_arrow) { guide_arrow_on = "YES"; }
