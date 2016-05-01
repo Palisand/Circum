@@ -38,6 +38,9 @@ trail_tethered[0] = -1;
 ricochet_time = trail_length;  //steps since last ricochet
 latch_time = -1;  //time at which we tethered/orbited
 
+// Arrow
+arrow_alpha = 0;
+
 // Capture Streak
 capture_streak = -1;  // offset by one because we will capture the initial orb
 
