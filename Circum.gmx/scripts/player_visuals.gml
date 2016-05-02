@@ -3,10 +3,6 @@
 draw_set_circle_precision(64);
 draw_set_colour(color);
 
-// draw player and trail
-draw_fixed_trail(trail_length, draw_radius * 2, color, -1, true, 1);
-draw_circle(x, y, draw_radius, false);
-
 // draw arrow (direction)
 if (global.draw_guide_arrow) {
     if ((tethered || orbiting) && current_orb.captured) {
@@ -34,3 +30,7 @@ if (!enter_the_void && nearest_orb != -1) {
     );
     draw_set_alpha(1);
 }
+
+// draw player and trail
+draw_fixed_trail(trail_length, draw_radius * 2, color, -1, true, 1);
+draw_circle(x, y, draw_radius, false);

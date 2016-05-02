@@ -1,48 +1,71 @@
 /// spawn_orbs_level()
 
 /* 
-    Difficulty progression as noted in the guide:
-    1.  Stationary
-    2.  Stationary and Fixed-Orbit Ring
-    3.  Fixed-Orbit Ring
-    4.  Stationary and Random
-    5.  Random
+    Progression:
+    1. Stationary, Single Size (4)
+    2. Random, Single Size (1)
+    3. Stationary and Fixed-Orbit, Single Size (2)
+    4. Fixed-Orbit, Single Size (3)
+    5. Varying Size...
+    ...
+    . Fixed-Orbit, Off-Center
+    // difficulty increase (orb get closer to each other)
+    .  Stationary and Random?
     
-    5 Levels for each difficulty tier increase?
 */
-
-spawn_test_orbs();
-/*
 
 //global.current_level = 25;
 switch (global.current_level) {
-    // 1. Stationary Orb Levels
-    case 0:     // Easiest level, 1 stationary orb (1)
-        spawn_orbs (true, room_width/3, 0, 100, 1, 0, 0, 0, 0);
+    // 1. Stationary, Single Size (4)
+    case 0: // 3 in a circle
+        spawn_orbs(true, 600, 0, random(360), 3, 0, 0, 0, 0);
         break;
-    case 1:     // 2 stationary orbs (2)
-        spawn_orbs (true, room_width/3, 0, 150, 2, 0, 0, 0, 0);
+    case 1: // 4 in a diamond
+        var offset = random(360);
+        spawn_orbs(true, 300, 0, offset, 2, 0, 0, 0, 0);
+        spawn_orbs(true, 600, 0, offset + 90, 2, 0, 0, 0, 0);
         break;
-    case 2:     // 3 stationary orbs (3)
-        spawn_orbs (true, room_width/7, 0, 190, 1, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3.5, 0, 100, 1, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3.5, 0, 330, 1, 0, 0, 0, 0);
+    case 2: // 6 in a tight circle
+        spawn_orbs(true, 300, 0, random(360), 6, 0, 0, 0, 0);
         break;
-    case 3:     // 4 stationary orbs (4)
-        spawn_orbs (true, room_width/2.5, 0, 60, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/5, 0, 330, 2, 0, 0, 0, 0);
+    case 3: // 6 in a line
+        var offset = random(360);
+        spawn_orbs(true, 250, 0, offset, 2, 0, 0, 0, 0);
+        spawn_orbs(true, 500, 0, offset, 2, 0, 0, 0, 0);
+        spawn_orbs(true, 750, 0, offset, 2, 0, 0, 0, 0);
         break;
-    case 4:     // 6 stationary orbs (6)
-        spawn_orbs (true, room_width/2.5, 0, 0, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/4, 0, 80, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/7, 0, 120, 2, 0, 0, 0, 0);
+    // 2. Random, Single Size (1)
+    case 4: // 6
+        spawn_orbs(false, 500, 0, random(360), 6, 0, 0, 0, 0);
         break;
-    case 5:     // 9 stationary orbs (9)
-        spawn_orbs (true, room_width/7, 0, 0, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3.5, 0, 20, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.25, 0, 60, 3, 0, 0, 0, 0);
+    // 3. Stationary and Fixed-Orbit, Single Size
+    case 5: // 4 fixed-orbit, 4 in a circle (outside)
+        spawn_orbs(true, 250, 0.25, random(360), 4, 0, 0, 0, 0);
+        spawn_orbs(true, 450, 0, random(360), 4, 0, 0, 0, 0);
         break;
-    // Stopping at 5 for completely stationary levels because a player commented that it was starting to test her patience.
+    case 6: // 3 fixed-orbit, 4 in a circle, 3 fixed_orbit
+        spawn_orbs(true, 250, 0.55, random(360), 3, 0, 0, 0, 0);
+        spawn_orbs(true, 500, 0, random(360), 4, 0, 0, 0, 0);
+        spawn_orbs(true, 750, -0.25, random(360), 3, 0, 0, 0, 0);
+        break;
+    // 4. Fixed-Orbit, Single Size
+    case 7: // 6 fixed-orbit in a line
+        var offset = random(360);
+        spawn_orbs(true, 250, 0.25, offset, 2, 0, 0, 0, 0);
+        spawn_orbs(true, 500, 0.25, offset, 2, 0, 0, 0, 0);
+        spawn_orbs(true, 750, 0.25, offset, 2, 0, 0, 0, 0);
+        break;
+    case 8:
+        break;
+    case 9:
+        break;
+    // 5. Random, Varying Size
+    case 10: // 8
+        spawn_orbs(false, 500, 0, random(360), 8, 0, 0, 0, build_array(RAD_SMALL, RAD_SMALL, RAD_LARGE, RAD_AVRG));
+        break;
+    // ...
+    // . Fixed-Orbit, Off-Center
+    /*
     // 2. Stationary and Fixed-Orbit Rings (Moving)
     case 6:     // Introduce Fixed-Orbit Rings!! (3)
         spawn_orbs (true, room_width/3, 0.25, 0, 3, 0, 0, 0, 0);
@@ -88,7 +111,7 @@ switch (global.current_level) {
         spawn_orbs (true, room_width/6.5, -0.2, 60, 3, 0, 0, 0, 0);
         spawn_orbs (true, room_width/5, 0.5, 30, 4, 0, 0, 0, 0);
         spawn_orbs (true, room_width/2.5, 0.45, 90, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/4, 0.2, 120, 2, 0, 0, 0), 0; 
+        spawn_orbs (true, room_width/4, 0.2, 120, 2, 0, 0, 0, 0); 
         break;
     // 4. Stationary and Randoms
     case 16:    // Introducing Randoms! (5)
@@ -140,8 +163,8 @@ switch (global.current_level) {
         spawn_orbs (true, room_width/9, 0.25, 0, 4, 0, 0, 0, 0);
         spawn_orbs (true, room_width/5.5, 0, 0, 12, 0, 0, 0, 0);
         spawn_orbs (true, room_width/4, 0, 0, 6, 0, 0, 0, 0);
-        spawn_orbs (false, room_width/2.5, 0, 0, 4, 0, 0, 0), 0; 
-        break;
+        spawn_orbs (false, room_width/2.5, 0, 0, 4, 0, 0, 0, 0); 
+        break;*/
     // 6. To infinitum, generate random maps with stationary, fixed-orbits, and random movements
     // Include any prebuilts that you want down below! (Just make a new case statement)
     default:
