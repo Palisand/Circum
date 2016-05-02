@@ -15,13 +15,13 @@
 */
 
 //global.current_level = 25;
+var offset = random(360);
 switch (global.current_level) {
     // 1. Stationary, Single Size (4)
     case 0: // 3 in a circle
         spawn_orbs(true, 600, 0, random(360), 3, 0, 0, 0, 0);
         break;
     case 1: // 4 in a diamond
-        var offset = random(360);
         spawn_orbs(true, 300, 0, offset, 2, 0, 0, 0, 0);
         spawn_orbs(true, 600, 0, offset + 90, 2, 0, 0, 0, 0);
         break;
@@ -29,7 +29,6 @@ switch (global.current_level) {
         spawn_orbs(true, 300, 0, random(360), 6, 0, 0, 0, 0);
         break;
     case 3: // 6 in a line
-        var offset = random(360);
         spawn_orbs(true, 250, 0, offset, 2, 0, 0, 0, 0);
         spawn_orbs(true, 500, 0, offset, 2, 0, 0, 0, 0);
         spawn_orbs(true, 750, 0, offset, 2, 0, 0, 0, 0);
@@ -50,18 +49,53 @@ switch (global.current_level) {
         break;
     // 4. Fixed-Orbit, Single Size
     case 7: // 6 fixed-orbit in a line
-        var offset = random(360);
         spawn_orbs(true, 250, 0.25, offset, 2, 0, 0, 0, 0);
         spawn_orbs(true, 500, 0.25, offset, 2, 0, 0, 0, 0);
         spawn_orbs(true, 750, 0.25, offset, 2, 0, 0, 0, 0);
         break;
-    case 8:
+    case 8: // I think this is Shun's
+        var level_13_speed = 0.5;
+        spawn_orbs (true, room_width/7, level_13_speed, 0, 3, 0, 0, 0, 0);
+        spawn_orbs (true, room_width/4, level_13_speed, 90, 3, 0, 0, 0, 0);
+        spawn_orbs (true, room_width/2.25, level_13_speed, 75, 3, 0, 0, 0, 0);
         break;
-    case 9:
+    case 9: // 14 total in 3 spinning lanes
+        spawn_orbs(true, 250, 0.75, offset, 2, 0, 0, 0, 0);
+        spawn_orbs(true, 500, -0.5, offset, 4, 0, 0, 0, 0);
+        spawn_orbs(true, 750, 0.25, offset, 8, 0, 0, 0, 0);
         break;
-    // 5. Random, Varying Size
-    case 10: // 8
+        
+    // 5. Varying size
+    case 10: //Recycle level 3
+        spawn_orbs(true, 250, 0, offset, 2, 0, 0, 0, build_array(RAD_LARGE,RAD_LARGE));
+        spawn_orbs(true, 500, 0, offset, 2, 0, 0, 0, build_array(RAD_SMALL,RAD_SMALL));
+        spawn_orbs(true, 750, 0, offset, 2, 0, 0, 0, build_array(RAD_LARGE,RAD_LARGE));
+        break;
+    case 11: //Recycle level 6
+        spawn_orbs(true, 250, 0.55, random(360), 3, 0, 0, 0, 0);
+        spawn_orbs(true, 500, 0, random(360), 4, 0, 0, 0, build_array(RAD_AVRG,RAD_AVRG));
+        spawn_orbs(true, 750, -0.25, random(360), 3, 0, 0, 0, build_array(RAD_LARGE,RAD_AVRG));
+        break;
+    case 12: // 8 orbs Random, Varying Size
         spawn_orbs(false, 500, 0, random(360), 8, 0, 0, 0, build_array(RAD_SMALL, RAD_SMALL, RAD_LARGE, RAD_AVRG));
+        break;
+    case 13: //solar system without moons
+        start_orb_size = RAD_LARGE;
+        spawn_orbs(true, 250, 0.9, random(360), 1, 0, 0, 0, 0);
+        spawn_orbs(true, 750, 0.2, random(360), 1, 0, 0, 0, build_array(RAD_AVRG));
+        break;
+        
+    // 6. Off-center orbits
+    case 14: // with moons
+        start_orb_size = RAD_LARGE;
+        spawn_orbs(true, 250, 0.9, random(360), 1, 0, 0, 0, 0);
+        spawn_orbs(true, 750, 0.2, 0, 1, 0, 0, 0, build_array(RAD_AVRG));
+        spawn_orbs(true, 200, 2, 0, 1, 750, 180, 0.2, 0);
+        break;
+    case 15: // peter's
+        spawn_orbs(true, 600, 0.5, 0, 2, 0, 0, 0, 0);
+        spawn_orbs(true, 200, 1, 0, 3, 600, 0, 0.5, 0);
+        spawn_orbs(true, 200, 1, 0, 3, 600, 180, 0.5, 0);
         break;
     // ...
     // . Fixed-Orbit, Off-Center
