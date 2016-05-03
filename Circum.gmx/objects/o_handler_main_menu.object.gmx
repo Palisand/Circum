@@ -559,6 +559,8 @@ for (var i = 0; i &lt; num_menu_item; i++) {
     }
     
 }
+
+draw_set_alpha(1);
 </string>
           </argument>
         </arguments>
