@@ -2,208 +2,128 @@
 
 /* 
     Progression:
-    1. Stationary, Single Size (4)
-    2. Random, Single Size (1)
-    3. Stationary and Fixed-Orbit, Single Size (2)
-    4. Fixed-Orbit, Single Size (3)
-    5. Varying Size...
-    ...
-    . Fixed-Orbit, Off-Center
-    // difficulty increase (orb get closer to each other)
-    .  Stationary and Random?
-    
+    - Variety before difficulty
+    - Generally increasing in density and proximity
 */
 
-//global.current_level = 25;
 var offset = random(360);
 switch (global.current_level) {
-    // 1. Stationary, Single Size (4)
-    case 0: // 3 in a circle
-        spawn_orbs(true, 600, 0, random(360), 3, 0, 0, 0, 0);
+    case 0: // 3 in a circle [welcome, my friend]
+        spawn_orbs(true, 600, 0, offset, 3, 0, 0, 0, 0);
         break;
-    case 1: // 4 in a diamond
-        spawn_orbs(true, 300, 0, offset, 2, 0, 0, 0, 0);
-        spawn_orbs(true, 600, 0, offset + 90, 2, 0, 0, 0, 0);
+    case 1: // 4 random [orbs stop moving while tethered]
+        start_orb_fixed = false;
+        spawn_orbs(false, 500, 0, random(360), 6, 0, 0, 0, 0);
         break;
-    case 2: // 6 in a tight circle
-        spawn_orbs(true, 300, 0, random(360), 6, 0, 0, 0, 0);
+    case 2: // 6 in a tight circle [sometimes tethering isn't necessary if you are patient with your launches]
+        spawn_orbs(true, 300, 0, offset, 6, 0, 0, 0, 0);
         break;
-    case 3: // 6 in a line
+    case 3: // 1 fixed-orbit [difficult to hit without homing]
+        spawn_orbs(true, 900, 0.5, offset, 1, 0, 0, 0, 0);
+        break;
+    case 4: // 6 in a line [time your tethers to weave between orbs]
         spawn_orbs(true, 250, 0, offset, 2, 0, 0, 0, 0);
         spawn_orbs(true, 500, 0, offset, 2, 0, 0, 0, 0);
         spawn_orbs(true, 750, 0, offset, 2, 0, 0, 0, 0);
         break;
-    // 2. Random, Single Size (1)
-    case 4: // 6
-        spawn_orbs(false, 500, 0, random(360), 6, 0, 0, 0, 0);
+    case 5: // 7 stationary [orbs can vary in radii]
+        spawn_orbs(true, 300, 0, offset, 3, 0, 0, 0, build_array(RAD_LARGE, RAD_SMALL, RAD_AVRG));
+        spawn_orbs(true, 600, 0, offset - 180, 4, 0, 0, 0, build_array(RAD_LARGE, RAD_SMALL, RAD_SMALL, RAD_AVRG));
         break;
-    // 3. Stationary and Fixed-Orbit, Single Size
-    case 5: // 4 fixed-orbit, 4 in a circle (outside)
-        spawn_orbs(true, 250, 0.25, random(360), 4, 0, 0, 0, 0);
-        spawn_orbs(true, 450, 0, random(360), 4, 0, 0, 0, 0);
+    case 6: // 7 total: 6 in a circle (5 large, 1 small), 1 opposite small [order can matter]
+        spawn_orbs(true, 250, 0, offset, 6, 0, 0, 0, build_array(RAD_SMALL, RAD_LARGE, RAD_LARGE, RAD_LARGE, RAD_LARGE, RAD_LARGE, RAD_LARGE));
+        spawn_orbs(true, 500, 0, offset - 180, 1, 0, 0, 0, 0);
         break;
-    case 6: // 3 fixed-orbit, 4 in a circle, 3 fixed_orbit
-        spawn_orbs(true, 250, 0.55, random(360), 3, 0, 0, 0, 0);
-        spawn_orbs(true, 500, 0, random(360), 4, 0, 0, 0, 0);
-        spawn_orbs(true, 750, -0.25, random(360), 3, 0, 0, 0, 0);
+    case 7: // 8 in a spinning spiral [it's all in the finger, apply what you've learned]
+        spawn_orbs(true, 200, 0.25, offset, 1, 0, 0, 0, 0);
+        spawn_orbs(true, 300, 0.25, offset - 45, 1, 0, 0, 0, 0);
+        spawn_orbs(true, 400, 0.25, offset - 90, 1, 0, 0, 0, 0);
+        spawn_orbs(true, 500, 0.25, offset - 135, 1, 0, 0, 0, 0);
+        spawn_orbs(true, 600, 0.25, offset - 180, 1, 0, 0, 0, 0);
+        spawn_orbs(true, 700, 0.25, offset - 225, 1, 0, 0, 0, 0);
+        spawn_orbs(true, 800, 0.25, offset - 270, 1, 0, 0, 0, 0);
+        spawn_orbs(true, 900, 0.25, offset - 315, 1, 0, 0, 0, 0)
         break;
-    // 4. Fixed-Orbit, Single Size
-    case 7: // 6 fixed-orbit in a line
-        spawn_orbs(true, 250, 0.25, offset, 2, 0, 0, 0, 0);
-        spawn_orbs(true, 500, 0.25, offset, 2, 0, 0, 0, 0);
-        spawn_orbs(true, 750, 0.25, offset, 2, 0, 0, 0, 0);
+    case 8: // 5 total [the solar system]
+        start_orb_size = RAD_LARGE;
+        spawn_orbs(true, 250, 1, random(360), 1, 0, 0, 0, 0);
+        spawn_orbs(true, 300, 0.5, random(360), 1, 0, 0, 0, 0);
+        spawn_orbs(true, 750, 0.2, offset, 1, 0, 0, 0, RAD_AVRG);
+        spawn_orbs(true, 200, 1, 0, 1, 750, offset - 180, 0.2, 0);
         break;
-    case 8: // I think this is Shun's
-        var level_13_speed = 0.5;
-        spawn_orbs (true, room_width/7, level_13_speed, 0, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/4, level_13_speed, 90, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.25, level_13_speed, 75, 3, 0, 0, 0, 0);
+    case 9: // 6 random, 3 stationary [use anchors wisely]
+        start_orb_size = RAD_AVRG;
+        spawn_orbs(true, 600, 0, offset, 3, 0, 0, 0, RAD_AVRG);
+        spawn_orbs(false, 300, 0, offset, 6, 0, 0, 0, 0);
         break;
-    case 9: // 14 total in 3 spinning lanes
+    case 10: // 8 orbs, 2 "trails"
+        spawn_orbs(true, 375, 0.5, offset, 2, 0, 0, 0, 0);
+        spawn_orbs(true, 750, 0.5, offset, 1, 0, 0, 0, RAD_LARGE);
+        spawn_orbs(true, 750, 0.5, offset - 20, 1, 0, 0, 0, RAD_AVRG);
+        spawn_orbs(true, 750, 0.5, offset - 40, 1, 0, 0, 0, 0);
+        spawn_orbs(true, 750, 0.5, offset - 180, 1, 0, 0, 0, RAD_LARGE);
+        spawn_orbs(true, 750, 0.5, offset - 20 - 180, 1, 0, 0, 0, RAD_AVRG);
+        spawn_orbs(true, 750, 0.5, offset - 40 - 180, 1, 0, 0, 0, 0);
+        break;
+    case 11: // 6 fixed-orbit, 4 in a stationary circle (outside)
+        spawn_orbs(true, 250, 0.25, offset, 6, 0, 0, 0, 0);
+        spawn_orbs(true, 450, 0, offset, 4, 0, 0, 0, 0);
+        break;
+    case 12: // 14 total in 3 spinning rings
         spawn_orbs(true, 250, 0.75, offset, 2, 0, 0, 0, 0);
         spawn_orbs(true, 500, -0.5, offset, 4, 0, 0, 0, 0);
         spawn_orbs(true, 750, 0.25, offset, 8, 0, 0, 0, 0);
         break;
-        
-    // 5. Varying size
-    case 10: //Recycle level 3
-        spawn_orbs(true, 250, 0, offset, 2, 0, 0, 0, build_array(RAD_LARGE,RAD_LARGE));
-        spawn_orbs(true, 500, 0, offset, 2, 0, 0, 0, build_array(RAD_SMALL,RAD_SMALL));
-        spawn_orbs(true, 750, 0, offset, 2, 0, 0, 0, build_array(RAD_LARGE,RAD_LARGE));
+    case 13: // 12 random with varying sizes [it's a party and everyone's invited]
+        start_orb_fixed = false;
+        spawn_orbs(false, 250, 0, offset, 3, 0, 0, 0, build_array(RAD_SMALL, RAD_AVRG, RAD_LARGE));
+        spawn_orbs(false, 500, 0, offset, 4, 0, 0, 0, build_array(RAD_LARGE, RAD_AVRG, RAD_SMALL));
+        spawn_orbs(false, 750, 0, offset, 5, 0, 0, 0, build_array(RAD_SMALL, RAD_AVRG, RAD_LARGE));
         break;
-    case 11: //Recycle level 6
-        spawn_orbs(true, 250, 0.55, random(360), 3, 0, 0, 0, 0);
-        spawn_orbs(true, 500, 0, random(360), 4, 0, 0, 0, build_array(RAD_AVRG,RAD_AVRG));
-        spawn_orbs(true, 750, -0.25, random(360), 3, 0, 0, 0, build_array(RAD_LARGE,RAD_AVRG));
+    case 14: // 12 orbs three spiral trails (4 each)
+        spawn_orbs(true, 200, 0.5, offset, 3, 0, 0, 0, 0);
+        spawn_orbs(true, 400, 0.5, offset + 90, 3, 0, 0, 0, 0);
+        spawn_orbs(true, 600, 0.5, offset + 75, 3, 0, 0, 0, 0);
+        spawn_orbs(true, 800, 0.5, offset + 60, 3, 0, 0, 0, 0);
         break;
-    case 12: // 8 orbs Random, Varying Size
-        spawn_orbs(false, 500, 0, random(360), 8, 0, 0, 0, build_array(RAD_SMALL, RAD_SMALL, RAD_LARGE, RAD_AVRG));
+    case 15: // 10 orbs in two orbit clusters (5 each)
+        spawn_orbs(true, 600, 0.25, offset, 2, 0, 0, 0, RAD_AVRG);
+        spawn_orbs(true, 300, 1, 0, 3, 600, offset, 0.25, 0);
+        spawn_orbs(true, 300, 1, 0, 3, 600, offset + 180, 0.25, 0);
+        spawn_orbs(true, 150, 2, random(360), 1, 600, offset, 0.25, 0);
+        spawn_orbs(true, 150, 2, random(360), 1, 600, offset + 180, 0.25, 0); 
         break;
-    case 13: //solar system without moons
-        start_orb_size = RAD_LARGE;
-        spawn_orbs(true, 250, 0.9, random(360), 1, 0, 0, 0, 0);
-        spawn_orbs(true, 750, 0.2, random(360), 1, 0, 0, 0, build_array(RAD_AVRG));
+    case 16: // 13 in tight spinning circles
+        spawn_orbs(true, 315, -0.2, offset + 60, 3, 0, 0, 0, 0);
+        spawn_orbs(true, 410, 0.5, offset + 30, 4, 0, 0, 0, 0);
+        spawn_orbs(true, 512, 0.2, offset + 120, 2, 0, 0, 0, 0); 
+        spawn_orbs(true, 610, -0.3, offset + 90, 4, 0, 0, 0, 0);
         break;
-        
-    // 6. Off-center orbits
-    case 14: // with moons
-        start_orb_size = RAD_LARGE;
-        spawn_orbs(true, 250, 0.9, random(360), 1, 0, 0, 0, 0);
-        spawn_orbs(true, 750, 0.2, 0, 1, 0, 0, 0, build_array(RAD_AVRG));
-        spawn_orbs(true, 200, 2, 0, 1, 750, 180, 0.2, 0);
+    case 17: // 24 in circles (alternating spin) with varying radii
+        spawn_orbs(true, 200, 0.3, offset, 3, 0, 0, 0, 0);
+        spawn_orbs(true, 330, 0, offset, 6, 0, 0, 0, RAD_AVRG);
+        spawn_orbs(true, 460, 0.25, offset, 10, 0, 0, 0, 0);
+        spawn_orbs(true, 620, 0, offset, 5, 0, 0, 0, RAD_LARGE);
         break;
-    case 15: // peter's
-        spawn_orbs(true, 600, 0.5, 0, 2, 0, 0, 0, 0);
-        spawn_orbs(true, 200, 1, 0, 3, 600, 0, 0.5, 0);
-        spawn_orbs(true, 200, 1, 0, 3, 600, 180, 0.5, 0);
+    case 18: // 16 random [this party is exclusive]
+        start_orb_fixed = false;
+        spawn_orbs(false, 600, 0, 0, 16, 0, 0, 0, 0);
         break;
-    // ...
-    // . Fixed-Orbit, Off-Center
-    /*
-    // 2. Stationary and Fixed-Orbit Rings (Moving)
-    case 6:     // Introduce Fixed-Orbit Rings!! (3)
-        spawn_orbs (true, room_width/3, 0.25, 0, 3, 0, 0, 0, 0);
+    case 19: // 6 orbs in separate orbit [the calm before the storm]
+        spawn_orbs(true, 150, 0.5, random(360), 1, 0, 0, 0, 0);
+        spawn_orbs(true, 300, -0.5, random(360), 1, 0, 0, 0, RAD_LARGE);
+        spawn_orbs(true, 450, 0.5, random(360), 1, 0, 0, 0, 0);
+        spawn_orbs(true, 600, -0.5, random(360), 1, 0, 0, 0, RAD_AVRG);
+        spawn_orbs(true, 750, 0.25, random(360), 1, 0, 0, 0, RAD_LARGE);
+        spawn_orbs(true, 850, -0.25, random(360), 1, 0, 0, 0, 0);
         break;
-    case 7:     // 2 stationary (outside), 3 fixed-orbit (inside) (5)
-        spawn_orbs (true, room_width/6, -0.25, 0, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3, 0, 100, 2, 0, 0, 0, 0);
+    case 20:
+        spawn_orbs(true, room_width/9, 0.25, 0, 4, 0, 0, 0, 0);
+        spawn_orbs(true, room_width/5.5, 0, 0, 12, 0, 0, 0, 0);
+        spawn_orbs(true, room_width/4, 0, 0, 6, 0, 0, 0, 0);
+        spawn_orbs(false, room_width/2.5, 0, 0, 4, 0, 0, 0, 0); 
         break;
-    case 8:     // 1 stationary (inside), 4 fixed-orbit (middle), 1 stationary outside (6)
-        spawn_orbs (true, room_width/7, 0, 90, 1, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/4, 0.25, 0, 4, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.5, 0, 220, 1, 0, 0, 0, 0);
-        break;
-    case 9:     // 3 stationary (inside), 3 fixed-orbit (outside) (6)
-        spawn_orbs (true, room_width/3, -0.25, 0, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/7, 0, 0, 3, 0, 0, 0, 0);
-        break;
-    case 10:    // Progression 2 boss battle!! (10)
-        spawn_orbs (true, room_width/7, 0.25, 0, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3.5, 0, 30, 4, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.25, -0.40, 0, 3, 0, 0, 0, 0);
-        break;
-    // 3. Fixed-Orbit Rings!!
-    case 11:    // Fast Ring of 4! (4)
-        spawn_orbs (true, room_width/4, 0.6, 0, 4, 0, 0, 0, 0);
-        break;
-    case 12:    // Opposite Direction: 2 Rings! (6)
-        spawn_orbs (true, room_width/6, 0.4, 0, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3, -0.5, 0, 3, 0, 0, 0, 0);
-        break;
-    case 13:    // 3 Rings in the Same Direction! (9) <-- Awesome Design
-        var level_13_speed = 0.5;
-        spawn_orbs (true, room_width/7, level_13_speed, 0, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/4, level_13_speed, 90, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.25, level_13_speed, 75, 3, 0, 0, 0, 0);
-        break;
-    case 14:    // Overlapping Danger! (7)
-        spawn_orbs (true, room_width/7.5, -0.2, 60, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/6, 0.5, 30, 4, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.25, 0.4, 45, 1, 0, 0, 0, 0);
-        break;
-    case 15:    // Boss Level: Banking on those overlaps (11)
-        spawn_orbs (true, room_width/6.5, -0.2, 60, 3, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/5, 0.5, 30, 4, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.5, 0.45, 90, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/4, 0.2, 120, 2, 0, 0, 0, 0); 
-        break;
-    // 4. Stationary and Randoms
-    case 16:    // Introducing Randoms! (5)
-        spawn_orbs (true, room_width/3, 0, 0, 2, 0, 0, 0, 0);
-        spawn_orbs (false, room_width/7, 0, 0, 3, 0, 0, 0, 0);
-        break;
-    case 17:    // 3 stationary & Randoms (7)
-        spawn_orbs (true, room_width/5, 0, 60, 1, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/4, 0, 180, 1, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3, 0, 300, 1, 0, 0, 0, 0);
-        spawn_orbs (false, room_width/2, 0, 0, 4, 0, 0, 0, 0);
-        break;
-    case 18:    // Final Fantasy, 13? (13)
-        spawn_orbs (true, room_width/3, 0, 45, 4, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/6, 0, 0, 4, 0, 0, 0, 0);
-        spawn_orbs (false, room_width/2, 0, 0, 5, 0, 0, 0, 0);
-        break;
-    case 19:    // Path of Stars (12)
-        spawn_orbs (true, room_width/7, 0, 30, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/5, 0, 60, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3, 0, 90, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.25, 0, 120, 2, 0, 0, 0, 0);
-        spawn_orbs (false, room_width/6, 0, 0, 4, 0, 0, 0, 0);
-        break;
-    case 20:    // Boss Battle!! (14)
-        spawn_orbs (true, room_width/7, 0, 40, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/5, 0, 80, 2, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3, 0, 120, 4, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.25, 0, 160, 2, 0, 0, 0, 0);
-        spawn_orbs (false, room_width/6, 0, 0, 4, 0, 0, 0, 0);
-        break;
-    // 5. Random Maps
-    case 21:    // Introduce just randoms! (6)
-        spawn_orbs (false, room_width/6, 0, 0, 6, 0, 0, 0, 0);
-        break;
-    case 22:    // More randoms ? (8)
-        spawn_orbs (false, room_width/5, 0, 0, 8, 0, 0, 0, 0);
-        break;
-    case 23:    // More randoms ? (9)
-        spawn_orbs (false, room_width/2.5, 0, 0, 10, 0, 0, 0, 0);
-        break;
-    case 24:    // Pre-Final Boss Battle! (24) 
-        spawn_orbs (true, room_width/7, 0.3, 0, 4, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/4, 0, 45, 8, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/3, -0.3, 0, 4, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/2.5, 0, 45, 8, 0, 0, 0, 0);
-        break;
-    case 25:    // Final Boss Battle!! (26)
-        spawn_orbs (true, room_width/9, 0.25, 0, 4, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/5.5, 0, 0, 12, 0, 0, 0, 0);
-        spawn_orbs (true, room_width/4, 0, 0, 6, 0, 0, 0, 0);
-        spawn_orbs (false, room_width/2.5, 0, 0, 4, 0, 0, 0, 0); 
-        break;*/
-    // 6. To infinitum, generate random maps with stationary, fixed-orbits, and random movements
-    // Include any prebuilts that you want down below! (Just make a new case statement)
-    default:
-        // This will change to implement the function described in progression stage 6. "To infinitum"
-        // For now, this will have to do... for now...
+    default: // random layouts
 
         var spawning_type = irandom (S_RANDOM);
         //spawning_type = S_FIXED_PREBUILT;
@@ -213,9 +133,9 @@ switch (global.current_level) {
                 
                 // Mixing Stationary and Randoms
                 // 2 Rings of Stationary & Randoms outside (based on The Cage)
-                spawn_orbs (true, room_width/9, 0, irandom(180), 4 + irandom (5), 0, 0, 0, 0);
-                spawn_orbs (true, room_width/5, 0, irandom(180), 4 + irandom(5), 0, 0, 0, 0);
-                spawn_orbs (false, room_width/3, 0, 0, 2 + irandom (7), 0, 0, 0, 0);
+                spawn_orbs(true, room_width/9, 0, irandom(180), 4 + irandom (5), 0, 0, 0, 0);
+                spawn_orbs(true, room_width/5, 0, irandom(180), 4 + irandom(5), 0, 0, 0, 0);
+                spawn_orbs(false, room_width/3, 0, 0, 2 + irandom (7), 0, 0, 0, 0);
                 
                 break;
             case S_FIXED_RANDOM:
@@ -235,13 +155,13 @@ switch (global.current_level) {
                         var rad_div = 5.75 + random (6) - 3;
                         
                         // Generate the rings
-                        spawn_orbs (true, room_width/rad_div, speed_mod, 0, 3 + irandom (5) , 0, 0, 0, 0);
+                        spawn_orbs(true, room_width/rad_div, speed_mod, 0, 3 + irandom (5) , 0, 0, 0, 0);
                         
                         if (rad_div > 5.75) {
-                            spawn_orbs (true, room_width/ ( (rad_div / 2.0) - random(0.5)), speed_mod, irandom(180), 3 + irandom (6) , 0, 0, 0, 0);
+                            spawn_orbs(true, room_width/ ( (rad_div / 2.0) - random(0.5)), speed_mod, irandom(180), 3 + irandom (6) , 0, 0, 0, 0);
                         }      
                         else {
-                            spawn_orbs (true, room_width/ (rad_div * 1.5 ), -1 * speed_mod, irandom(180), 3 + irandom (6) , 0, 0, 0, 0);
+                            spawn_orbs(true, room_width/ (rad_div * 1.5 ), -1 * speed_mod, irandom(180), 3 + irandom (6) , 0, 0, 0, 0);
                         }
                         
                         break;
@@ -249,11 +169,11 @@ switch (global.current_level) {
                         // So we want 3 rings?
                         
                         speed_mod = get_speed_mod();
-                        spawn_orbs (true, room_width/7, speed_mod, irandom(180), 3 + irandom(6), 0, 0, 0, 0);
+                        spawn_orbs(true, room_width/7, speed_mod, irandom(180), 3 + irandom(6), 0, 0, 0, 0);
                         speed_mod = get_speed_mod();
-                        spawn_orbs (true, room_width/4, speed_mod, irandom(180), 2 + irandom(6), 0, 0, 0, 0);
+                        spawn_orbs(true, room_width/4, speed_mod, irandom(180), 2 + irandom(6), 0, 0, 0, 0);
                         speed_mod = get_speed_mod();
-                        spawn_orbs (true, room_width/2.5, speed_mod, irandom(180), 2 + irandom(6), 0, 0, 0, 0);
+                        spawn_orbs(true, room_width/2.5, speed_mod, irandom(180), 2 + irandom(6), 0, 0, 0, 0);
                                
                         break;
                 }
@@ -262,9 +182,18 @@ switch (global.current_level) {
                 // There will be a minimum of 6 orbs and a possible max of 20
                 var max_orbs = 20;
                 var min_orbs = 6;
-                spawn_orbs (false, room_width/3, 0, 0, min_orbs, 0, 0, 0, 0);
-                spawn_orbs (false, room_width/5, 0, 0, irandom ( max_orbs - min_orbs ), 0, 0, 0, 0);
+                spawn_orbs(false, room_width/3, 0, 0, min_orbs, 0, 0, 0, 0);
+                spawn_orbs(false, room_width/5, 0, 0, irandom ( max_orbs - min_orbs ), 0, 0, 0, 0);
                 break;
         }
         break;
 }
+
+/*
+    case ?: // too difficult? [gear-fest]
+        spawn_orbs(true, 150, 0.75, -22, 4, 0, 0, 0, 0);
+        spawn_orbs(true, 200, -0.5, 0, 6, 350, 45, 0, 0);
+        spawn_orbs(true, 300, -0.375, 0, 8, 450, 190, 0, 0);
+        spawn_orbs(true, 150, 0.75, 0, 4, 600, 15, 0, 0);
+        break;
+*/
