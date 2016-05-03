@@ -30,10 +30,9 @@ switch (global.current_level) {
         spawn_orbs(true, 250, 0, offset, 6, 0, 0, 0, build_array(RAD_SMALL, RAD_LARGE, RAD_LARGE, RAD_LARGE, RAD_LARGE, RAD_LARGE, RAD_LARGE));
         spawn_orbs(true, 500, 0, offset - 180, 1, 0, 0, 0, 0);
         break;
-    case 6: // 4 total [big start orb, orb motion returns to ease into next level (solar system sans moon)]
+    case 6: // 3 total [big start orb, orb motion returns to ease into next level (solar system sans moons)]
         start_orb_size = RAD_LARGE;
         spawn_orbs(true, 250, 1, random(360), 1, 0, 0, 0, 0);
-        spawn_orbs(true, 370, 0.5, random(360), 1, 0, 0, 0, 0);
         spawn_orbs(true, 750, 0.2, offset, 1, 0, 0, 0, RAD_AVRG);
         break;
     case 7: // 8 in a spinning spiral [it's all in the finger, apply what you've learned]
