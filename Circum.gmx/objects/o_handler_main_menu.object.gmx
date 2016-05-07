@@ -106,14 +106,21 @@ for(var i = 0; i &lt; num_menu_item; i++){
 
 //sideways motion
 press_dir = CENTER;
-//ith item = current scale/position of ith color
-side_desc_scale = build_array(1,0.5,0,0.5);
-side_desc_pos = build_array(CENTER,LEFT,CENTER,RIGHT);
 //constant
-side_standard_scale = build_array(1,0.5,0,0.5);
-side_standard_pos = build_array(CENTER,LEFT,CENTER,RIGHT);
+side_scale_standard = build_array(1,0.5,0,0.5);
+side_pos_standard = build_array(CENTER,LEFT,CENTER,RIGHT);
+
 //which constant should the 0th item lerp to
-side_index = 0;
+side_index_level = 0;
+//ith item = current scale/position of ith level
+side_scale_level = build_array(1,0.5,0,0.5);
+side_pos_level = build_array(CENTER,LEFT,CENTER,RIGHT);
+
+//which constant should the 0th item lerp to
+side_index_color = 0;
+//ith item = current scale/position of ith color
+side_scale_color = build_array(1,0.5,0,0.5);
+side_pos_color = build_array(CENTER,LEFT,CENTER,RIGHT);
 
 //testing out fonts
 big_fonts[0] = font_title;
@@ -310,14 +317,14 @@ if (current_item == SUBMENU_LEVEL) {
         ) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.current_level++;
-        side_index = (side_index + 1) % 4;
+        side_index_level = (side_index_level + 1) % 4;
         press_dir = RIGHT;
         menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
     }
     else if (keyboard_check_pressed(vk_left) &amp;&amp; global.current_level &gt; 0) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.current_level--;
-        side_index = (side_index + 3) % 4;
+        side_index_level = (side_index_level + 3) % 4;
         press_dir = LEFT;
         menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
     }
@@ -328,14 +335,14 @@ if (current_item == SUBMENU_COLOR) {
     if (keyboard_check_pressed(vk_right)) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.color_index = (global.color_index + 3) % 4;
-        side_index = (side_index + 1) % 4;
+        side_index_color = (side_index_color + 1) % 4;
         press_dir = RIGHT;
         global.player_color = color[global.color_index];
     }
     else if (keyboard_check_pressed(vk_left)) {
         audio_play_sound(snd_menu_nav, 0, 0);
         global.color_index = (global.color_index + 1) % 4;
-        side_index = (side_index + 3) % 4;
+        side_index_color = (side_index_color + 3) % 4;
         press_dir = LEFT;
         global.player_color = color[global.color_index];
     }
@@ -485,11 +492,13 @@ for (var i = 0; i &lt; num_menu_item; i++) {
             draw_set_alpha(1);
             draw_set_color(global.player_color);
                 
-            var k = (side_index+j)%4;
+            var k = (side_index_level+j)%4;
             
             if (press_dir != CENTER){
-                side_desc_scale[j] = lerp(side_desc_scale[j], side_standard_scale[k], MENU_HOR_SPD);
-                side_desc_pos[j] = lerp(side_desc_pos[j], side_standard_pos[k], MENU_HOR_SPD);
+                side_scale_level[j] = lerp(side_scale_level[j],
+                                                side_scale_standard[k], MENU_HOR_SPD);
+                side_pos_level[j] = lerp(side_pos_level[j],
+                                                side_pos_standard[k], MENU_HOR_SPD);
             }
             
             var level_val = global.current_level;
@@ -506,29 +515,9 @@ for (var i = 0; i &lt; num_menu_item; i++) {
                 draw_set_color(c_white);
             }
             
-            draw_text_transformed(side_desc_pos[j], text_y, disp,
-                                side_desc_scale[j]*scale, side_desc_scale[j]*scale, 0);
+            draw_text_transformed(side_pos_level[j], text_y, disp,
+                                side_scale_level[j]*scale, side_scale_level[j]*scale, 0);
         }
-    /*
-        //current
-        draw_text_transformed(text_x, text_y, global.current_level,scale,scale, 0);
-
-        //previous
-        if (global.current_level &gt; 0) {
-            draw_text_transformed(text_x-256, text_y, global.current_level-1, scale / 2, scale / 2, 0);
-        }
-        
-        //next
-        if (global.current_level &lt; global.max_level) {
-            
-            if (global.current_level == global.max_level_unlocked) {
-                draw_set_alpha(0.5);
-                draw_set_color(c_white);
-            }
-            
-            draw_text_transformed(text_x+256, text_y, global.current_level+1, scale / 2, scale / 2, 0);
-        }
-        */
     }
     
     else if (current_item == SUBMENU_COLOR) {  // color select
@@ -537,11 +526,11 @@ for (var i = 0; i &lt; num_menu_item; i++) {
             draw_set_alpha(0.5);
             draw_set_color(c_white);
             
-            var k = (side_index+j)%4;
+            var k = (side_index_color+j)%4;
             
             if (press_dir != CENTER){
-                side_desc_scale[j] = lerp(side_desc_scale[j], side_standard_scale[k], MENU_HOR_SPD);
-                side_desc_pos[j] = lerp(side_desc_pos[j], side_standard_pos[k], MENU_HOR_SPD);
+                side_scale_color[j] = lerp(side_scale_color[j], side_scale_standard[k], MENU_HOR_SPD);
+                side_pos_color[j] = lerp(side_pos_color[j], side_pos_standard[k], MENU_HOR_SPD);
             }
             
             if (j == global.color_index) {
@@ -549,8 +538,8 @@ for (var i = 0; i &lt; num_menu_item; i++) {
                 draw_set_color(color[j]);
             }
             
-            draw_text_transformed(side_desc_pos[j], text_y, color_text[j],
-                                side_desc_scale[j]*scale, side_desc_scale[j]*scale, 0);
+            draw_text_transformed(side_pos_color[j], text_y, color_text[j],
+                                side_scale_color[j]*scale, side_scale_color[j]*scale, 0);
         }
     }
     
