@@ -39,29 +39,32 @@ for (var i = 0; i < num_menu_item; i++) {
         var random_to = 0;
         var arrow_to = 0;
         var names_to = 0;
+        //don't draw what cannot be seen
+        var skip = false;
         
         switch(submenu_state){
         case CLOSED_SUBMENU:
+            if (appears(i,SUBMENU_LEVEL,SUBMENU_RANDOM,SUBMENU_COLOR,SUBMENU_ARROW,SUBMENU_NAMES))
+                { skip = true; }
             break;
         case OPEN_PLAY:
             draw_set_alpha(0.1);
             level_to = 1;
             random_to = 1;
-            if (i == SUBMENU_LEVEL || i == SUBMENU_RANDOM) {
-                draw_set_alpha(1);
-            }
+            if (appears(i,SUBMENU_LEVEL,SUBMENU_RANDOM)) { draw_set_alpha(1); }
+            if (appears(i,SUBMENU_COLOR,SUBMENU_ARROW,SUBMENU_NAMES)) { skip = true; }
             break;
         case OPEN_OPTIONS:
             draw_set_alpha(0.1);
             color_to = 1;
             arrow_to = 1;
-            if (i == SUBMENU_COLOR || i == SUBMENU_ARROW) {
-                draw_set_alpha(1);
-            }
+            if (appears(i,SUBMENU_COLOR,SUBMENU_ARROW)) { draw_set_alpha(1); }
+            if (appears(i,SUBMENU_LEVEL,SUBMENU_RANDOM,SUBMENU_NAMES)) { skip = true; }
             break;
         case OPEN_CREDITS:
             draw_set_alpha(0.1);
             names_to = 1;
+            if (appears(i,SUBMENU_LEVEL,SUBMENU_RANDOM,SUBMENU_COLOR,SUBMENU_ARROW)) { skip = true; }
             break;
         }
         menu_items[SUBMENU_LEVEL, 1] = lerp(menu_items[SUBMENU_LEVEL, 1], level_to, MENU_HOR_SPD);
@@ -73,7 +76,9 @@ for (var i = 0; i < num_menu_item; i++) {
         //unselected items can be no more than 100% size
         if (menu_items[i,1] > 1) { menu_items[i,1] -= 0.05; }
         
-        draw_text_transformed(text_x, text_y, menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
+        if (!skip) {                
+            draw_text_transformed(text_x, text_y, menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
+        }
         continue;
     }
     
