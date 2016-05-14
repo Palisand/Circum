@@ -11,24 +11,25 @@ draw_set_valign(fa_center);
 
 for (var i = 0; i < num_menu_item; i++) {
     draw_set_alpha(1);
-    
     var text_x = room_width/2;
-    /*
-    if (submenu_state == OPEN_PLAY) {
-        option_yval = lerp(option_yval,option_yval_play,MENU_VERT_SPD);
-        exit_yval = option_yval + menu_spacing;
+    
+    //six of the nine menu items are at fixed offsets
+    var text_y = menu_start + text_y_offset[i]*menu_spacing;
+    //the remaining three change depending on state
+    switch(i){
+    case MENU_OPTIONS:
+        options_y = lerp(options_y,get_target_y(OPEN_PLAY,3,OPEN_PLAY,3,text_y),MENU_VERT_SPD);
+        text_y = options_y;
+        break;
+    case MENU_CREDITS:
+        credits_y = lerp(credits_y,get_target_y(OPEN_PLAY,4,OPEN_OPTIONS,4,text_y),MENU_VERT_SPD);
+        text_y = credits_y;
+        break;
+    case MENU_EXIT:
+        exit_y = lerp(exit_y,get_target_y(OPEN_CREDITS,4,CLOSED_SUBMENU,3,text_y),MENU_VERT_SPD);
+        text_y = exit_y;
+        break;
     }
-    else {
-        option_yval = lerp(option_yval,option_yval_default,MENU_VERT_SPD);
-        if (submenu_state == OPEN_OPTIONS) { exit_yval = lerp(exit_yval,exit_yval_options,MENU_VERT_SPD); }
-        else { exit_yval = lerp(exit_yval,exit_yval_default,MENU_VERT_SPD); }
-    }
-    */
-    var text_y = menu_start + (menu_spacing * i);
-    /*
-    if (i == MENU_EXIT) { text_y = exit_yval; }
-    else if (i >= MENU_OPTIONS) { text_y = option_yval + (i - MENU_OPTIONS)*menu_spacing; }
-    */
     
     //not the current selection
     if (current_item != i) {
@@ -54,7 +55,7 @@ for (var i = 0; i < num_menu_item; i++) {
             draw_set_alpha(0.1);
             color_to = 1;
             arrow_to = 1;
-            if (i == SUBMENU_COLOR || i == SUBMENU_RANDOM) {
+            if (i == SUBMENU_COLOR || i == SUBMENU_ARROW) {
                 draw_set_alpha(1);
             }
             break;
@@ -69,9 +70,8 @@ for (var i = 0; i < num_menu_item; i++) {
         menu_items[SUBMENU_ARROW, 1] = lerp(menu_items[SUBMENU_ARROW, 1], arrow_to, MENU_HOR_SPD);
         menu_items[SUBMENU_NAMES, 1] = lerp(menu_items[SUBMENU_NAMES, 1], names_to, MENU_HOR_SPD);
         
-        if (menu_items[i, 1] > 1) {
-            menu_items[i, 1] -= 0.05;
-        }
+        //unselected items can be no more than 100% size
+        if (menu_items[i,1] > 1) { menu_items[i,1] -= 0.05; }
         
         draw_text_transformed(text_x, text_y, menu_items[i, 0], menu_items[i, 1], menu_items[i, 1], 0);
         continue;

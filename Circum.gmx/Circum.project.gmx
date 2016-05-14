@@ -104,6 +104,7 @@
       <script>scripts\menu_create.gml</script>
       <script>scripts\menu_draw.gml</script>
       <script>scripts\menu_step.gml</script>
+      <script>scripts\get_target_y.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
@@ -179,7 +180,7 @@
     <constant name="RIGHT">room_width/2 + 256</constant>
     <constant name="SCALE">0</constant>
     <constant name="POS">1</constant>
-    <constant name="MENU_VERT_SPD">0.05</constant>
+    <constant name="MENU_VERT_SPD">0.2</constant>
     <constant name="MENU_HOR_SPD">0.1</constant>
   </constants>
   <help>

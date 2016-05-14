@@ -26,14 +26,6 @@ menu_spacing = 128;
 num_menu_item = MENU_EXIT+1;
 current_item = MENU_PLAY;
 
-option_yval_default = menu_start + menu_spacing;
-option_yval_play = menu_start + MENU_OPTIONS*menu_spacing;
-option_yval = option_yval_default;
-
-exit_yval_default = option_yval + menu_spacing;
-exit_yval_options = option_yval + (MENU_EXIT-MENU_CREDITS)*menu_spacing;
-exit_yval = exit_yval_default;
-
 // colors
 color[0] = c_lime;
 color_text[0] = "LIME";
@@ -63,6 +55,11 @@ menu_items[MENU_EXIT, 0] = "EXIT";
 submenu_state = CLOSED_SUBMENU;
 
 //PLAY / [LEVEL] / [RANDOM] / OPTIONS / [COLOR] / [ARROW] / CREDITS / [NAMES] / EXIT
+text_y_offset = build_array(0,1,2,1,2,3,2,3,5);
+options_y = menu_start+1*menu_spacing;
+credits_y = menu_start+2*menu_spacing;
+exit_y = menu_start+3*menu_spacing;
+
 //transition functions!
 transition = ds_grid_create(2,num_menu_item);
 fill_grid_row(transition, DOWN_ARROW, MENU_OPTIONS, SUBMENU_RANDOM, MENU_OPTIONS,
@@ -71,20 +68,6 @@ fill_grid_row(transition, DOWN_ARROW, MENU_OPTIONS, SUBMENU_RANDOM, MENU_OPTIONS
 fill_grid_row(transition, UP_ARROW, MENU_EXIT, MENU_PLAY, SUBMENU_LEVEL,
                                     MENU_PLAY, MENU_OPTIONS, SUBMENU_COLOR,
                                     MENU_OPTIONS,MENU_CREDITS,MENU_CREDITS);
-/*
-closed_submenu_transition = ds_grid_create(2,num_menu_item);
-fill_grid_row(closed_submenu_transition, DOWN_ARROW, MENU_OPTIONS,-1,-1,MENU_EXIT,-1,-1,MENU_PLAY);
-fill_grid_row(closed_submenu_transition, UP_ARROW, MENU_EXIT,-1,-1,MENU_PLAY,-1,-1,MENU_OPTIONS);
-
-open_play_transition = ds_grid_create(2,num_menu_item);
-fill_grid_row(open_play_transition, DOWN_ARROW, SUBMENU_LEVEL,SUBMENU_RANDOM,MENU_OPTIONS,MENU_EXIT,-1,-1,MENU_PLAY);
-fill_grid_row(open_play_transition, UP_ARROW, MENU_EXIT,MENU_PLAY,SUBMENU_LEVEL,SUBMENU_RANDOM,-1,-1,MENU_OPTIONS);
-
-open_options_transition = ds_grid_create(2,num_menu_item);
-fill_grid_row(open_options_transition, DOWN_ARROW, MENU_OPTIONS,-1,-1,SUBMENU_COLOR,SUBMENU_ARROW,MENU_EXIT,MENU_PLAY);
-fill_grid_row(open_options_transition, UP_ARROW, MENU_EXIT,-1,-1,MENU_PLAY,MENU_OPTIONS,SUBMENU_COLOR,SUBMENU_ARROW);
-*/
-
 // scales
 for(var i = 0; i < num_menu_item; i++){
     menu_items[i, 1] = 0;
