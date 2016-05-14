@@ -13,20 +13,22 @@ for (var i = 0; i < num_menu_item; i++) {
     draw_set_alpha(1);
     
     var text_x = room_width/2;
-    
+    /*
     if (submenu_state == OPEN_PLAY) {
         option_yval = lerp(option_yval,option_yval_play,MENU_VERT_SPD);
-        exit_yval = option_yval + 2*menu_spacing;
+        exit_yval = option_yval + menu_spacing;
     }
     else {
         option_yval = lerp(option_yval,option_yval_default,MENU_VERT_SPD);
         if (submenu_state == OPEN_OPTIONS) { exit_yval = lerp(exit_yval,exit_yval_options,MENU_VERT_SPD); }
         else { exit_yval = lerp(exit_yval,exit_yval_default,MENU_VERT_SPD); }
     }
-    
-    var text_y = menu_start + (menu_spacing * i * 2);
+    */
+    var text_y = menu_start + (menu_spacing * i);
+    /*
     if (i == MENU_EXIT) { text_y = exit_yval; }
-    else if (i >= MENU_OPTIONS) { text_y = option_yval + (i - MENU_OPTIONS)*2*menu_spacing; }
+    else if (i >= MENU_OPTIONS) { text_y = option_yval + (i - MENU_OPTIONS)*menu_spacing; }
+    */
     
     //not the current selection
     if (current_item != i) {
@@ -35,29 +37,37 @@ for (var i = 0; i < num_menu_item; i++) {
         var level_to = 0;
         var random_to = 0;
         var arrow_to = 0;
+        var names_to = 0;
         
         switch(submenu_state){
         case CLOSED_SUBMENU:
             break;
         case OPEN_PLAY:
+            draw_set_alpha(0.1);
             level_to = 1;
             random_to = 1;
-            if (i == MENU_PLAY || i == MENU_OPTIONS || i == MENU_EXIT) {
-                draw_set_alpha(0.1);
+            if (i == SUBMENU_LEVEL || i == SUBMENU_RANDOM) {
+                draw_set_alpha(1);
             }
             break;
         case OPEN_OPTIONS:
+            draw_set_alpha(0.1);
             color_to = 1;
             arrow_to = 1;
-            if (i == MENU_PLAY || i == MENU_OPTIONS || i == MENU_EXIT) {
-                draw_set_alpha(0.1);
+            if (i == SUBMENU_COLOR || i == SUBMENU_RANDOM) {
+                draw_set_alpha(1);
             }
+            break;
+        case OPEN_CREDITS:
+            draw_set_alpha(0.1);
+            names_to = 1;
             break;
         }
         menu_items[SUBMENU_LEVEL, 1] = lerp(menu_items[SUBMENU_LEVEL, 1], level_to, MENU_HOR_SPD);
         menu_items[SUBMENU_RANDOM, 1] = lerp(menu_items[SUBMENU_RANDOM, 1], random_to, MENU_HOR_SPD);
         menu_items[SUBMENU_COLOR, 1] = lerp(menu_items[SUBMENU_COLOR, 1], color_to, MENU_HOR_SPD);
         menu_items[SUBMENU_ARROW, 1] = lerp(menu_items[SUBMENU_ARROW, 1], arrow_to, MENU_HOR_SPD);
+        menu_items[SUBMENU_NAMES, 1] = lerp(menu_items[SUBMENU_NAMES, 1], names_to, MENU_HOR_SPD);
         
         if (menu_items[i, 1] > 1) {
             menu_items[i, 1] -= 0.05;

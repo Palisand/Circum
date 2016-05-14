@@ -12,16 +12,17 @@ menu_items[SUBMENU_ARROW, 0] = "Guide Arrow On : " + guide_arrow_on;
 // Item Select
 if (keyboard_check_pressed(vk_down)) {
     audio_play_sound(snd_menu_nav, 0, 0);
+    current_item = ds_grid_get(transition, DOWN_ARROW,current_item);    
     switch(submenu_state){
     case CLOSED_SUBMENU:
-        current_item = ds_grid_get(closed_submenu_transition, DOWN_ARROW,current_item);
         break;
     case OPEN_PLAY:
-        current_item = ds_grid_get(open_play_transition, DOWN_ARROW,current_item);
         if (current_item == MENU_OPTIONS) { submenu_state = CLOSED_SUBMENU; }
         break;
     case OPEN_OPTIONS:
-        current_item = ds_grid_get(open_options_transition, DOWN_ARROW,current_item);
+        if (current_item == MENU_CREDITS) { submenu_state = CLOSED_SUBMENU; }
+        break;
+    case OPEN_CREDITS:
         if (current_item == MENU_EXIT) { submenu_state = CLOSED_SUBMENU; }
         break;
     }
@@ -30,20 +31,18 @@ if (keyboard_check_pressed(vk_down)) {
 
 if (keyboard_check_pressed(vk_up)) {
     audio_play_sound(snd_menu_nav, 0, 0);
+    current_item = ds_grid_get(transition, UP_ARROW,current_item);
     switch(submenu_state){
     case CLOSED_SUBMENU:
-        //current_item = closed_submenu_transition[current_item+num_menu_item];
-        current_item = ds_grid_get(closed_submenu_transition, UP_ARROW,current_item);
         break;
     case OPEN_PLAY:
-        //current_item = open_play_transition[current_item+num_menu_item];
-        current_item = ds_grid_get(open_play_transition, UP_ARROW,current_item);
         if (current_item == MENU_PLAY) { submenu_state = CLOSED_SUBMENU; }
         break;
     case OPEN_OPTIONS:
-        //current_item = open_options_transition[current_item+num_menu_item];
-        current_item = ds_grid_get(open_options_transition, UP_ARROW,current_item);
         if (current_item == MENU_OPTIONS) { submenu_state = CLOSED_SUBMENU; }
+        break;
+    case OPEN_CREDITS:
+        if (current_item == MENU_CREDITS) { submenu_state = CLOSED_SUBMENU; }
         break;
     }
 }
@@ -53,11 +52,8 @@ if (keyboard_check_pressed(vk_space)) {
     audio_play_sound(snd_menu_nav, 0, 0);
     switch(current_item) {
         case MENU_PLAY:
-            if (submenu_state != OPEN_PLAY) {
-                submenu_state = OPEN_PLAY;
-                current_item = SUBMENU_LEVEL;
-            }
-            else { submenu_state = CLOSED_SUBMENU; }
+            submenu_state = OPEN_PLAY;
+            current_item = SUBMENU_LEVEL;
             break;
         
         case SUBMENU_LEVEL:
@@ -70,13 +66,14 @@ if (keyboard_check_pressed(vk_space)) {
             break;
             
         case MENU_OPTIONS:
-            if (submenu_state != OPEN_OPTIONS) {
-                submenu_state = OPEN_OPTIONS;
-                current_item = SUBMENU_COLOR;
-            }
-            else { submenu_state = CLOSED_SUBMENU; }
+            submenu_state = OPEN_OPTIONS;
+            current_item = SUBMENU_COLOR;
             break;
-                        
+        case MENU_CREDITS:
+            submenu_state = OPEN_CREDITS;
+            current_item = SUBMENU_NAMES;
+            break;
+        
         case MENU_EXIT:
             menu_reveal_radius = room_width/2;
             game_exit = true;

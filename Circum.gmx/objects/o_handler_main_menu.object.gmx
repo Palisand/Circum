@@ -54,9 +54,12 @@ menu_create();
 part_emitter_destroy(global.p_system, p_emitter);
 part_type_destroy(p_type);
 
+ds_grid_destroy(transition);
+/*
 ds_grid_destroy(closed_submenu_transition);
 ds_grid_destroy(open_play_transition);
 ds_grid_destroy(open_options_transition);
+*/
 
 surface_free(screen);
 </string>

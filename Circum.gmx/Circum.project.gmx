@@ -149,7 +149,7 @@
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="28">
+  <constants number="31">
     <constant name="RAD_SMALL">50</constant>
     <constant name="RAD_AVRG">75</constant>
     <constant name="RAD_LARGE">100</constant>
@@ -159,10 +159,13 @@
     <constant name="MENU_OPTIONS">3</constant>
     <constant name="SUBMENU_COLOR">4</constant>
     <constant name="SUBMENU_ARROW">5</constant>
-    <constant name="MENU_EXIT">6</constant>
+    <constant name="MENU_CREDITS">6</constant>
+    <constant name="SUBMENU_NAMES">7</constant>
+    <constant name="MENU_EXIT">8</constant>
     <constant name="CLOSED_SUBMENU">0</constant>
     <constant name="OPEN_PLAY">1</constant>
     <constant name="OPEN_OPTIONS">2</constant>
+    <constant name="OPEN_CREDITS">3</constant>
     <constant name="DOWN_ARROW">0</constant>
     <constant name="UP_ARROW">1</constant>
     <constant name="RANDOM_LEVEL">-1</constant>

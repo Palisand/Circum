@@ -22,16 +22,16 @@ drawn_to_surface = false;
 /// Menu
 // TODO: levels and color selection should be loaded from file
 menu_start = 734;
-menu_spacing = 64; 
+menu_spacing = 128; 
 num_menu_item = MENU_EXIT+1;
-current_item = 0;
+current_item = MENU_PLAY;
 
-option_yval_default = menu_start + 2*menu_spacing;
-option_yval_play = menu_start + MENU_OPTIONS*2*menu_spacing;
+option_yval_default = menu_start + menu_spacing;
+option_yval_play = menu_start + MENU_OPTIONS*menu_spacing;
 option_yval = option_yval_default;
 
-exit_yval_default = option_yval + 2*menu_spacing;
-exit_yval_options = option_yval + (MENU_EXIT-MENU_OPTIONS)*2*menu_spacing;
+exit_yval_default = option_yval + menu_spacing;
+exit_yval_options = option_yval + (MENU_EXIT-MENU_CREDITS)*menu_spacing;
 exit_yval = exit_yval_default;
 
 // colors
@@ -46,17 +46,32 @@ color_text[3] = "GOLD";
 
 // text
 menu_items[MENU_PLAY, 0] = "PLAY";
+
 menu_items[SUBMENU_LEVEL, 0] = "LEVEL : " + string(global.current_level);
 menu_items[SUBMENU_RANDOM, 0] = "RANDOM";
+
 menu_items[MENU_OPTIONS, 0] = "OPTIONS";
 menu_items[SUBMENU_COLOR, 0] = "COLOR : " + color_text[global.color_index];
 menu_items[SUBMENU_ARROW, 0] = "ARROW";
+
+menu_items[MENU_CREDITS,0] = "CREDITS";
+menu_items[SUBMENU_NAMES,0] = "Panagis Alisandratos, Albert Cheu,#Rob Chiarelli, Shunman Tse";
+
 menu_items[MENU_EXIT, 0] = "EXIT";
 
 //which submenu, if any is open
 submenu_state = CLOSED_SUBMENU;
 
+//PLAY / [LEVEL] / [RANDOM] / OPTIONS / [COLOR] / [ARROW] / CREDITS / [NAMES] / EXIT
 //transition functions!
+transition = ds_grid_create(2,num_menu_item);
+fill_grid_row(transition, DOWN_ARROW, MENU_OPTIONS, SUBMENU_RANDOM, MENU_OPTIONS,
+                                        MENU_CREDITS, SUBMENU_ARROW, MENU_CREDITS,
+                                        MENU_EXIT, MENU_EXIT, MENU_PLAY);
+fill_grid_row(transition, UP_ARROW, MENU_EXIT, MENU_PLAY, SUBMENU_LEVEL,
+                                    MENU_PLAY, MENU_OPTIONS, SUBMENU_COLOR,
+                                    MENU_OPTIONS,MENU_CREDITS,MENU_CREDITS);
+/*
 closed_submenu_transition = ds_grid_create(2,num_menu_item);
 fill_grid_row(closed_submenu_transition, DOWN_ARROW, MENU_OPTIONS,-1,-1,MENU_EXIT,-1,-1,MENU_PLAY);
 fill_grid_row(closed_submenu_transition, UP_ARROW, MENU_EXIT,-1,-1,MENU_PLAY,-1,-1,MENU_OPTIONS);
@@ -68,11 +83,13 @@ fill_grid_row(open_play_transition, UP_ARROW, MENU_EXIT,MENU_PLAY,SUBMENU_LEVEL,
 open_options_transition = ds_grid_create(2,num_menu_item);
 fill_grid_row(open_options_transition, DOWN_ARROW, MENU_OPTIONS,-1,-1,SUBMENU_COLOR,SUBMENU_ARROW,MENU_EXIT,MENU_PLAY);
 fill_grid_row(open_options_transition, UP_ARROW, MENU_EXIT,-1,-1,MENU_PLAY,MENU_OPTIONS,SUBMENU_COLOR,SUBMENU_ARROW);
+*/
 
 // scales
 for(var i = 0; i < num_menu_item; i++){
     menu_items[i, 1] = 0;
-    if (i == MENU_PLAY || i == MENU_OPTIONS || i == MENU_EXIT) {
+    if (i == MENU_PLAY || i == MENU_OPTIONS
+        || i == MENU_CREDITS || i == MENU_EXIT) {
         menu_items[i, 1] = 1;
     }
 }
