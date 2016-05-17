@@ -92,6 +92,8 @@
       <script>scripts\kill_everything.gml</script>
       <script>scripts\get_speed_mod.gml</script>
       <script>scripts\appears.gml</script>
+      <script>scripts\save.gml</script>
+      <script>scripts\load.gml</script>
     </scripts>
     <scripts name="Essential Scripts">
       <scripts name="Approach Value">

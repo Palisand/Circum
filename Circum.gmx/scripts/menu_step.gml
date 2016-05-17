@@ -57,12 +57,12 @@ if (keyboard_check_pressed(vk_space)) {
             break;
         
         case SUBMENU_LEVEL:
-            //save();
+            save();
             room_goto(rm_play);
             break;
             
         case SUBMENU_RANDOM:
-            //save();
+            save();
             global.current_level = RANDOM_LEVEL;
             room_goto(rm_play);
             break;
@@ -77,7 +77,7 @@ if (keyboard_check_pressed(vk_space)) {
             break;
         
         case MENU_EXIT:
-            //save();
+            save();
             menu_reveal_radius = room_width/2;
             game_exit = true;
             

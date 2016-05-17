@@ -7,11 +7,16 @@ game_exit = false;
 if (!instance_exists(o_globals)) {
     instance_create(0, 0, o_globals);
 }
-// TODO: levels and color selection should be loaded from file
-//load();
 
+//load settings upon startup
+if (! global.menu_opened) {
+    load();
+    global.current_level = global.max_level_unlocked;
+}
+
+//default when leaving random play
 if (global.current_level == RANDOM_LEVEL) {
-    global.current_level = global.max_level_unlocked; 
+    global.current_level = global.max_level_unlocked;
 }
 
 // Particles
