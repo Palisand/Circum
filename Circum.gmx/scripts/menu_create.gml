@@ -4,10 +4,11 @@ menu_reveal_radius = 0;
 game_exit = false;
 
 // init global vars
-// TODO: levels and color selection should be loaded from file
 if (!instance_exists(o_globals)) {
     instance_create(0, 0, o_globals);
 }
+// TODO: levels and color selection should be loaded from file
+//load();
 
 if (global.current_level == RANDOM_LEVEL) {
     global.current_level = global.max_level_unlocked; 
