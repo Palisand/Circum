@@ -132,7 +132,7 @@ menu_step();
           <argument>
             <kind>1</kind>
             <string>/// FOR DEBUG PURPOSES ONLY: Max Level Unlocked De/Increment
-
+/*
 if (keyboard_check(vk_shift)) {
     if (keyboard_check_pressed(vk_right) &amp;&amp; global.max_level_unlocked &lt; global.max_level) {
         global.max_level_unlocked++;
@@ -143,6 +143,7 @@ if (keyboard_check(vk_shift)) {
         }
     }
 }
+*/
 </string>
           </argument>
         </arguments>
