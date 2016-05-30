@@ -72,7 +72,7 @@ menu_items[MENU_OPTIONS, 0] = "OPTIONS";
 menu_items[SUBMENU_COLOR, 0] = "COLOR : " + color_text[global.color_index];
 menu_items[SUBMENU_ARROW, 0] = "ARROW";
 
-menu_items[MENU_CREDITS,0] = "CREDITS";
+menu_items[MENU_CREDITS,0] = "CREW";
 menu_items[SUBMENU_NAMES,0] = "Panagis Alisandratos, Albert Cheu,#Rob Chiarelli, Shunman Tse";
 
 menu_items[MENU_EXIT, 0] = "EXIT";
