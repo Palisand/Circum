@@ -91,7 +91,9 @@
       <script>scripts\build_array.gml</script>
       <script>scripts\kill_everything.gml</script>
       <script>scripts\get_speed_mod.gml</script>
-      <script>scripts\fill_grid_row.gml</script>
+      <script>scripts\appears.gml</script>
+      <script>scripts\save.gml</script>
+      <script>scripts\load.gml</script>
     </scripts>
     <scripts name="Essential Scripts">
       <scripts name="Approach Value">
@@ -99,6 +101,13 @@
         <script>scripts\angle_approach.gml</script>
         <script>scripts\smooth_approach.gml</script>
       </scripts>
+    </scripts>
+    <scripts name="Menu">
+      <script>scripts\menu_create.gml</script>
+      <script>scripts\menu_draw.gml</script>
+      <script>scripts\menu_step.gml</script>
+      <script>scripts\get_target_y.gml</script>
+      <script>scripts\fill_grid_row.gml</script>
     </scripts>
   </scripts>
   <shaders name="shaders">
@@ -144,7 +153,7 @@
     <room>rooms\rm_play</room>
     <room>rooms\rm_debug</room>
   </rooms>
-  <constants number="28">
+  <constants number="31">
     <constant name="RAD_SMALL">50</constant>
     <constant name="RAD_AVRG">75</constant>
     <constant name="RAD_LARGE">100</constant>
@@ -154,10 +163,13 @@
     <constant name="MENU_OPTIONS">3</constant>
     <constant name="SUBMENU_COLOR">4</constant>
     <constant name="SUBMENU_ARROW">5</constant>
-    <constant name="MENU_EXIT">6</constant>
+    <constant name="MENU_CREDITS">6</constant>
+    <constant name="SUBMENU_NAMES">7</constant>
+    <constant name="MENU_EXIT">8</constant>
     <constant name="CLOSED_SUBMENU">0</constant>
     <constant name="OPEN_PLAY">1</constant>
     <constant name="OPEN_OPTIONS">2</constant>
+    <constant name="OPEN_CREDITS">3</constant>
     <constant name="DOWN_ARROW">0</constant>
     <constant name="UP_ARROW">1</constant>
     <constant name="RANDOM_LEVEL">-1</constant>
@@ -171,8 +183,8 @@
     <constant name="RIGHT">room_width/2 + 256</constant>
     <constant name="SCALE">0</constant>
     <constant name="POS">1</constant>
-    <constant name="MENU_VERT_SPD">0.05</constant>
-    <constant name="MENU_HOR_SPD">0.1</constant>
+    <constant name="MENU_VERT_SPD">0.2</constant>
+    <constant name="MENU_HOR_SPD">0.2</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

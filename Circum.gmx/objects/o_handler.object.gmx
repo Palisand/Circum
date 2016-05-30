@@ -120,7 +120,7 @@ surface_free(screen);
           <argument>
             <kind>1</kind>
             <string>/// Toggles (visuals V, trail P, tether T)
-
+/*
 if (keyboard_check_pressed(ord("V"))) {
     global.tmp_visuals_on = !global.tmp_visuals_on;
 }
@@ -132,6 +132,7 @@ if (keyboard_check_pressed(ord("P"))) {
 if (keyboard_check_pressed(ord("T"))) {
     global.tap_tether = !global.tap_tether;
 }
+*/
 </string>
           </argument>
         </arguments>
@@ -267,6 +268,7 @@ if (instance_exists(o_player)) {
             //push the boundary if necessary
             if (global.current_level == global.max_level_unlocked){
                 global.max_level_unlocked++;
+                save();
             }
             
             //move to the next level (if not random)
